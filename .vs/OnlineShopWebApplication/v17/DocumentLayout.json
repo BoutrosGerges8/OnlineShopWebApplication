@@ -1,0 +1,162 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\lenovo\\Documents\\VisualStudioCodeProjects\\TestNewWeb1\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{B23D1909-FB99-4696-AB5E-C2F090CD95A4}|TestNewWeb1\\OnlineShopWebApplication.csproj|c:\\users\\lenovo\\documents\\visualstudiocodeprojects\\testnewweb1\\testnewweb1\\startup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B23D1909-FB99-4696-AB5E-C2F090CD95A4}|TestNewWeb1\\OnlineShopWebApplication.csproj|solutionrelative:testnewweb1\\startup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B23D1909-FB99-4696-AB5E-C2F090CD95A4}|TestNewWeb1\\OnlineShopWebApplication.csproj|c:\\users\\lenovo\\documents\\visualstudiocodeprojects\\testnewweb1\\testnewweb1\\index.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B23D1909-FB99-4696-AB5E-C2F090CD95A4}|TestNewWeb1\\OnlineShopWebApplication.csproj|solutionrelative:testnewweb1\\index.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B23D1909-FB99-4696-AB5E-C2F090CD95A4}|TestNewWeb1\\TestNewWeb1.csproj|C:\\Users\\lenovo\\Documents\\VisualStudioCodeProjects\\TestNewWeb1\\testnewweb1\\index.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B23D1909-FB99-4696-AB5E-C2F090CD95A4}|TestNewWeb1\\TestNewWeb1.csproj|solutionrelative:testnewweb1\\index.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B23D1909-FB99-4696-AB5E-C2F090CD95A4}|TestNewWeb1\\TestNewWeb1.csproj|C:\\Users\\lenovo\\Documents\\VisualStudioCodeProjects\\TestNewWeb1\\testnewweb1\\index.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{B23D1909-FB99-4696-AB5E-C2F090CD95A4}|TestNewWeb1\\TestNewWeb1.csproj|solutionrelative:testnewweb1\\index.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B23D1909-FB99-4696-AB5E-C2F090CD95A4}|TestNewWeb1\\TestNewWeb1.csproj|C:\\Users\\lenovo\\Documents\\VisualStudioCodeProjects\\TestNewWeb1\\testnewweb1\\login.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}",
+      "RelativeMoniker": "D:0:0:{B23D1909-FB99-4696-AB5E-C2F090CD95A4}|TestNewWeb1\\TestNewWeb1.csproj|solutionrelative:testnewweb1\\login.aspx||{57312C73-6202-49E9-B1E1-40EA1A6DC1F6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B23D1909-FB99-4696-AB5E-C2F090CD95A4}|TestNewWeb1\\TestNewWeb1.csproj|C:\\Users\\lenovo\\Documents\\VisualStudioCodeProjects\\TestNewWeb1\\testnewweb1\\login.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B23D1909-FB99-4696-AB5E-C2F090CD95A4}|TestNewWeb1\\TestNewWeb1.csproj|solutionrelative:testnewweb1\\login.aspx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B23D1909-FB99-4696-AB5E-C2F090CD95A4}|TestNewWeb1\\TestNewWeb1.csproj|C:\\Users\\lenovo\\Documents\\VisualStudioCodeProjects\\TestNewWeb1\\testnewweb1\\databasehandler\\sqlconnectionclass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B23D1909-FB99-4696-AB5E-C2F090CD95A4}|TestNewWeb1\\TestNewWeb1.csproj|solutionrelative:testnewweb1\\databasehandler\\sqlconnectionclass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 7,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{40ea2e6b-2121-4bb8-a43e-c83c04b51041}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{6324226f-61b6-4f28-92ee-18d4b5fe1e48}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Startup.cs",
+              "DocumentMoniker": "C:\\Users\\lenovo\\Documents\\VisualStudioCodeProjects\\TestNewWeb1\\TestNewWeb1\\Startup.cs",
+              "RelativeDocumentMoniker": "TestNewWeb1\\Startup.cs",
+              "ToolTip": "C:\\Users\\lenovo\\Documents\\VisualStudioCodeProjects\\TestNewWeb1\\TestNewWeb1\\Startup.cs",
+              "RelativeToolTip": "TestNewWeb1\\Startup.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-29T17:55:55.847Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "index.aspx.cs",
+              "DocumentMoniker": "C:\\Users\\lenovo\\Documents\\VisualStudioCodeProjects\\TestNewWeb1\\TestNewWeb1\\index.aspx.cs",
+              "RelativeDocumentMoniker": "TestNewWeb1\\index.aspx.cs",
+              "ToolTip": "C:\\Users\\lenovo\\Documents\\VisualStudioCodeProjects\\TestNewWeb1\\TestNewWeb1\\index.aspx.cs",
+              "RelativeToolTip": "TestNewWeb1\\index.aspx.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACMAAABYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-29T17:55:35.788Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "index.aspx.cs",
+              "DocumentMoniker": "C:\\Users\\lenovo\\Documents\\VisualStudioCodeProjects\\TestNewWeb1\\TestNewWeb1\\index.aspx.cs",
+              "RelativeDocumentMoniker": "TestNewWeb1\\index.aspx.cs",
+              "ToolTip": "C:\\Users\\lenovo\\Documents\\VisualStudioCodeProjects\\TestNewWeb1\\TestNewWeb1\\index.aspx.cs",
+              "RelativeToolTip": "TestNewWeb1\\index.aspx.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAACMAAABYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-28T14:18:12.059Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "login.aspx.cs",
+              "DocumentMoniker": "C:\\Users\\lenovo\\Documents\\VisualStudioCodeProjects\\TestNewWeb1\\TestNewWeb1\\login.aspx.cs",
+              "RelativeDocumentMoniker": "TestNewWeb1\\login.aspx.cs",
+              "ToolTip": "C:\\Users\\lenovo\\Documents\\VisualStudioCodeProjects\\TestNewWeb1\\TestNewWeb1\\login.aspx.cs",
+              "RelativeToolTip": "TestNewWeb1\\login.aspx.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAcwCIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-28T12:53:10.364Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "SqlConnectionClass.cs",
+              "DocumentMoniker": "C:\\Users\\lenovo\\Documents\\VisualStudioCodeProjects\\TestNewWeb1\\TestNewWeb1\\DataBaseHandler\\SqlConnectionClass.cs",
+              "RelativeDocumentMoniker": "TestNewWeb1\\DataBaseHandler\\SqlConnectionClass.cs",
+              "ToolTip": "C:\\Users\\lenovo\\Documents\\VisualStudioCodeProjects\\TestNewWeb1\\TestNewWeb1\\DataBaseHandler\\SqlConnectionClass.cs",
+              "RelativeToolTip": "TestNewWeb1\\DataBaseHandler\\SqlConnectionClass.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-28T12:50:59.657Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "login.aspx",
+              "DocumentMoniker": "C:\\Users\\lenovo\\Documents\\VisualStudioCodeProjects\\TestNewWeb1\\TestNewWeb1\\login.aspx",
+              "RelativeDocumentMoniker": "TestNewWeb1\\login.aspx",
+              "ToolTip": "C:\\Users\\lenovo\\Documents\\VisualStudioCodeProjects\\TestNewWeb1\\TestNewWeb1\\login.aspx",
+              "RelativeToolTip": "TestNewWeb1\\login.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2025-01-28T12:35:25.579Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "index.aspx",
+              "DocumentMoniker": "C:\\Users\\lenovo\\Documents\\VisualStudioCodeProjects\\TestNewWeb1\\TestNewWeb1\\index.aspx",
+              "RelativeDocumentMoniker": "TestNewWeb1\\index.aspx",
+              "ToolTip": "C:\\Users\\lenovo\\Documents\\VisualStudioCodeProjects\\TestNewWeb1\\TestNewWeb1\\index.aspx",
+              "RelativeToolTip": "TestNewWeb1\\index.aspx",
+              "LogicalView": "7651a703-06e5-11d1-8ebd-00a0c90f26ea",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000195|",
+              "WhenOpened": "2025-01-28T12:20:54.073Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
