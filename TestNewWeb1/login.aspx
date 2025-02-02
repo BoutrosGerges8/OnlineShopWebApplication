@@ -43,6 +43,11 @@
 
     <div class="wrapper">
         <h2 class="login">Login</h2>
+
+        <div id="errorAlert" class="alert alert-danger" role="alert" style="display:none;">
+            Incorrect email or password. Please try again.
+        </div>
+
         <!--<form action="#" method="post">-->
         <form runat="server">
         <!--<form method="post" action="@Url.Action( "Account", "Login")">-->
@@ -58,7 +63,7 @@
 
             </div>
             <div class="text">
-                <h3>Create new account <a href="/signup.html">Sign up</a></h3>
+                <h3>Create new account <a href="/signup.aspx">Sign up</a></h3>
             </div>
         </form>
     </div>
@@ -87,6 +92,8 @@
     <!-- Global Init -->
     <script src="assets/js/custom.js"></script>
 
+    <script src="assets/js/ErrorMessage.js"></script>
+
     <script>
 
         $(function () {
@@ -103,6 +110,13 @@
             });
         });
 
+    </script>
+
+    <script>
+        // This script will be used to show the error alert if login fails
+        function showErrorAlert() {
+            document.getElementById("errorAlert").style.display = "block";
+        }
     </script>
 
 </body>

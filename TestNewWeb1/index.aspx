@@ -51,7 +51,7 @@
                 <div class="col-12">
                     <nav class="main-nav">
                         <!-- ***** Logo Start ***** -->
-                        <a href="index.html" class="logo">
+                        <a href="/index.aspx" class="logo">
                             <img src="assets/images/logo.png">
                         </a>
                         <!-- ***** Logo End ***** -->
@@ -64,10 +64,10 @@
                             <li class="submenu">
                                 <a href="javascript:;">Pages</a>
                                 <ul>
-                                    <li><a href="about.html">About Us</a></li>
-                                    <li><a href="products.html">Products</a></li>
-                                    <li><a href="single-product.html">Single Product</a></li>
-                                    <li><a href="contact.html">Contact Us</a></li>
+                                    <li><a href="about.aspx">About Us</a></li>
+                                    <li><a href="products.aspx">Products</a></li>
+                                    <li><a href="single-product.aspx">Single Product</a></li>
+                                    <li><a href="contact.aspx">Contact Us</a></li>
                                 </ul>
                             </li>
                             <!--<li class="submenu">
@@ -227,9 +227,9 @@
                                 <div class="thumb">
                                     <div class="hover-content">
                                         <ul>
-                                            <li><a href="single-product.html"><i class="fa fa-eye"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-star"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-shopping-cart"></i></a></li>
+                                            <li><a href="single-product.aspx"><i class="fa fa-eye"></i></a></li>
+                                            <li><a href="single-product.aspx"><i class="fa fa-star"></i></a></li>
+                                            <li><a href="single-product.aspx"><i class="fa fa-shopping-cart"></i></a></li>
                                         </ul>
                                     </div>
                                     <img src="assets/images/men-01.jpg" alt="">
@@ -250,9 +250,9 @@
                                 <div class="thumb">
                                     <div class="hover-content">
                                         <ul>
-                                            <li><a href="single-product.html"><i class="fa fa-eye"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-star"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-shopping-cart"></i></a></li>
+                                            <li><a href="single-product.aspx"><i class="fa fa-eye"></i></a></li>
+                                            <li><a href="single-product.aspx"><i class="fa fa-star"></i></a></li>
+                                            <li><a href="single-product.aspx"><i class="fa fa-shopping-cart"></i></a></li>
                                         </ul>
                                     </div>
                                     <img src="assets/images/men-02.jpg" alt="">
@@ -273,9 +273,9 @@
                                 <div class="thumb">
                                     <div class="hover-content">
                                         <ul>
-                                            <li><a href="single-product.html"><i class="fa fa-eye"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-star"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-shopping-cart"></i></a></li>
+                                            <li><a href="single-product.aspx"><i class="fa fa-eye"></i></a></li>
+                                            <li><a href="single-product.aspx"><i class="fa fa-star"></i></a></li>
+                                            <li><a href="single-product.aspx"><i class="fa fa-shopping-cart"></i></a></li>
                                         </ul>
                                     </div>
                                     <img src="assets/images/men-03.jpg" alt="">
@@ -296,9 +296,9 @@
                                 <div class="thumb">
                                     <div class="hover-content">
                                         <ul>
-                                            <li><a href="single-product.html"><i class="fa fa-eye"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-star"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-shopping-cart"></i></a></li>
+                                            <li><a href="single-product.aspx"><i class="fa fa-eye"></i></a></li>
+                                            <li><a href="single-product.aspx"><i class="fa fa-star"></i></a></li>
+                                            <li><a href="single-product.aspx"><i class="fa fa-shopping-cart"></i></a></li>
                                         </ul>
                                     </div>
                                     <img src="assets/images/men-01.jpg" alt="">
@@ -344,9 +344,9 @@
                                 <div class="thumb">
                                     <div class="hover-content">
                                         <ul>
-                                            <li><a href="single-product.html"><i class="fa fa-eye"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-star"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-shopping-cart"></i></a></li>
+                                            <li><a href="single-product.aspx"><i class="fa fa-eye"></i></a></li>
+                                            <li><a href="single-product.aspx"><i class="fa fa-star"></i></a></li>
+                                            <li><a href="single-product.aspx"><i class="fa fa-shopping-cart"></i></a></li>
                                         </ul>
                                     </div>
                                     <img src="assets/images/women-01.jpg" alt="">
@@ -367,9 +367,9 @@
                                 <div class="thumb">
                                     <div class="hover-content">
                                         <ul>
-                                            <li><a href="single-product.html"><i class="fa fa-eye"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-star"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-shopping-cart"></i></a></li>
+                                            <li><a href="single-product.aspx"><i class="fa fa-eye"></i></a></li>
+                                            <li><a href="single-product.aspx"><i class="fa fa-star"></i></a></li>
+                                            <li><a href="single-product.aspx"><i class="fa fa-shopping-cart"></i></a></li>
                                         </ul>
                                     </div>
                                     <img src="assets/images/women-02.jpg" alt="">
@@ -390,9 +390,9 @@
                                 <div class="thumb">
                                     <div class="hover-content">
                                         <ul>
-                                            <li><a href="single-product.html"><i class="fa fa-eye"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-star"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-shopping-cart"></i></a></li>
+                                            <li><a href="single-product.aspx"><i class="fa fa-eye"></i></a></li>
+                                            <li><a href="single-product.aspx"><i class="fa fa-star"></i></a></li>
+                                            <li><a href="single-product.aspx"><i class="fa fa-shopping-cart"></i></a></li>
                                         </ul>
                                     </div>
                                     <img src="assets/images/women-03.jpg" alt="">
@@ -413,9 +413,9 @@
                                 <div class="thumb">
                                     <div class="hover-content">
                                         <ul>
-                                            <li><a href="single-product.html"><i class="fa fa-eye"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-star"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-shopping-cart"></i></a></li>
+                                            <li><a href="single-product.aspx"><i class="fa fa-eye"></i></a></li>
+                                            <li><a href="single-product.aspx"><i class="fa fa-star"></i></a></li>
+                                            <li><a href="single-product.aspx"><i class="fa fa-shopping-cart"></i></a></li>
                                         </ul>
                                     </div>
                                     <img src="assets/images/women-01.jpg" alt="">
@@ -461,9 +461,9 @@
                                 <div class="thumb">
                                     <div class="hover-content">
                                         <ul>
-                                            <li><a href="single-product.html"><i class="fa fa-eye"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-star"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-shopping-cart"></i></a></li>
+                                            <li><a href="single-product.aspx"><i class="fa fa-eye"></i></a></li>
+                                            <li><a href="single-product.aspx"><i class="fa fa-star"></i></a></li>
+                                            <li><a href="single-product.aspx"><i class="fa fa-shopping-cart"></i></a></li>
                                         </ul>
                                     </div>
                                     <img src="assets/images/kid-01.jpg" alt="">
@@ -484,9 +484,9 @@
                                 <div class="thumb">
                                     <div class="hover-content">
                                         <ul>
-                                            <li><a href="single-product.html"><i class="fa fa-eye"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-star"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-shopping-cart"></i></a></li>
+                                            <li><a href="single-product.aspx"><i class="fa fa-eye"></i></a></li>
+                                            <li><a href="single-product.aspx"><i class="fa fa-star"></i></a></li>
+                                            <li><a href="single-product.aspx"><i class="fa fa-shopping-cart"></i></a></li>
                                         </ul>
                                     </div>
                                     <img src="assets/images/kid-02.jpg" alt="">
@@ -507,9 +507,9 @@
                                 <div class="thumb">
                                     <div class="hover-content">
                                         <ul>
-                                            <li><a href="single-product.html"><i class="fa fa-eye"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-star"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-shopping-cart"></i></a></li>
+                                            <li><a href="single-product.aspx"><i class="fa fa-eye"></i></a></li>
+                                            <li><a href="single-product.aspx"><i class="fa fa-star"></i></a></li>
+                                            <li><a href="single-product.aspx"><i class="fa fa-shopping-cart"></i></a></li>
                                         </ul>
                                     </div>
                                     <img src="assets/images/kid-03.jpg" alt="">
@@ -530,9 +530,9 @@
                                 <div class="thumb">
                                     <div class="hover-content">
                                         <ul>
-                                            <li><a href="single-product.html"><i class="fa fa-eye"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-star"></i></a></li>
-                                            <li><a href="single-product.html"><i class="fa fa-shopping-cart"></i></a></li>
+                                            <li><a href="single-product.aspx"><i class="fa fa-eye"></i></a></li>
+                                            <li><a href="single-product.aspx"><i class="fa fa-star"></i></a></li>
+                                            <li><a href="single-product.aspx"><i class="fa fa-shopping-cart"></i></a></li>
                                         </ul>
                                     </div>
                                     <img src="assets/images/kid-01.jpg" alt="">
@@ -571,7 +571,7 @@
                         <p>There are 5 pages included in this HexaShop Template and we are providing it to you for absolutely free of charge at our TemplateMo website. There are web development costs for us.</p>
                         <p>If this template is beneficial for your website or business, please kindly <a rel="nofollow" href="https://paypal.me/templatemo" target="_blank">support us</a> a little via PayPal. Please also tell your friends about our great website. Thank you.</p>
                         <div class="main-border-button">
-                            <a href="products.html">Discover More</a>
+                            <a href="products.aspx">Discover More</a>
                         </div>
                     </div>
                 </div>

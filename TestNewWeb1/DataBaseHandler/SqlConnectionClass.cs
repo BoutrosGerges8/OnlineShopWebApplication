@@ -10,7 +10,7 @@ namespace TestNewWeb1
 {
     public class SqlConnectionClass
     {
-        private string URL = @"Server=desktop-hr293u3;Database=ForCSharp;Integrated Security=True;";
+        private string URL = @"Server=desktop-hr293u3;Database=OnlineShopWebApplication;Integrated Security=True;";
         private SqlConnection con = null;
 
         public SqlConnectionClass()
