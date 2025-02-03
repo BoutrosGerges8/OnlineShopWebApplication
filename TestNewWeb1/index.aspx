@@ -11,7 +11,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
-    <link rel="icon" type="image/x-icon" href="assets/icon/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="/assets/icon/favicon.ico" />
 
     <title>Hexashop Ecommerce</title>
 
@@ -80,9 +80,13 @@
                                 </ul>
                             </li>-->
                             <li class="scroll-to-section"><a href="#explore">Explore</a></li>
+                            <li class="scroll-to-section"  runat="server" id="DashboardBtn">
+                                <a href="/AdminDashboard.aspx">Dashboard</a>
+
+                            </li>
                             <li class="scroll-to-section-2" id="loginLink"  runat="server"><a href="login.aspx">Login</a></li>
                             <li class="scroll-to-section-2" id="signOut" runat="server">
-                                <a href="index.aspx?logout=true">Sign out</a>
+                                <a href="./Logout.aspx">Sign out</a>
                             </li>
 
                         </ul>        

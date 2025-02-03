@@ -20,3 +20,17 @@
     border: transparent;
     letter-spacing: 1px;
 }
+
+.ButtonAddItem {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    border: 1px solid #ccc;
+    border: none;
+    margin: 10px;
+    color: white;
+}
+.ButtonAddItem button{
+    color: white;
+}

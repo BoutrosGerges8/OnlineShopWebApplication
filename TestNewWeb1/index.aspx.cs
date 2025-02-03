@@ -17,6 +17,7 @@ namespace TestNewWeb1
 
             loginLink.Visible = !res;
             signOut.Visible = res;
+            DashboardBtn.Visible = res && TokenManager.IsUserAdmin(Session);
 
             // Check if the query string contains "logout=true"
             if (Request.Url.ToString().Contains("logout"))

@@ -217,6 +217,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="about.aspx.cs">
+      <DependentUpon>about.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="about.aspx.designer.cs">
+      <DependentUpon>about.aspx</DependentUpon>
+    </Compile>
     <Compile Include="AdminDashboard.aspx.cs">
       <DependentUpon>AdminDashboard.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -229,6 +236,20 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Components\Header.ascx.cs">
+      <DependentUpon>Header.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Components\Header.ascx.designer.cs">
+      <DependentUpon>Header.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="contact.aspx.cs">
+      <DependentUpon>contact.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="contact.aspx.designer.cs">
+      <DependentUpon>contact.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -250,9 +271,23 @@
     <Compile Include="login.aspx.designer.cs">
       <DependentUpon>login.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Logout.aspx.cs">
+      <DependentUpon>Logout.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Logout.aspx.designer.cs">
+      <DependentUpon>Logout.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="products.aspx.cs">
+      <DependentUpon>products.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="products.aspx.designer.cs">
+      <DependentUpon>products.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="signup.aspx.cs">
       <DependentUpon>signup.aspx</DependentUpon>
@@ -261,11 +296,19 @@
     <Compile Include="signup.aspx.designer.cs">
       <DependentUpon>signup.aspx</DependentUpon>
     </Compile>
+    <Compile Include="single-product.aspx.cs">
+      <DependentUpon>single-product.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="single-product.aspx.designer.cs">
+      <DependentUpon>single-product.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Startup.cs" />
     <Compile Include="Token\TokenManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
+    <Content Include="about.aspx" />
     <Content Include="AdminDashboard.aspx" />
     <Content Include="assets\css\bootstrap.min.css" />
     <Content Include="assets\css\flex-slider.css" />
@@ -334,6 +377,8 @@
     <Content Include="assets\js\scrollreveal.min.js" />
     <Content Include="assets\js\slick.js" />
     <Content Include="assets\js\waypoints.min.js" />
+    <Content Include="Components\Header.ascx" />
+    <Content Include="contact.aspx" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -350,11 +395,30 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="DashBoardStyles\css\style.css" />
+    <Content Include="DashBoardStyles\js\chart.js" />
+    <Content Include="DashBoardStyles\js\dashboard.js" />
+    <Content Include="DashBoardStyles\js\documentation.js" />
+    <Content Include="DashBoardStyles\js\file-upload.js" />
+    <Content Include="DashBoardStyles\js\hoverable-collapse.js" />
+    <Content Include="DashBoardStyles\js\jquery.cookie.js" />
+    <Content Include="DashBoardStyles\js\off-canvas.js" />
+    <Content Include="DashBoardStyles\js\tabs.js" />
+    <Content Include="DashBoardStyles\js\template.js" />
+    <Content Include="DashBoardStyles\js\todolist.js" />
+    <Content Include="DashBoardStyles\js\tooltips.js" />
+    <Content Include="DashBoardStyles\vendors\base\vendor.bundle.base.css" />
+    <Content Include="DashBoardStyles\vendors\base\vendor.bundle.base.js" />
+    <Content Include="DashBoardStyles\vendors\chart.js\Chart.min.js" />
+    <Content Include="DashBoardStyles\vendors\ti-icons\css\themify-icons.css" />
+    <Content Include="DashBoardStyles\vendors\ti-icons\fonts\themify.svg" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="index.aspx" />
     <Content Include="login.aspx" />
+    <Content Include="Logout.aspx" />
+    <Content Include="products.aspx" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -373,6 +437,72 @@
     <Content Include="assets\fonts\slick.eot" />
     <Content Include="assets\fonts\slick.ttf" />
     <Content Include="assets\fonts\slick.woff" />
+    <Content Include="DashBoardStyles\css\.DS_Store" />
+    <Content Include="DashBoardStyles\css\maps\style.css.map" />
+    <Content Include="DashBoardStyles\vendors\.DS_Store" />
+    <Content Include="DashBoardStyles\vendors\base\bootstrap.min.js.map" />
+    <Content Include="DashBoardStyles\vendors\ti-icons\fonts\themify.eot" />
+    <Content Include="DashBoardStyles\vendors\ti-icons\fonts\themify.ttf" />
+    <Content Include="DashBoardStyles\vendors\ti-icons\fonts\themify.woff" />
+    <Content Include="DashBoardStyles\js\.DS_Store" />
+    <Content Include="DashBoardStyles\scss\.DS_Store" />
+    <Content Include="DashBoardStyles\scss\components\.DS_Store" />
+    <Content Include="DashBoardStyles\scss\components\_badges.scss" />
+    <Content Include="DashBoardStyles\scss\components\_bootstrap-progress.scss" />
+    <Content Include="DashBoardStyles\scss\components\_buttons.scss" />
+    <Content Include="DashBoardStyles\scss\components\_cards.scss" />
+    <Content Include="DashBoardStyles\scss\components\_checkbox-radio.scss" />
+    <Content Include="DashBoardStyles\scss\components\_dropdown.scss" />
+    <Content Include="DashBoardStyles\scss\components\_forms.scss" />
+    <Content Include="DashBoardStyles\scss\components\_icons.scss" />
+    <Content Include="DashBoardStyles\scss\components\_lists.scss" />
+    <Content Include="DashBoardStyles\scss\components\_tables.scss" />
+    <Content Include="DashBoardStyles\scss\components\_todo-list.scss" />
+    <Content Include="DashBoardStyles\scss\landing-screens\_auth.scss" />
+    <Content Include="DashBoardStyles\scss\mixins\.DS_Store" />
+    <Content Include="DashBoardStyles\scss\mixins\_animation.scss" />
+    <Content Include="DashBoardStyles\scss\mixins\_badges.scss" />
+    <Content Include="DashBoardStyles\scss\mixins\_blockqoute.scss" />
+    <Content Include="DashBoardStyles\scss\mixins\_buttons.scss" />
+    <Content Include="DashBoardStyles\scss\mixins\_cards.scss" />
+    <Content Include="DashBoardStyles\scss\mixins\_misc.scss" />
+    <Content Include="DashBoardStyles\scss\style.scss" />
+    <Content Include="DashBoardStyles\scss\_background.scss" />
+    <Content Include="DashBoardStyles\scss\_demo.scss" />
+    <Content Include="DashBoardStyles\scss\_fonts.scss" />
+    <Content Include="DashBoardStyles\scss\_footer.scss" />
+    <Content Include="DashBoardStyles\scss\_functions.scss" />
+    <Content Include="DashBoardStyles\scss\_layouts.scss" />
+    <Content Include="DashBoardStyles\scss\_misc.scss" />
+    <Content Include="DashBoardStyles\scss\_navbar.scss" />
+    <Content Include="DashBoardStyles\scss\_reset.scss" />
+    <Content Include="DashBoardStyles\scss\_sidebar.scss" />
+    <Content Include="DashBoardStyles\scss\_typography.scss" />
+    <Content Include="DashBoardStyles\scss\_utilities.scss" />
+    <Content Include="DashBoardStyles\scss\_variables.scss" />
+    <Content Include="DashBoardStyles\scss\_vertical-wrapper.scss" />
+    <Content Include="DashBoardStyles\fonts\.DS_Store" />
+    <Content Include="DashBoardStyles\fonts\Roboto\.DS_Store" />
+    <Content Include="DashBoardStyles\fonts\Roboto\Roboto-Black.eot" />
+    <Content Include="DashBoardStyles\fonts\Roboto\Roboto-Black.ttf" />
+    <Content Include="DashBoardStyles\fonts\Roboto\Roboto-Black.woff" />
+    <Content Include="DashBoardStyles\fonts\Roboto\Roboto-Black.woff2" />
+    <Content Include="DashBoardStyles\fonts\Roboto\Roboto-Bold.eot" />
+    <Content Include="DashBoardStyles\fonts\Roboto\Roboto-Bold.ttf" />
+    <Content Include="DashBoardStyles\fonts\Roboto\Roboto-Bold.woff" />
+    <Content Include="DashBoardStyles\fonts\Roboto\Roboto-Bold.woff2" />
+    <Content Include="DashBoardStyles\fonts\Roboto\Roboto-Light.eot" />
+    <Content Include="DashBoardStyles\fonts\Roboto\Roboto-Light.ttf" />
+    <Content Include="DashBoardStyles\fonts\Roboto\Roboto-Light.woff" />
+    <Content Include="DashBoardStyles\fonts\Roboto\Roboto-Light.woff2" />
+    <Content Include="DashBoardStyles\fonts\Roboto\Roboto-Medium.eot" />
+    <Content Include="DashBoardStyles\fonts\Roboto\Roboto-Medium.ttf" />
+    <Content Include="DashBoardStyles\fonts\Roboto\Roboto-Medium.woff" />
+    <Content Include="DashBoardStyles\fonts\Roboto\Roboto-Medium.woff2" />
+    <Content Include="DashBoardStyles\fonts\Roboto\Roboto-Regular.eot" />
+    <Content Include="DashBoardStyles\fonts\Roboto\Roboto-Regular.ttf" />
+    <Content Include="DashBoardStyles\fonts\Roboto\Roboto-Regular.woff" />
+    <Content Include="DashBoardStyles\fonts\Roboto\Roboto-Regular.woff2" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -385,6 +515,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="signup.aspx" />
+    <Content Include="single-product.aspx" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
