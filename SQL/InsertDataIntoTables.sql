@@ -25,7 +25,16 @@ ADD rate DECIMAL(3, 2) DEFAULT 0 CHECK (rate >= 0 AND rate <= 5);
 
 update products
 set product_id = 1
+
+delete from products 
+where product_id != 2
+
+update products
+set number_of_orders = 21
+where product_id = 1
 */
+
+
 
 select * from products;
 

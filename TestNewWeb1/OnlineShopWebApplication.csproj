@@ -552,6 +552,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="AllUploadedImages\" />
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>

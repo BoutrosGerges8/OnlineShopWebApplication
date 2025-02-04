@@ -39,6 +39,7 @@
             margin: 10px;
             color: white;
             border: none;
+            height: auto;
         }
         .ButtonAddItem button{
             color: white;
@@ -59,6 +60,13 @@
             font-size: 14px;
             padding: 5px;
             cursor: pointer;
+            display: block;
+            width: 25px;
+            height: 25px;
+        }
+
+        .image-container{
+            position: relative;
         }
 
         /* To position the image container */
@@ -79,12 +87,24 @@
 
         .add-item-card{
             padding: 30px;
-            position: fixed;
+            position: absolute;
             width: 100vw;
+            height: 100vh;
             z-index: 9999;
             top: -100%;
             transition-duration: 2s;
             transition-property: top;
+        }
+
+        .table tbody td{
+            max-width: 100px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .table td img{
+            border-radius: 10% !important;
+            max-width: 50px !important;
+            max-height: 50px !important;
         }
     </style>
 
@@ -119,8 +139,10 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
+                    <button type="button" class="delete-image-btn" id="HideAddWindow" 
+                        style="display: block;" onclick="HideAddWindowFunction()">X</button>
                     <h1 class="card-title">Add New Item</h1>
-                    <form class="form-sample">
+                    <form class="form-sample" runat="server">
                         <p class="card-description">
                             Personal info
                         </p>
@@ -129,7 +151,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">Product Title</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control">
+                                        <input type="text" class="form-control" runat="server" id="ProTitle" required>
                                     </div>
                                 </div>
                             </div>
@@ -137,7 +159,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">Price</label>
                                     <div class="col-sm-9">
-                                        <input type="number" class="form-control">
+                                        <input type="number" class="form-control" runat="server" id="ProPrice" required>
                                     </div>
                                 </div>
                             </div>
@@ -147,11 +169,10 @@
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">Category</label>
                                     <div class="col-sm-9">
-                                        <select class="form-control">
-                                            <option>Category1</option>
-                                            <option>Category2</option>
-                                            <option>Category3</option>
-                                            <option>Category4</option>
+                                        <select class="form-control" runat="server" id="ProCategory">
+                                            <option>Men's</option>
+                                            <option>Women's</option>
+                                            <option>Kid's</option>
                                         </select>
                                     </div>
                                 </div>
@@ -160,7 +181,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">Quantity</label>
                                     <div class="col-sm-9">
-                                        <input type="number" class="form-control">
+                                        <input type="number" class="form-control" runat="server" id="ProQuantity" required>
                                     </div>
                                 </div>
                             </div>
@@ -173,7 +194,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">Short description</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control">
+                                        <input type="text" class="form-control" runat="server" id="ProShortDesc" required>
                                     </div>
                                 </div>
                             </div>
@@ -181,7 +202,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">Provide a detailed description</label>
                                     <div class="col-sm-9">
-                                        <input type="text" class="form-control">
+                                        <input type="text" class="form-control" runat="server" id="ProLongDesc" required>
                                     </div>
                                 </div>
                             </div>
@@ -196,9 +217,12 @@
                                     <!-- Delete button -->
                                     <button type="button" class="delete-image-btn" id="deleteProductImage" style="display:none;">X</button>
                                 </div>
-                                <input type="file" name="img[]" class="file-upload-default" accept="image/*" id="productImageInput">
+                                <input type="file" name="img[]" class="file-upload-default" accept="image/*" 
+                                    id="productImageInput" runat="server" required>
                                 <div class="input-group col-xs-12">
-                                    <input type="text" class="form-control file-upload-info" disabled="" id="imageName1" placeholder="Upload Image">
+                                    
+                                    <input type="text" class="form-control file-upload-info" disabled="" 
+                                        id="imageName1" placeholder="Upload Image" runat="server">
                                     <span class="input-group-append">
                                         <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
                                     </span>
@@ -214,17 +238,21 @@
                                     <!-- Delete button -->
                                     <button type="button" class="delete-image-btn" id="deleteSideImage" style="display:none;">X</button>
                                 </div>
-                                <input type="file" name="img[]" class="file-upload-default" accept="image/*" id="sideImageInput">
+                                <input type="file" name="img[]" class="file-upload-default" 
+                                    accept="image/*" id="sideImageInput" runat="server" required>
                                 <div class="input-group col-xs-12">
-                                    <input type="text" class="form-control file-upload-info" disabled="" id="imageName2" placeholder="Upload Image">
+                                    <input type="text" class="form-control file-upload-info" disabled="" 
+                                        id="imageName2" placeholder="Upload Image" runat="server">
                                     <span class="input-group-append">
-                                        <button class="file-upload-browse btn btn-primary" type="button">Upload</button>
+                                        <button class="file-upload-browse btn btn-primary" 
+                                            type="button" runat="server">Upload</button>
                                     </span>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <button type="button" class="btn btn-primary">Add</button>
+                            <asp:Button ID="ButtonAddProduct" runat="server" Text="Add" 
+                                OnClick="ButtonAdd_Click" CssClass="btn btn-primary" />
                         </div>
                     </form>
                 </div>
@@ -425,15 +453,18 @@
                                         <table class="table table-striped">
                                             <thead>
                                                 <tr>
-                                                    <!-- <th>User</th> -->
-                                                    <th>First Name</th>
-                                                    <th>Email</th>
-                                                    <th>Progress</th>
-                                                    <th>Amount</th>
-                                                    <th>Deadline</th>
+                                                    <th>#</th>
+                                                    <th>Title</th>
+                                                    <th>Long description</th>
+                                                    <th>Short description</th>
+                                                    <th>Price</th>
+                                                    <th>Quantity</th>
+                                                    <th>Product image</th>
+                                                    <th>Another image</th>
+                                                    <th>Rate</th>
                                                 </tr>
                                             </thead>
-                                            <tbody id="userTableBody" runat="server">
+                                            <tbody id="productsTableBody" runat="server">
                                                 <!-- Rows will be populated dynamically from C# -->
                                             </tbody>
                                         </table>
@@ -465,7 +496,10 @@
                                                         #
                                                     </th>
                                                     <th>
-                                                        First name
+                                                        Full name
+                                                    </th>
+                                                    <th>
+                                                        Email address
                                                     </th>
                                                     <th>
                                                         Progress
@@ -478,404 +512,8 @@
                                                     </th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        1
-                                                    </td>
-                                                    <td>
-                                                        Herman Beck
-                                                    </td>
-                                                    <td>
-                                                        <div class="progress">
-                                                            <div class="progress-bar bg-success" role="progressbar"
-                                                                style="width: 25%" aria-valuenow="25"
-                                                                aria-valuemin="0" aria-valuemax="100"></div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        $ 77.99
-                                                    </td>
-                                                    <td>
-                                                        May 15, 2015
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        2
-                                                    </td>
-                                                    <td>
-                                                        Messsy Adam
-                                                    </td>
-                                                    <td>
-                                                        <div class="progress">
-                                                            <div class="progress-bar bg-danger" role="progressbar"
-                                                                style="width: 75%" aria-valuenow="75"
-                                                                aria-valuemin="0" aria-valuemax="100"></div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        $245.30
-                                                    </td>
-                                                    <td>
-                                                        July 1, 2015
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        3
-                                                    </td>
-                                                    <td>
-                                                        John Richards
-                                                    </td>
-                                                    <td>
-                                                        <div class="progress">
-                                                            <div class="progress-bar bg-warning" role="progressbar"
-                                                                style="width: 90%" aria-valuenow="90"
-                                                                aria-valuemin="0" aria-valuemax="100"></div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        $138.00
-                                                    </td>
-                                                    <td>
-                                                        Apr 12, 2015
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        4
-                                                    </td>
-                                                    <td>
-                                                        Peter Meggik
-                                                    </td>
-                                                    <td>
-                                                        <div class="progress">
-                                                            <div class="progress-bar bg-primary" role="progressbar"
-                                                                style="width: 50%" aria-valuenow="50"
-                                                                aria-valuemin="0" aria-valuemax="100"></div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        $ 77.99
-                                                    </td>
-                                                    <td>
-                                                        May 15, 2015
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        5
-                                                    </td>
-                                                    <td>
-                                                        Edward
-                                                    </td>
-                                                    <td>
-                                                        <div class="progress">
-                                                            <div class="progress-bar bg-danger" role="progressbar"
-                                                                style="width: 35%" aria-valuenow="35"
-                                                                aria-valuemin="0" aria-valuemax="100"></div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        $ 160.25
-                                                    </td>
-                                                    <td>
-                                                        May 03, 2015
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        6
-                                                    </td>
-                                                    <td>
-                                                        John Doe
-                                                    </td>
-                                                    <td>
-                                                        <div class="progress">
-                                                            <div class="progress-bar bg-info" role="progressbar"
-                                                                style="width: 65%" aria-valuenow="65"
-                                                                aria-valuemin="0" aria-valuemax="100"></div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        $ 123.21
-                                                    </td>
-                                                    <td>
-                                                        April 05, 2015
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        7
-                                                    </td>
-                                                    <td>
-                                                        Henry Tom
-                                                    </td>
-                                                    <td>
-                                                        <div class="progress">
-                                                            <div class="progress-bar bg-warning" role="progressbar"
-                                                                style="width: 20%" aria-valuenow="20"
-                                                                aria-valuemin="0" aria-valuemax="100"></div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        $ 150.00
-                                                    </td>
-                                                    <td>
-                                                        June 16, 2015
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-12 grid-margin stretch-card">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title">Inverse table</h4>
-                                    <p class="card-description">
-                                        Add class <code>.table-dark</code>
-                                    </p>
-                                    <div class="table-responsive pt-3">
-                                        <table class="table table-dark">
-                                            <thead>
-                                                <tr>
-                                                    <th>
-                                                        #
-                                                    </th>
-                                                    <th>
-                                                        First name
-                                                    </th>
-                                                    <th>
-                                                        Amount
-                                                    </th>
-                                                    <th>
-                                                        Deadline
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        1
-                                                    </td>
-                                                    <td>
-                                                        Herman Beck
-                                                    </td>
-                                                    <td>
-                                                        $ 77.99
-                                                    </td>
-                                                    <td>
-                                                        May 15, 2015
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        2
-                                                    </td>
-                                                    <td>
-                                                        Messsy Adam
-                                                    </td>
-                                                    <td>
-                                                        $245.30
-                                                    </td>
-                                                    <td>
-                                                        July 1, 2015
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        3
-                                                    </td>
-                                                    <td>
-                                                        John Richards
-                                                    </td>
-                                                    <td>
-                                                        $138.00
-                                                    </td>
-                                                    <td>
-                                                        Apr 12, 2015
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        4
-                                                    </td>
-                                                    <td>
-                                                        Peter Meggik
-                                                    </td>
-                                                    <td>
-                                                        $ 77.99
-                                                    </td>
-                                                    <td>
-                                                        May 15, 2015
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        5
-                                                    </td>
-                                                    <td>
-                                                        Edward
-                                                    </td>
-                                                    <td>
-                                                        $ 160.25
-                                                    </td>
-                                                    <td>
-                                                        May 03, 2015
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        6
-                                                    </td>
-                                                    <td>
-                                                        John Doe
-                                                    </td>
-                                                    <td>
-                                                        $ 123.21
-                                                    </td>
-                                                    <td>
-                                                        April 05, 2015
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        7
-                                                    </td>
-                                                    <td>
-                                                        Henry Tom
-                                                    </td>
-                                                    <td>
-                                                        $ 150.00
-                                                    </td>
-                                                    <td>
-                                                        June 16, 2015
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-12 stretch-card">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="card-title">Table with contextual classes</h4>
-                                    <p class="card-description">
-                                        Add class <code>.table-{color}</code>
-                                    </p>
-                                    <div class="table-responsive pt-3">
-                                        <table class="table table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th>
-                                                        #
-                                                    </th>
-                                                    <th>
-                                                        First name
-                                                    </th>
-                                                    <th>
-                                                        Product
-                                                    </th>
-                                                    <th>
-                                                        Amount
-                                                    </th>
-                                                    <th>
-                                                        Deadline
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr class="table-info">
-                                                    <td>
-                                                        1
-                                                    </td>
-                                                    <td>
-                                                        Herman Beck
-                                                    </td>
-                                                    <td>
-                                                        Photoshop
-                                                    </td>
-                                                    <td>
-                                                        $ 77.99
-                                                    </td>
-                                                    <td>
-                                                        May 15, 2015
-                                                    </td>
-                                                </tr>
-                                                <tr class="table-warning">
-                                                    <td>
-                                                        2
-                                                    </td>
-                                                    <td>
-                                                        Messsy Adam
-                                                    </td>
-                                                    <td>
-                                                        Flash
-                                                    </td>
-                                                    <td>
-                                                        $245.30
-                                                    </td>
-                                                    <td>
-                                                        July 1, 2015
-                                                    </td>
-                                                </tr>
-                                                <tr class="table-danger">
-                                                    <td>
-                                                        3
-                                                    </td>
-                                                    <td>
-                                                        John Richards
-                                                    </td>
-                                                    <td>
-                                                        Premeire
-                                                    </td>
-                                                    <td>
-                                                        $138.00
-                                                    </td>
-                                                    <td>
-                                                        Apr 12, 2015
-                                                    </td>
-                                                </tr>
-                                                <tr class="table-success">
-                                                    <td>
-                                                        4
-                                                    </td>
-                                                    <td>
-                                                        Peter Meggik
-                                                    </td>
-                                                    <td>
-                                                        After effects
-                                                    </td>
-                                                    <td>
-                                                        $ 77.99
-                                                    </td>
-                                                    <td>
-                                                        May 15, 2015
-                                                    </td>
-                                                </tr>
-                                                <tr class="table-primary">
-                                                    <td>
-                                                        5
-                                                    </td>
-                                                    <td>
-                                                        Edward
-                                                    </td>
-                                                    <td>
-                                                        Illustrator
-                                                    </td>
-                                                    <td>
-                                                        $ 160.25
-                                                    </td>
-                                                    <td>
-                                                        May 03, 2015
-                                                    </td>
-                                                </tr>
+                                            <tbody id="userTableBody" runat="server">
+                                                
                                             </tbody>
                                         </table>
                                     </div>
@@ -884,24 +522,14 @@
                         </div>
                     </div>
                 </div>
-                <!-- content-wrapper ends -->
-                <!-- partial:../../partials/_footer.html -->
-                <footer class="footer">
-                    <div class="d-sm-flex justify-content-center justify-content-sm-between">
-                        <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © <a
-                                href="https://www.bootstrapdash.com/" target="_blank">bootstrapdash.com
-                            </a>2021</span>
-                        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Only the best <a
-                                href="https://www.bootstrapdash.com/" target="_blank"> Bootstrap dashboard </a>
-                            templates</span>
-                    </div>
-                </footer>
+
                 <!-- partial -->
             </div>
             <!-- main-panel ends -->
         </div>
         <!-- page-body-wrapper ends -->
 
+    </div>
 
 
         <!-- jQuery -->
@@ -1000,6 +628,15 @@
                 document.getElementById('sideImageInput').value = ''; // Clear the file input
                 document.getElementById("imageName2").value = "";
             });
+        </script>
+
+        <script>
+            function AddNewProduct() {
+                document.getElementById("AddItemContainer").style = "top: 0;";
+            }
+            function HideAddWindowFunction() {
+                document.getElementById("AddItemContainer").style = "top: -100%;";
+            }
         </script>
 
         <script src="./DashBoardStyles/js/file-upload.js"></script>
