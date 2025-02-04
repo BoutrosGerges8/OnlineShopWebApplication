@@ -484,10 +484,7 @@
                         <div class="col-lg-12 grid-margin stretch-card">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="card-title">Bordered table</h4>
-                                    <p class="card-description">
-                                        Add class <code>.table-bordered</code>
-                                    </p>
+                                    <h4 class="card-title">Users table</h4>
                                     <div class="table-responsive pt-3">
                                         <table class="table table-bordered">
                                             <thead>
