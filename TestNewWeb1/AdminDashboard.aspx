@@ -89,7 +89,7 @@
             padding: 30px;
             position: absolute;
             width: 100vw;
-            height: 100vh;
+            min-height: 100vh;
             z-index: 9999;
             top: -100%;
             transition-duration: 2s;
@@ -105,6 +105,8 @@
             border-radius: 10% !important;
             max-width: 50px !important;
             max-height: 50px !important;
+            width: auto !important;
+            height: auto !important;
         }
     </style>
 
@@ -461,6 +463,7 @@
                                                     <th>Quantity</th>
                                                     <th>Product image</th>
                                                     <th>Another image</th>
+                                                    <th>Category</th>
                                                     <th>Rate</th>
                                                 </tr>
                                             </thead>
@@ -475,6 +478,32 @@
                                                  +
                                              </button>
                                         </div>
+                                    </div>
+                                </div>
+                      
+                            </div>
+                        </div>
+
+
+                        <div class="col-lg-12 grid-margin stretch-card">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">Products Table</h4>
+                                    <div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Quantity</th>
+                                                    <th>Total Price</th>
+                                                    <th>Ordered Date</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="OrderesTable" runat="server">
+                                                <!-- Rows will be populated dynamically from C# -->
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                       

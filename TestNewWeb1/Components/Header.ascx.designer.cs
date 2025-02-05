@@ -15,6 +15,15 @@ namespace TestNewWeb1.Components
     {
 
         /// <summary>
+        /// DashboardBtn control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl DashboardBtn;
+
+        /// <summary>
         /// loginLink control.
         /// </summary>
         /// <remarks>

@@ -1,4 +1,6 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="single-product.aspx.cs" Inherits="TestNewWeb1.single_product" %>
+<%@ Register Src="~/Components/Header.ascx" TagPrefix="uc" TagName="Header" %>
+
 
 <!DOCTYPE html>
 
@@ -9,6 +11,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+    
+    <link rel="icon" type="image/x-icon" href="/assets/icon/favicon.ico" />
 
     <title>Hexashop - Product Detail Page</title>
 
@@ -23,14 +27,41 @@
     <link rel="stylesheet" href="assets/css/owl-carousel.css">
 
     <link rel="stylesheet" href="assets/css/lightbox.css">
-<!--
 
-TemplateMo 571 Hexashop
+    <style>
+        .qty{
+            min-width: 80px;
+        }
+    </style>
 
-https://templatemo.com/tm-571-hexashop
+    <style>
+        .image-container {
+            position: relative;
+            width: 100%;
+            padding-top: 53%;
+            overflow: hidden;
+            margin-bottom: 50px;
+        }
 
--->
-    </head>
+        .image-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+    </style>
+
+
+        <!-- SweetAlert2 CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.0/dist/sweetalert2.min.css">
+
+        <!-- SweetAlert2 JS -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.0/dist/sweetalert2.all.min.js"></script>
+
+
+</head>
     
     <body>
     
@@ -46,113 +77,110 @@ https://templatemo.com/tm-571-hexashop
     
     
     <!-- ***** Header Area Start ***** -->
-    <header class="header-area header-sticky">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <nav class="main-nav">
-                        <!-- ***** Logo Start ***** -->
-                        <a href="index.html" class="logo">
-                            <img src="assets/images/logo.png">
-                        </a>
-                        <!-- ***** Logo End ***** -->
-                        <!-- ***** Menu Start ***** -->
-                        <ul class="nav">
-                            <li class="scroll-to-section"><a href="index.html" class="active">Home</a></li>
-                            <li class="scroll-to-section"><a href="index.html">Men's</a></li>
-                            <li class="scroll-to-section"><a href="index.html">Women's</a></li>
-                            <li class="scroll-to-section"><a href="index.html">Kid's</a></li>
-                            <li class="submenu">
-                                <a href="javascript:;">Pages</a>
-                                <ul>
-                                    <li><a href="about.html">About Us</a></li>
-                                    <li><a href="products.html">Products</a></li>
-                                    <li><a href="single-product.html">Single Product</a></li>
-                                    <li><a href="contact.html">Contact Us</a></li>
-                                </ul>
-                            </li>
-                            <li class="submenu">
-                                <a href="javascript:;">Features</a>
-                                <ul>
-                                    <li><a href="#">Features Page 1</a></li>
-                                    <li><a href="#">Features Page 2</a></li>
-                                    <li><a href="#">Features Page 3</a></li>
-                                    <li><a rel="nofollow" href="https://templatemo.com/page/4" target="_blank">Template Page 4</a></li>
-                                </ul>
-                            </li>
-                            <li class="scroll-to-section"><a href="index.html">Explore</a></li>
-                        </ul>        
-                        <a class='menu-trigger'>
-                            <span>Menu</span>
-                        </a>
-                        <!-- ***** Menu End ***** -->
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </header>
+    <uc:Header ID="HeaderControl" runat="server" />
+
     <!-- ***** Header Area End ***** -->
 
     <!-- ***** Main Banner Area Start ***** -->
     <div class="page-heading" id="top">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="inner-content">
-                        <h2>Single Product Page</h2>
-                        <span>Awesome &amp; Creative HTML CSS layout by TemplateMo</span>
-                    </div>
-                </div>
-            </div>
+            
         </div>
     </div>
     <!-- ***** Main Banner Area End ***** -->
 
 
     <!-- ***** Product Area Starts ***** -->
-    <section class="section" id="product">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8">
-                <div class="left-images">
-                    <img src="assets/images/single-product-01.jpg" alt="">
-                    <img src="assets/images/single-product-02.jpg" alt="">
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="right-content">
-                    <h4>New Green Jacket</h4>
-                    <span class="price">$75.00</span>
-                    <ul class="stars">
-                        <li><i class="fa fa-star"></i></li>
-                        <li><i class="fa fa-star"></i></li>
-                        <li><i class="fa fa-star"></i></li>
-                        <li><i class="fa fa-star"></i></li>
-                        <li><i class="fa fa-star"></i></li>
-                    </ul>
-                    <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod kon tempor incididunt ut labore.</span>
-                    <div class="quote">
-                        <i class="fa fa-quote-left"></i><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiuski smod.</p>
-                    </div>
-                    <div class="quantity-content">
-                        <div class="left-content">
-                            <h6>No. of Orders</h6>
+        <form runat="server" id="FormBuyTheProduct">
+            <input type="hidden" runat="server" id="ProIdHidden" />
+            <section class="section" id="product">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <div class="left-images">
+                                <div class="image-container">
+                                    <img src="assets/images/single-product-01.jpg" alt="" runat="server" id="ProImg1">
+                                </div>
+                                <div class="image-container">
+                                    <img src="assets/images/single-product-02.jpg" alt="" runat="server" id="ProImg2">
+                                </div>
+                            </div>
                         </div>
-                        <div class="right-content">
-                            <div class="quantity buttons_added">
-                                <input type="button" value="-" class="minus"><input type="number" step="1" min="1" max="" name="quantity" value="1" title="Qty" class="input-text qty text" size="4" pattern="" inputmode=""><input type="button" value="+" class="plus">
+                        <div class="col-lg-4">
+                            <div class="right-content">
+                                <h4 runat="server" id="ProTitle">New Green Jacket</h4>
+                                <input type="hidden" runat="server" id="ProPriceValue" />
+                                <span class="price" runat="server" id="ProPrice">$75.00</span>
+                                <ul class="stars" runat="server" id="ProStars">
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                </ul>
+                                <span runat="server" id="ProLongDesc">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod kon tempor incididunt ut labore.
+                                </span>
+                                <div class="quote">
+                                    <i class="fa fa-quote-left"></i><p runat="server" id="ProShortDesc">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiuski smod.
+                                    </p>
+                                </div>
+                                <div class="quantity-content">
+                                    <div class="left-content">
+                                        <h6>No. of Orders</h6>
+                                    </div>
+                                    <div class="right-content">
+                                        <div class="quantity buttons_added">
+                                            <input type="button" value="-" class="minus">
+                                            <input type="number" step="1" id="AddQuantityOrdered" 
+                                                min="1" max="21" name="quantity" value="1" title="Qty"
+                                                class="input-text qty text" size="4" pattern="" inputmode=""
+                                                onchange="updateQuantity()" oninput="validateInput(this)" runat="server" />
+                                            <input type="button" value="+" class="plus">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="quantity-content">
+                                    <div class="left-content">
+                                        <h6>Rate the item</h6>
+                                    </div>
+                                    <div class="right-content">
+                                        <div class="quantity buttons_added">
+                                            <input type="button" value="-" class="minus">
+                                            <input type="number" step="1" id="RateThePro" 
+                                                min="0" max="5" name="quantity" value="1" title="Qty"
+                                                class="input-text qty text" size="4" pattern="" inputmode=""
+                                                onchange="updateQuantity()" oninput="validateRate(this)" runat="server">
+                                            <input type="button" value="+" class="plus">
+                                        </div>
+                                    </div>
+                                </div> ->
+                                <!-- Hidden field to store the rating -->
+                                <input type="hidden" id="RatingHiddenField" name="RatingHiddenField" />
+
+
+                                <div class="total">
+                                    <h4 runat="server" id="TotalPrice">Total: $210.00</h4>
+                                    <!-- <div class="main-border-button"><a href="#">Add To Cart</a></div> -->
+                                    <div class="main-border-button">
+                                        <a href="javascript:void(0)" id="AddToCart_1" runat="server"  onclick="addToCart()">
+                                            Add To Cart
+                                        </a>
+                                        <!-- <a href="javascript:void(0)" id="AddToCart_2" runat="server"  onclick="addToCart()">
+                                            Buy Now
+                                        </a> -->
+                                    </div>
+
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="total">
-                        <h4>Total: $210.00</h4>
-                        <div class="main-border-button"><a href="#">Add To Cart</a></div>
-                    </div>
                 </div>
-            </div>
-            </div>
-        </div>
-    </section>
+            </section>
+
+        </form>
+    
     <!-- ***** Product Area Ends ***** -->
     
     <!-- ***** Footer Start ***** -->
@@ -254,7 +282,376 @@ https://templatemo.com/tm-571-hexashop
             });
         });
 
+
+
+        let Total = document.getElementById("TotalPrice");
+
+        function updateQuantity() {
+            const inputField = document.getElementById("AddQuantityOrdered");
+            const quantityValue = parseInt(inputField.value, 10); // Convert to number
+            const priceText = document.getElementById("ProPrice").innerText.replace('$', ''); // Remove "$" and get the price
+            const price = parseFloat(priceText); // Convert to number
+
+            Total.innerHTML = "Total: $" + (quantityValue * price).toFixed(2); // Keep 2 decimal places
+        }
+
+        function validateInput(input) {
+            const max = parseInt(input.max, 10); // Get the max value
+            const min = parseInt(input.min, 10); // Get the min value
+            let value = input.value; // Get the input value as a string
+
+            // Remove any non-numeric characters
+            value = value.replace(/[^0-9]/g, '');
+
+            // Parse the cleaned value into a number
+            let numericValue = parseInt(value, 10);
+
+            // Enforce max and min values
+            if (numericValue > max) {
+                numericValue = max;
+            } else if (numericValue < min || isNaN(numericValue)) {
+                numericValue = min;
+            }
+
+            // Update the input value with the valid number
+            input.value = numericValue;
+
+            // Set the hidden field value to the valid rating
+            document.getElementById("RatingHiddenField").value = numericValue;
+        }
+
+        function validateRate(input) {
+            validateInput(input);
+            updateRating();
+        }
+
+        function updateRating() {
+            const ratingValue = document.getElementById("RatingHiddenField").value;
+            // Trigger the postback to send the updated rating to the server
+            __doPostBack('RateThePro', ratingValue);
+            console.log("yes");
+        }
+
+
+        //function decreaseRating() {
+        //    const input = document.getElementById("RateThePro");
+        //    let currentValue = parseInt(input.value);
+        //    if (currentValue > 0) {
+        //        input.value = currentValue - 1;
+        //        updateRating();
+        //    }
+        //}
+
+        //function increaseRating() {
+        //    const input = document.getElementById("RateThePro");
+        //    let currentValue = parseInt(input.value);
+        //    if (currentValue < 5) {
+        //        input.value = currentValue + 1;
+        //        updateRating();
+        //    }
+        //}
+
+
     </script>
+
+    <script type="text/javascript">
+        if (typeof __doPostBack === "undefined") {
+            function __doPostBack(eventTarget, eventArgument) {
+                var theForm = document.forms[0];
+                if (!theForm) {
+                    theForm = document.createElement("form");
+                    document.body.appendChild(theForm);
+                }
+                theForm.__EVENTTARGET.value = eventTarget;
+                theForm.__EVENTARGUMENT.value = eventArgument;
+                theForm.submit();
+            }
+        }
+    </script>
+
+
+    <script type="text/javascript">
+
+        //function addToCart() {
+        //    var productId_ = parseInt(document.getElementById("ProIdHidden").value);
+        //    var quantity_ = parseInt(document.getElementById('AddQuantityOrdered').value);  // Make sure it's an integer
+
+        //    var xhr = new XMLHttpRequest();
+        //    xhr.open("POST", "/single-product.aspx/BuyProduct", true);
+        //    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+        //    var productData = JSON.stringify({
+        //        productId: productId_,
+        //        quantity: quantity_
+        //    });
+
+        //    xhr.send(productData);
+
+        //    xhr.onload = function () {
+        //        if (xhr.status === 200) {
+        //            var response = JSON.parse(xhr.responseText);
+
+        //            if (response.success) {
+        //                Swal.fire({
+        //                    title: 'Success!',
+        //                    text: response.message,  // Use the dynamic message
+        //                    icon: 'success',
+        //                    confirmButtonText: 'OK',
+        //                    confirmButtonColor: '#4CAF50'
+        //                });
+        //            } else {
+        //                Swal.fire({
+        //                    title: 'Oops!',
+        //                    text: response.message,  // Use the dynamic error message
+        //                    icon: 'error',
+        //                    confirmButtonText: 'Try Again',
+        //                    confirmButtonColor: '#f44336'
+        //                });
+        //            }
+        //        } else {
+        //            Swal.fire({
+        //                title: 'Error!',
+        //                text: 'An error occurred while processing your request.',
+        //                icon: 'error',
+        //                confirmButtonText: 'Close',
+        //                confirmButtonColor: '#f44336'
+        //            });
+        //        }
+        //    };
+
+        //    xhr.onerror = function () {
+        //        Swal.fire({
+        //            title: 'Error!',
+        //            text: 'Failed to send the request.',
+        //            icon: 'error',
+        //            confirmButtonText: 'Close',
+        //            confirmButtonColor: '#f44336'
+        //        });
+        //    };
+        //}
+
+
+
+        function addToCart() {
+            var productId = document.getElementById("ProIdHidden").value;
+            var quantity = document.getElementById('AddQuantityOrdered').value;
+            var ProPrice = document.getElementById('ProPriceValue').value;
+
+            // Ensure price is cleaned of "$" symbol and parsed as a float
+            var totalPrice = parseFloat(quantity) * parseFloat(ProPrice);
+
+            // Send the request to the server
+            $.ajax({
+                type: "POST",
+                url: "single-product.aspx/BuyProduct",
+                data: JSON.stringify({ productId: productId, quantity: quantity, totalPrice: totalPrice }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    var responseData = JSON.parse(response.d);  // Parse the response data
+
+                    if (responseData.success) {
+                        Swal.fire({
+                            title: 'Success!',
+                            text: responseData.message,
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        });
+                    } else {
+                        // Check if the redirectTo key exists in responseData
+                        if (responseData.redirectTo) {
+                            console.log("Redirecting to login page");
+                            window.location.href = responseData.redirectTo; // Redirect to login page
+                        } else {
+                            console.log("No redirect, showing error");
+                            Swal.fire({
+                                title: 'Error!',
+                                text: responseData.message,  // Show the error message from the response
+                                icon: 'error',
+                                confirmButtonText: 'Close'
+                            });
+                        }
+                    }
+                },
+                error: function (xhr, status, error) {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'An error occurred while processing your request.',
+                        icon: 'error',
+                        confirmButtonText: 'Close'
+                    });
+                }
+            });
+        }
+
+
+//        function addToCart() {
+//            var productId = document.getElementById("ProIdHidden").value;
+//            var quantity = document.getElementById('AddQuantityOrdered').value;
+//            var ProPrice = document.getElementById('ProPriceValue').value;
+
+//            // Ensure price is cleaned of "$" symbol and parsed as a float
+//            var totalPrice = parseFloat(quantity) * parseFloat(ProPrice);
+
+//            // Send the request to the server
+//            $.ajax({
+//                type: "POST",
+//                url: "single-product.aspx/BuyProduct",
+//                data: JSON.stringify({ productId: productId, quantity: quantity, totalPrice: totalPrice }),
+//                contentType: "application/json; charset=utf-8",
+//                dataType: "json",
+//                success: function (response) {
+//                    var responseData = JSON.parse(response.d);
+
+//                    if (responseData.success) {
+//                        Swal.fire({
+//                            title: 'Success!',
+//                            text: responseData.message,
+//                            icon: 'success',
+//                            confirmButtonText: 'OK'
+//                        });
+//                    } else {
+//                        if (response.redirectTo) {
+//                            console.log("hello");
+//                            window.location.href = response.redirectTo;
+//                        } else {
+//                            console.log("no");
+//                            Swal.fire({
+//                                title: 'Error!',
+//                                text: response.message,
+//                                icon: 'error',
+//                                confirmButtonText: 'Close'
+//                            });
+//                        }
+//                    }
+//                }
+//,
+//                error: function (xhr, status, error) {
+//                    Swal.fire({
+//                        title: 'Error!',
+//                        text: 'An error occurred while processing your request.',
+//                        icon: 'error',
+//                        confirmButtonText: 'Close'
+//                    });
+//                }
+//            });
+//        }
+
+
+        //////////// best
+        //function addToCart() {
+        //    var productId = document.getElementById("ProIdHidden").value;
+        //    var quantity = document.getElementById('AddQuantityOrdered').value;
+
+        //    var xhr = new XMLHttpRequest();
+        //    xhr.open("POST", "single-product.aspx/BuyProduct", true);
+        //    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+        //    // Send the productId and quantity as a JSON string
+        //    var productData = JSON.stringify({
+        //        productId: productId,
+        //        quantity: parseInt(quantity)
+        //    });
+
+        //    xhr.onreadystatechange = function () {
+        //        if (xhr.readyState == 4 && xhr.status == 200) {
+        //            console.log('Response:', xhr.responseText);
+        //            var response = JSON.parse(xhr.responseText);
+        //            Swal.fire({
+        //                title: 'Success!',
+        //                text: response.message,
+        //                icon: 'success',
+        //                confirmButtonText: 'OK'
+        //            });
+        //        } else {
+        //            console.log('Error:', xhr.statusText);
+        //            Swal.fire({
+        //                title: 'Error!',
+        //                text: 'An error occurred while processing your request.',
+        //                icon: 'error',
+        //                confirmButtonText: 'Close'
+        //            });
+        //        }
+        //    };
+
+        //    xhr.send(productData);
+        //}
+
+
+
+        //function addToCart() {
+        //    var productId = document.getElementById("ProIdhHidden").value;
+        //    var quantity = document.getElementById('AddQuantityOrdered').value;
+        //    var ProPrice = document.getElementById('ProPrice').value;
+
+        //    // Ensure price is cleaned of "$" symbol and parsed as a float
+        //    var totalPrice = parseFloat(quantity) * parseFloat(ProPrice.replace("$", ""));
+
+        //    // Send the request to the server
+        //    $.ajax({
+        //        type: "POST",
+        //        url: "single-product.aspx/BuyProduct",
+        //        data: JSON.stringify({ productId: productId, quantity: quantity, totalPrice: String(totalPrice) }),
+        //        contentType: "application/json; charset=utf-8",
+        //        dataType: "json",
+        //        success: function (response) {
+        //            console.log(response);
+        //            if (response.success) {
+        //                Swal.fire({
+        //                    title: 'Success!',
+        //                    text: response.message,
+        //                    icon: 'success',
+        //                    confirmButtonText: 'OK'
+        //                });
+        //            } else {
+        //                Swal.fire({
+        //                    title: 'Error!',
+        //                    text: response.message,
+        //                    icon: 'error',
+        //                    confirmButtonText: 'Close'
+        //                });
+        //            }
+        //        },
+        //        error: function (xhr, status, error) {
+        //            Swal.fire({
+        //                title: 'Error!',
+        //                text: 'An error occurred while processing your request.',
+        //                icon: 'error',
+        //                confirmButtonText: 'Close'
+        //            });
+        //        }
+        //    });
+        //}
+
+
+
+        //function addToCart() {
+        //    var productId = parseInt(document.getElementById("ProIdhHidden").value);
+        //    var quantity = document.getElementById('AddQuantityOrdered').value;  // Get the quantity from an input field
+
+        //    var xhr = new XMLHttpRequest();
+        //    xhr.open("POST", "/single-product.aspx/BuyProduct", true);
+        //    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+        //    // Send the productId and quantity as a JSON string
+        //    var productData = JSON.stringify({ productId: productId, quantity: quantity });
+
+        //    xhr.onreadystatechange = function () {
+        //        if (xhr.readyState == 4 && xhr.status == 200) {
+        //            alert(xhr.responseText);  // Show the server response
+        //        } else if (xhr.readyState == 4) {
+        //            alert('Error: ' + xhr.statusText);  // Handle other errors
+        //        }
+        //    };
+
+        //    xhr.send(productData);
+        //}
+
+    </script>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
 
   </body>
 

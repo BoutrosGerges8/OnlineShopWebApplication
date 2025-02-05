@@ -11,6 +11,7 @@ namespace TestNewWeb1.Components
 
             loginLink.Visible = !res;
             signOut.Visible = res;
+            DashboardBtn.Visible = res && TokenManager.IsUserAdmin(Session);
 
             if (Request.Url.ToString().Contains("logout"))
             {
@@ -21,6 +22,8 @@ namespace TestNewWeb1.Components
 
                 Response.Redirect(Request.Url.AbsoluteUri.Split('?')[0]);
             }
+
+
             
         }
     }

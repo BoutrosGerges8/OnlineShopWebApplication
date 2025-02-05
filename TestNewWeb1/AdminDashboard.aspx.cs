@@ -7,11 +7,17 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.IO;
+using Microsoft.Ajax.Utilities;
 
 namespace TestNewWeb1
 {
     public partial class AdminDashboard : System.Web.UI.Page
     {
+        public string[] Categories = new string[]
+        {
+            "Men\'s", "Women\'s", "Kid\'s"
+        };
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (TokenManager.IsLoggedInAlready(Session))
@@ -29,6 +35,7 @@ namespace TestNewWeb1
             {
                 LoadUserData();
                 LoadProductsData();
+                LoadOrdersData();
             }
         }
 
@@ -99,6 +106,7 @@ namespace TestNewWeb1
                     rate= row["rate"].ToString(),
                     img1 = row["image_url_thumbnail"].ToString(),
                     img2 = row["image_url_full"].ToString(),
+                    category = row["category"].ToString(),
                     no = row["number_of_orders"].ToString();
 
 
@@ -116,6 +124,7 @@ namespace TestNewWeb1
                             <td class='py-1'>
                                 <img src='/AllUploadedImages/{img2}' alt='other side image' />
                             </td>
+                            <td>{category}</td>
                             <td>{rate}</td>
                         </tr>";
             }
@@ -123,9 +132,51 @@ namespace TestNewWeb1
             productsTableBody.InnerHtml = tableRows;
         }
 
+        private void LoadOrdersData()
+        {
+            SqlConnectionClass sql = new SqlConnectionClass();
+            DataTable dt = sql.SelectAll("ordered");
+
+            string tableRows = "";
+            foreach (DataRow row in dt.Rows)
+            {
+                string id = row["order_id"].ToString(),
+                    quantity = row["quantity"].ToString(),
+                    order_date = row["order_date"].ToString(),
+                    total_price = row["total_price"].ToString(),
+                    status = row["status"].ToString();
+
+
+                tableRows += $@"
+                        <tr>
+                            <td>{id}</td>
+                            <td>{quantity}</td>
+                            <td>{total_price}</td>
+                            <td>{order_date}</td>
+                            <td>{SelectedStatus(status)}</td>
+                        </tr>";
+            }
+
+            OrderesTable.InnerHtml = tableRows;
+        }
+
+
+        private string SelectedStatus(string item)
+        {
+            return $@"
+                <select class=""form-control"" runat=""server"" id=""OrderStatus"">
+                    <option {(item == "Pending" ? "selected" : "")}>Pending</option>
+                    <option {(item == "Shipped" ? "selected" : "")}>Shipped</option>
+                    <option {(item == "Delivered" ? "selected" : "")}>Delivered</option>
+                </select>
+            ";
+        }
+
 
         protected void ButtonAdd_Click(object sender, EventArgs e)
         {
+            //Response.Redirect($"/AdminDashboard.aspx?cat={Categories[ProCategory.SelectedIndex]}");
+
             // Define the folder path to save the image
             string folderPath = Server.MapPath("~/AllUploadedImages/");
             if (!Directory.Exists(folderPath))
@@ -210,7 +261,7 @@ namespace TestNewWeb1
             {
                 Response.Write("No file selected for upload.");
             }
-
+            
             SqlConnectionClass sql = new SqlConnectionClass();
             sql.InsertData("products", new Dictionary<string, object>
             {
@@ -220,9 +271,12 @@ namespace TestNewWeb1
                 {"price", ProPrice.Value.Trim() },
                 {"number_of_orders", ProQuantity.Value.Trim() },
                 {"image_url_thumbnail", fileNameImg1 },
-                {"image_url_full", fileNameImg2}
+                {"image_url_full", fileNameImg2},
+                {"category", Categories[ProCategory.SelectedIndex]}
             });
             ClearAllFields();
+
+            Response.Redirect("/AdminDashboard.aspx");
         }
 
         private void ClearAllFields()
@@ -235,6 +289,7 @@ namespace TestNewWeb1
             imageName1.Value = "";
             imageName2.Value = "";
         }
+
 
 
         //protected void AddNewProduct(object sender, EventArgs e)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Helpers;
@@ -39,13 +40,109 @@ namespace TestNewWeb1
 
             //Response.Write("Logout query string: " + Request.QueryString["logout"]);
 
+            LoadAllPriducts();
 
         }
 
-        //protected void Signout_Click(object sender, EventArgs e)
+        private void LoadAllPriducts()
+        {
+            SqlConnectionClass sql = new SqlConnectionClass();
+            DataTable dataTable = sql.SelectAll("products");
+
+            foreach(DataRow row in dataTable.Rows)
+            {
+                if (row["category"].ToString().Equals("Men\'s", StringComparison.OrdinalIgnoreCase))
+                {
+                    AddProductCardHTML(row["product_name"].ToString(),
+                        row["price"].ToString(),
+                        row["image_url_full"].ToString(),
+                        row["product_id"].ToString(),
+                        Convert.ToInt16(double.Parse(row["rate"].ToString())));
+                }
+            }
+        }
+
+        public void AddProductCardHTML(string title, string price, string img, string id, int stars)
+        {
+            string item = $@"
+                <div class=""item"">
+                    <div class=""thumb"">
+                        <div class=""hover-content"">
+                            <ul>
+                                <li><a href=""/single-product.aspx?id={id}""><i class=""fa fa-eye""></i></a></li>
+                                <li><a href=""/single-product.aspx?id={id}""><i class=""fa fa-star""></i></a></li>
+                                <li><a href=""/single-product.aspx?id={id}""><i class=""fa fa-shopping-cart""></i></a></li>
+                            </ul>
+                        </div>
+                        <!-- Wrapper div for image with aspect ratio control -->
+                        <div class=""image-wrapper"">
+                            <img src=""/AllUploadedImages/{img}"" alt=""{img}"" class=""responsive-img"">
+                        </div>
+                    </div>
+                    <div class=""down-content"">
+                        <h4>{title}</h4>
+                        <span>${price}</span>
+                        <ul class=""stars"">
+                            {GetStart(stars)}
+                        </ul>
+                    </div>
+                </div>
+            ";
+
+            MenContent.InnerHtml += item;
+        }
+
+
+        private string GetStart(int n)
+        {
+            string stars = "";
+
+            for (int i = 0; i < n; i++)
+            {
+                stars += "<li><i class=\"fa fa-star\"></i></li>";
+            }
+
+            for (int i = 0; i < 5 - n; i++)
+            {
+                stars += "<li><i class=\"fa fa-star-o\"></i>\r\n</li>";
+            }
+
+            return stars;
+        }
+
+
+
+        //public void AddProductCardHTML(string title, string price, string img, string id)
         //{
-        //    TokenManager.DeleteCredentialsFromSession(Session);
-        //    Response.Redirect("/index.aspx");
+        //    string item = $@"
+        //        <div class=""item"">
+        //            <div class=""thumb"">
+        //                <div class=""hover-content"">
+        //                    <ul>
+        //                        <li><a href=""/single-product.aspx?id={id}""><i class=""fa fa-eye""></i></a></li>
+        //                        <li><a href=""/single-product.aspx?id={id}""><i class=""fa fa-star""></i></a></li>
+        //                        <li><a href=""/single-product.aspx?id={id}""><i class=""fa fa-shopping-cart""></i></a></li>
+        //                    </ul>
+        //                </div>
+        //                <img src=""/AllUploadedImages/{img}"" alt=""{img}"">
+        //            </div>
+        //            <div class=""down-content"">
+        //                <h4>{title}</h4>
+        //                <span>${price}</span>
+        //                <ul class=""stars"">
+        //                    <li><i class=""fa fa-star""></i></li>
+        //                    <li><i class=""fa fa-star""></i></li>
+        //                    <li><i class=""fa fa-star""></i></li>
+        //                    <li><i class=""fa fa-star""></i></li>
+        //                    <li><i class=""fa fa-star""></i></li>
+        //                </ul>
+        //            </div>
+        //        </div>
+        //    ";
+
+        //    MenContent.InnerHtml += item;
         //}
+
+
     }
 }

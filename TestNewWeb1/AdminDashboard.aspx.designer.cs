@@ -141,6 +141,15 @@ namespace TestNewWeb1
         protected global::System.Web.UI.HtmlControls.HtmlButton ButtonAddItem;
 
         /// <summary>
+        /// OrderesTable control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl OrderesTable;
+
+        /// <summary>
         /// userTableBody control.
         /// </summary>
         /// <remarks>

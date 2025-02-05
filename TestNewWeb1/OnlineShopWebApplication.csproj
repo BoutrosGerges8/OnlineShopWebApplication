@@ -298,7 +298,6 @@
     </Compile>
     <Compile Include="single-product.aspx.cs">
       <DependentUpon>single-product.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="single-product.aspx.designer.cs">
       <DependentUpon>single-product.aspx</DependentUpon>

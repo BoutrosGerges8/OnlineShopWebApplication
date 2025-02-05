@@ -29,9 +29,6 @@ namespace TestNewWeb1
 
         protected void btnLogin_Click(object sender, EventArgs e)
         {
-
-            
-
             string EmailStr = email.Value.Trim(),
                 PasswordStr = password.Value.Trim();
 

@@ -29,6 +29,40 @@
 
     <link rel="stylesheet" href="assets/css/MyCSSCodes.css">
 
+    <style>
+
+        html{
+              scroll-behavior: smooth;
+        }
+
+        /* The wrapper div around the image */
+        .image-wrapper {
+            width: 100%; /* Make it take up full width of the item */
+            height: 0;
+            padding-bottom: 100%; /* 60% is for a 1000x600 image (aspect ratio of 5:3) */
+            position: relative;
+            overflow: hidden; /* Crop overflowed parts */
+        }
+
+        /* The image inside the wrapper, ensuring it scales properly */
+        .responsive-img {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* This ensures the image covers the space without distorting */
+        }
+
+        .fa.fa-star {
+          padding: 3px;
+        }
+
+
+    </style>
+
+
 </head>
     
     <body>
@@ -70,15 +104,6 @@
                                     <li><a href="contact.aspx">Contact Us</a></li>
                                 </ul>
                             </li>
-                            <!--<li class="submenu">
-                                <a href="javascript:;">Features</a>
-                                <ul>
-                                    <li><a href="#">Features Page 1</a></li>
-                                    <li><a href="#">Features Page 2</a></li>
-                                    <li><a href="#">Features Page 3</a></li>
-                                    <li><a href="#">Template Page 4</a></li>
-                                </ul>
-                            </li>-->
                             <li class="scroll-to-section"><a href="#explore">Explore</a></li>
                             <li class="scroll-to-section"  runat="server" id="DashboardBtn">
                                 <a href="/AdminDashboard.aspx">Dashboard</a>
@@ -134,7 +159,7 @@
                                                 <h4>Women</h4>
                                                 <p>Lorem ipsum dolor sit amet, conservisii ctetur adipiscing elit incid.</p>
                                                 <div class="main-border-button">
-                                                    <a href="#">Discover More</a>
+                                                    <a href="#women">Discover More</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -154,7 +179,7 @@
                                                 <h4>Men</h4>
                                                 <p>Lorem ipsum dolor sit amet, conservisii ctetur adipiscing elit incid.</p>
                                                 <div class="main-border-button">
-                                                    <a href="#">Discover More</a>
+                                                    <a href="#men">Discover More</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -174,7 +199,7 @@
                                                 <h4>Kids</h4>
                                                 <p>Lorem ipsum dolor sit amet, conservisii ctetur adipiscing elit incid.</p>
                                                 <div class="main-border-button">
-                                                    <a href="#">Discover More</a>
+                                                    <a href="#kids">Discover More</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -194,7 +219,7 @@
                                                 <h4>Accessories</h4>
                                                 <p>Lorem ipsum dolor sit amet, conservisii ctetur adipiscing elit incid.</p>
                                                 <div class="main-border-button">
-                                                    <a href="#">Discover More</a>
+                                                    <a href="#explore">Discover More</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -226,8 +251,8 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="men-item-carousel">
-                        <div class="owl-men-item owl-carousel">
-                            <div class="item">
+                        <div class="owl-men-item owl-carousel"  runat="server" id="MenContent">
+                            <!-- <div class="item">
                                 <div class="thumb">
                                     <div class="hover-content">
                                         <ul>
@@ -318,7 +343,7 @@
                                         <li><i class="fa fa-star"></i></li>
                                     </ul>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>

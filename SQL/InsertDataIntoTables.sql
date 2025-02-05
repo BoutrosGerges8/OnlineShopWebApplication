@@ -32,12 +32,54 @@ where product_id != 2
 update products
 set number_of_orders = 21
 where product_id = 1
+
+
+ALTER TABLE products
+ADD category VARCHAR(50) NULL;
+
+update products
+set category = 'Men''s'
+
+
+-- Identify the name of the constraint on the 'category' column
+EXEC sp_helpconstraint 'products';
+
+-- Drop the CHECK constraint on the 'category' column
+ALTER TABLE products
+DROP CONSTRAINT [ConstraintName];
+
+-- Replace [ConstraintName] with the actual name of the constraint found in the first step.
+
+-- (Optional) If you want to allow NULLs in the 'category' column:
+ALTER TABLE products
+ALTER COLUMN category VARCHAR(50) NULL;
+
+-- (Optional) If you want to remove the 'category' column completely:
+-- ALTER TABLE products DROP COLUMN category;
+
+
+
+ALTER TABLE products
+DROP COLUMN category;
+
+
+ALTER TABLE products
+DROP CONSTRAINT CK__products__catego__6E01572D;
+
+
+update products
+set number_of_orders = 21
+where product_id = 1
 */
+
 
 
 
 select * from products;
 
+select * from ordered;
 
+select * from purchases;
 
 select * from users;
+
