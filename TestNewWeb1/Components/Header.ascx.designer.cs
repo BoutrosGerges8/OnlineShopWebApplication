@@ -24,6 +24,24 @@ namespace TestNewWeb1.Components
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl DashboardBtn;
 
         /// <summary>
+        /// ordersPage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl ordersPage;
+
+        /// <summary>
+        /// N_Orders control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl N_Orders;
+
+        /// <summary>
         /// loginLink control.
         /// </summary>
         /// <remarks>

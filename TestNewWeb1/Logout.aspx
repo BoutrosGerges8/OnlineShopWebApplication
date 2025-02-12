@@ -4,7 +4,8 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title></title>
+    <link rel="icon" type="/image/x-icon" href="assets/icon/favicon.ico" />
+    <title>Logout</title>
 </head>
 <body>
     

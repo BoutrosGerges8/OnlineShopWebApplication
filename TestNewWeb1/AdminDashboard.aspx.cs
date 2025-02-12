@@ -8,6 +8,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.IO;
 using Microsoft.Ajax.Utilities;
+using System.Web.Services;
 
 namespace TestNewWeb1
 {
@@ -36,7 +37,13 @@ namespace TestNewWeb1
                 LoadUserData();
                 LoadProductsData();
                 LoadOrdersData();
+                //LoadOrdersData(OrderesTable);
+
             }
+
+
+            ClientScript.RegisterHiddenField("__EVENTTARGET", "");
+            ClientScript.RegisterHiddenField("__EVENTARGUMENT", "");
         }
 
 
@@ -135,41 +142,123 @@ namespace TestNewWeb1
         private void LoadOrdersData()
         {
             SqlConnectionClass sql = new SqlConnectionClass();
-            DataTable dt = sql.SelectAll("ordered");
+            //DataTable dt = sql.SelectAll("ordered");
+            //DataTable dt = sql.JoinTablesColumns(new string[] {"ordered", "products" }, 
+            //    new Dictionary<string, string>
+            //    {
+            //        {"ordered.product_id" , "products.product_id" }
+            //    }, new string[] { "short_description", "image_url_thumbnail", "order_id", "quantity",
+            //                    "order_date", "total_price", "status" });
+            DataTable dt = sql.JoinTables(new string[] {"ordered", "products", "users" }, 
+                new Dictionary<string, string>
+                {
+                    {"ordered.product_id" , "products.product_id" },
+                    {"ordered.user_id", "users.id" }
+                });
+
 
             string tableRows = "";
             foreach (DataRow row in dt.Rows)
             {
                 string id = row["order_id"].ToString(),
-                    quantity = row["quantity"].ToString(),
-                    order_date = row["order_date"].ToString(),
-                    total_price = row["total_price"].ToString(),
-                    status = row["status"].ToString();
-
+                       title = row["short_description"].ToString(),
+                       name = row["name"].ToString(),
+                       img1 = row["image_url_thumbnail"].ToString(),
+                       quantity = row["quantity"].ToString(),
+                       order_date = row["order_date"].ToString(),
+                       total_price = row["total_price"].ToString(),
+                       status = row["status"].ToString();
 
                 tableRows += $@"
-                        <tr>
-                            <td>{id}</td>
-                            <td>{quantity}</td>
-                            <td>{total_price}</td>
-                            <td>{order_date}</td>
-                            <td>{SelectedStatus(status)}</td>
-                        </tr>";
+                    <tr id='orderRow_{id}'>
+                        <td>{id}</td>
+                        <td>{name}</td>
+                        <td>{title}</td>
+                        <td class='py-1'>
+                            <img src='/AllUploadedImages/{img1}' alt='product image' />
+                        </td>
+                        <td>{quantity}</td>
+                        <td>{total_price}</td>
+                        <td>{order_date}</td>
+                        <td>{SelectedStatus(status, int.Parse(id))}</td>
+                        <td>
+                            <form runat=""server"">
+                                <button type=""button"" class=""btn btn-inverse-danger btn-fw"" runat=""server""
+                                      onclick=""confirmDelete({id})""
+                                >Delete</button>
+                            </form>
+                        </td>
+                    </tr>";
             }
+
 
             OrderesTable.InnerHtml = tableRows;
         }
 
 
-        private string SelectedStatus(string item)
+
+        [WebMethod]
+        public static string DeleteOrder(int orderId)
         {
+            SqlConnectionClass sql = new SqlConnectionClass();
+            try
+            {
+                sql.Delete("ordered", $"order_id = {orderId}");
+                return "Success";
+            }
+            catch
+            {
+                return "Error";
+            }
+        }
+
+
+        //private static string SelectedStatus(string item)
+        //{
+        //    return $@"
+        //        <select class=""form-control"" runat=""server"" id=""OrderStatus"">
+        //            <option {(item == "Pending" ? "selected" : "")}>Pending</option>
+        //            <option {(item == "Shipped" ? "selected" : "")}>Shipped</option>
+        //            <option {(item == "Delivered" ? "selected" : "")}>Delivered</option>
+        //        </select>
+        //    ";
+        //}
+
+        private static string SelectedStatus(string item, int orderId)
+        {
+            if(item == "Delivered")
+            {
+                return $"{item}";
+            }
             return $@"
-                <select class=""form-control"" runat=""server"" id=""OrderStatus"">
+                <select class=""form-control"" runat=""server"" id=""OrderStatus"" data-order-id=""{orderId}"" onchange=""StatusChanged(this)"">
                     <option {(item == "Pending" ? "selected" : "")}>Pending</option>
                     <option {(item == "Shipped" ? "selected" : "")}>Shipped</option>
                     <option {(item == "Delivered" ? "selected" : "")}>Delivered</option>
                 </select>
             ";
+        }
+
+
+
+        [WebMethod]
+        public static string UpdateOrderStatus(int orderId, string status)
+        {
+            SqlConnectionClass sql = new SqlConnectionClass();
+            try
+            {
+                sql.UpdateData("ordered", new Dictionary<string, object>
+                {
+                    {"status", status}
+                }, $"order_id = {orderId}");
+
+                return "Success"; // Return success message
+            }
+            catch (Exception ex)
+            {
+                // Log the error if needed
+                return "Error"; // Return error message
+            }
         }
 
 

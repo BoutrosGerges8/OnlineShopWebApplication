@@ -108,6 +108,10 @@
             width: auto !important;
             height: auto !important;
         }
+
+        .navbar .navbar-brand-wrapper .brand-logo-mini img{
+            width: auto !important;
+        }
     </style>
 
 
@@ -120,6 +124,12 @@
     <!-- inject:css -->
     <link rel="stylesheet" href="/DashBoardStyles/css/style.css">
 
+
+            <!-- SweetAlert2 CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.0/dist/sweetalert2.min.css">
+
+        <!-- SweetAlert2 JS -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.0/dist/sweetalert2.all.min.js"></script>
 
 
 </head>
@@ -270,8 +280,12 @@
         <!-- ***** Header Area Start ***** -->
         <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
             <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-                <a class="navbar-brand brand-logo me-5" href="/index.aspx"><img src="/assets/images/logo.png"
-                        class="me-2" alt="logo" /></a>
+                <a class="navbar-brand brand-logo me-5" href="/index.aspx">
+                    <img src="/assets/images/logo.png" class="me-2" alt="logo">
+                </a>
+                <a class="navbar-brand brand-logo-mini" href="/index.aspx">
+                    <img src="/assets/images/logo-2.png" alt="logo">
+                </a>
             </div>
             <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
                 <button class="navbar-toggler navbar-toggler align-self-center" type="button"
@@ -488,16 +502,20 @@
                         <div class="col-lg-12 grid-margin stretch-card">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="card-title">Products Table</h4>
+                                    <h4 class="card-title">Orders Table</h4>
                                     <div class="table-responsive">
                                         <table class="table table-striped">
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
+                                                    <th>User Name</th>
+                                                    <th>Order Title</th>
+                                                    <th>Order Image</th>
                                                     <th>Quantity</th>
                                                     <th>Total Price</th>
                                                     <th>Ordered Date</th>
                                                     <th>Status</th>
+                                                    <th>Delete order</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="OrderesTable" runat="server">
@@ -664,6 +682,134 @@
                 document.getElementById("AddItemContainer").style = "top: -100%;";
             }
         </script>
+
+        <script type="text/javascript">
+            function DeleteOrder(orderId) {
+                return $.ajax({  // Return the AJAX promise
+                    type: "POST",
+                    url: "/AdminDashboard.aspx/DeleteOrder",  // Correct URL for the WebMethod
+                    data: JSON.stringify({ orderId: orderId }), // Send the orderId as data
+                    contentType: "application/json; charset=utf-8",  // Ensure content type is set to JSON
+                    dataType: "json", // Expect JSON response
+                    success: function (response) {
+                        if (response.d === "Success") {
+                            location.reload(); // Reload the page immediately
+                        } else {
+                            Swal.fire({
+                                title: 'Error!',
+                                text: "Failed to delete the order",
+                                icon: 'error',
+                                confirmButtonText: 'Close'
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle error in AJAX call
+                        Swal.fire({
+                            title: 'AJAX Error',
+                            text: "Error: " + error,
+                            icon: 'error',
+                            confirmButtonText: 'Close'
+                        });
+                    }
+                });
+            }
+
+            function confirmDelete(orderId) {
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to undo this action!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#d33",
+                    cancelButtonColor: "#3085d6",
+                    confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        DeleteOrder(orderId);
+                    }
+                });
+            }
+
+
+            //function DeleteOrder(orderId) {
+            //    $.ajax({
+            //        type: "POST",
+            //        url: "/AdminDashboard.aspx/DeleteOrder",  // Correct URL for the WebMethod
+            //        data: JSON.stringify({ orderId: orderId }), // Send the orderId as data
+            //        contentType: "application/json; charset=utf-8",  // Ensure content type is set to JSON
+            //        dataType: "json", // Expect JSON response
+            //        success: function (response) {
+            //            if (response.d === "Success") {
+            //                Swal.fire({
+            //                    title: 'Success!',
+            //                    text: "Successfuly delete the order",
+            //                    icon: 'success',
+            //                    confirmButtonText: 'OK'
+            //                }).then((result) => {
+            //                    if (result.isConfirmed) {
+            //                        location.reload(); // Reload the page
+            //                    }
+            //                });;
+            //            } else {
+            //                console.log(responseData.message);
+            //                Swal.fire({
+            //                    title: 'Error!',
+            //                    text: "Failed to delete the order",
+            //                    icon: 'error',
+            //                    confirmButtonText: 'Close'
+            //                });
+            //            }
+            //        },
+            //        error: function (xhr, status, error) {
+            //            // Handle error in AJAX call
+            //            alert("AJAX error: " + error);
+            //        }
+            //    });
+
+            //}
+        </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+    <script type="text/javascript">
+        function StatusChanged(selectElement) {
+            var selectedStatus = selectElement.value; // Get the selected value
+            var orderId = selectElement.getAttribute("data-order-id"); // Get the associated order ID
+
+            // Call the WebMethod to update the status via AJAX
+            $.ajax({
+                type: "POST",
+                url: "/AdminDashboard.aspx/UpdateOrderStatus",  // WebMethod URL
+                data: JSON.stringify({ orderId: orderId, status: selectedStatus }), // Send orderId and status as JSON
+                contentType: "application/json; charset=utf-8",  // Set content type to JSON
+                dataType: "json",  // Expect JSON response
+                success: function (response) {
+                    if (response.d === "Success") {
+                        //console.log("Status updated successfully!");
+                        //Swal.fire({
+                        //    title: 'Success!',
+                        //    text: "Order status updated successfully",
+                        //    icon: 'success',
+                        //    confirmButtonText: 'OK'
+                        //});
+                    } else {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: "Failed to update order status",
+                            icon: 'error',
+                            confirmButtonText: 'Close'
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert("AJAX error: " + error);
+                }
+            });
+        }
+    </script>
+
+
 
         <script src="./DashBoardStyles/js/file-upload.js"></script>
 

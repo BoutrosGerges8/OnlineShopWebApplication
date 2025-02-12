@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web;
+using System.Web.Services.Description;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -29,8 +30,17 @@ namespace TestNewWeb1
 
         protected void btnLogin_Click(object sender, EventArgs e)
         {
+
             string EmailStr = email.Value.Trim(),
                 PasswordStr = password.Value.Trim();
+
+
+            // send verification email
+            EmailSender emailSender = new EmailSender("smtp.gmail.com", 587, "your-email@example.com", "your-email-password");
+            bool isSent = emailSender.SendEmail(EmailStr, "Verification", "103");
+
+
+
 
             SqlConnectionClass sql = new SqlConnectionClass();
             bool exsits = sql.RowDataAllExists("users", new Dictionary<string, object>
@@ -61,7 +71,22 @@ namespace TestNewWeb1
                     }
                     else
                     {
-                        Response.Redirect($"/index.aspx");
+                        //Response.Redirect($"/index.aspx");
+
+
+
+                        string returnUrl = Session["ReturnUrl"] as string;
+                        Session["ReturnUrl"] = null;
+
+                        if (!string.IsNullOrEmpty(returnUrl))
+                        {
+                            Response.Redirect(returnUrl);
+                        }
+                        else
+                        {
+                            Response.Redirect($"/index.aspx");
+                        }
+
                     }
                 }
                 else

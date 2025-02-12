@@ -62,6 +62,30 @@
 
     </style>
 
+    
+    <style>
+        .scroll-to-section{
+            position: relative;
+        }
+        .N_orders {
+            color: white;
+            background-color: red;
+            font-size: 12px;
+            position: absolute;
+            top: -7%;
+            right: 4%;
+            padding: 0 6px;
+    /*        width: 15px;
+            height: 15px;*/
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            align-content: center;
+            margin: 0;
+            font-weight: bold;
+        }
+    </style>
+
 
 </head>
     
@@ -107,7 +131,10 @@
                             <li class="scroll-to-section"><a href="#explore">Explore</a></li>
                             <li class="scroll-to-section"  runat="server" id="DashboardBtn">
                                 <a href="/AdminDashboard.aspx">Dashboard</a>
-
+                            </li>
+                            <li class="scroll-to-section" id="ordersPage"  runat="server">
+                                <a href="orders.aspx">Orders</a>
+                                <p class="N_orders" runat="server" id="N_Orders">0</p>
                             </li>
                             <li class="scroll-to-section-2" id="loginLink"  runat="server"><a href="login.aspx">Login</a></li>
                             <li class="scroll-to-section-2" id="signOut" runat="server">

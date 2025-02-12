@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Web.UI;
 
 namespace TestNewWeb1.Components
@@ -12,6 +13,7 @@ namespace TestNewWeb1.Components
             loginLink.Visible = !res;
             signOut.Visible = res;
             DashboardBtn.Visible = res && TokenManager.IsUserAdmin(Session);
+            ordersPage.Visible = res && !TokenManager.IsUserAdmin(Session);
 
             if (Request.Url.ToString().Contains("logout"))
             {
@@ -23,8 +25,18 @@ namespace TestNewWeb1.Components
                 Response.Redirect(Request.Url.AbsoluteUri.Split('?')[0]);
             }
 
+            if (res)
+            {
+                N_Orders.InnerHtml = $"{getNOrders()}";
+            }
+        }
 
-            
+        private int getNOrders()
+        {
+            SqlConnectionClass sql = new SqlConnectionClass();
+            DataTable dt = sql.SelectColumnsCondition("ordered", 
+                new string[] {"order_id"}, $"user_id = {TokenManager.GetUserIdFromSession(Session)} AND status <> 'Delivered'");
+            return dt.Rows.Count;
         }
     }
 }

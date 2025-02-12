@@ -13,5 +13,14 @@ namespace TestNewWeb1
 
     public partial class contact
     {
+
+        /// <summary>
+        /// HeaderControl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::TestNewWeb1.Components.Header HeaderControl;
     }
 }

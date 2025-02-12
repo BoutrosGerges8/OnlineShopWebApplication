@@ -79,6 +79,7 @@
     <!-- ***** Header Area Start ***** -->
     <uc:Header ID="HeaderControl" runat="server" />
 
+
     <!-- ***** Header Area End ***** -->
 
     <!-- ***** Main Banner Area Start ***** -->
@@ -456,6 +457,8 @@
                             text: responseData.message,
                             icon: 'success',
                             confirmButtonText: 'OK'
+                        }).then((res) => {
+                            location.reload();
                         });
                     } else {
                         // Check if the redirectTo key exists in responseData
