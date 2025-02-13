@@ -73,6 +73,8 @@
         }
     </style>
 
+        <link rel="stylesheet" href="/assets/css/ProductsIteme.css">
+
     </head>
     
     <body>
@@ -107,6 +109,8 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
+                                                <th>Product Name</th>
+                                                <th>Product Image</th>
                                                 <th>Quantity</th>
                                                 <th>Total Price</th>
                                                 <th>Ordered Date</th>

@@ -71,22 +71,7 @@ namespace TestNewWeb1
                     }
                     else
                     {
-                        //Response.Redirect($"/index.aspx");
-
-
-
-                        string returnUrl = Session["ReturnUrl"] as string;
-                        Session["ReturnUrl"] = null;
-
-                        if (!string.IsNullOrEmpty(returnUrl))
-                        {
-                            Response.Redirect(returnUrl);
-                        }
-                        else
-                        {
-                            Response.Redirect($"/index.aspx");
-                        }
-
+                        Response.Redirect($"/index.aspx");
                     }
                 }
                 else

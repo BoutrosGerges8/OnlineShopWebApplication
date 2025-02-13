@@ -201,14 +201,14 @@ namespace TestNewWeb1
                 });
 
 
-                var data = sql.SelectAllCondition("products", $"product_id = {productId}");
-                DataRow row = data.Rows[0];
-                int currentOrders = int.Parse(row["number_of_orders"].ToString());
-                int updatedOrders = currentOrders - quantity;
-                sql.UpdateData("products", new Dictionary<string, object>
-                                {
-                                    {"number_of_orders", updatedOrders }
-                                }, $"product_id = {productId}");
+                //var data = sql.SelectAllCondition("products", $"product_id = {productId}");
+                //DataRow row = data.Rows[0];
+                //int currentOrders = int.Parse(row["number_of_orders"].ToString());
+                //int updatedOrders = currentOrders - quantity;
+                //sql.UpdateData("products", new Dictionary<string, object>
+                //                {
+                //                    {"number_of_orders", updatedOrders }
+                //                }, $"product_id = {productId}");
 
 
                 return new JavaScriptSerializer().Serialize(new { success = true, message = "Product added to cart" });

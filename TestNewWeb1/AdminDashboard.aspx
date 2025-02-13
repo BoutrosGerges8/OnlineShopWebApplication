@@ -44,75 +44,13 @@
         .ButtonAddItem button{
             color: white;
         }
-    </style>
-
-
-    <style>
-        /* Style for the delete button */
-        .delete-image-btn {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            background-color: red;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            font-size: 14px;
-            padding: 5px;
-            cursor: pointer;
-            display: block;
-            width: 25px;
-            height: 25px;
-        }
-
-        .image-container{
-            position: relative;
-        }
-
-        /* To position the image container */
-        .add-item-card {
-            position: relative;
-            display: flex;
-            background-color: #cfcdcdb5;
-        }
-
-        /* Ensure image is displayed within the container */
-        .add-item-card img {
-            max-width: 20%;
-            max-height: 20%;
-            object-fit: contain;
-            display: block;
-            margin: 0 auto;
-        }
-
-        .add-item-card{
-            padding: 30px;
-            position: absolute;
-            width: 100vw;
-            min-height: 100vh;
-            z-index: 9999;
-            top: -100%;
-            transition-duration: 2s;
-            transition-property: top;
-        }
-
-        .table tbody td{
-            max-width: 100px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .table td img{
-            border-radius: 10% !important;
-            max-width: 50px !important;
-            max-height: 50px !important;
-            width: auto !important;
-            height: auto !important;
-        }
-
-        .navbar .navbar-brand-wrapper .brand-logo-mini img{
-            width: auto !important;
+        .file-upload-info{
+            height: 100%;
         }
     </style>
+
+
+    <link rel="stylesheet" href="/assets/css/ProductsIteme.css">
 
 
     <!-- plugins:css -->
@@ -155,6 +93,7 @@
                         style="display: block;" onclick="HideAddWindowFunction()">X</button>
                     <h1 class="card-title">Add New Item</h1>
                     <form class="form-sample" runat="server">
+                        <input runat="server" id="ProId"/>
                         <p class="card-description">
                             Personal info
                         </p>
@@ -225,7 +164,7 @@
                                 <label>Product image</label>
                                 <!-- Image container with delete button -->
                                 <div class="image-container">
-                                    <img id="productImagePreview" style="display:none;" alt="Image Preview">
+                                    <img id="productImagePreview" style="display:none;" alt="Image Preview" runat="server">
                                     <!-- Delete button -->
                                     <button type="button" class="delete-image-btn" id="deleteProductImage" style="display:none;">X</button>
                                 </div>
@@ -246,7 +185,7 @@
                                 <label>Image from the other side</label>
                                 <!-- Image container with delete button -->
                                 <div class="image-container">
-                                    <img id="sideImagePreview" style="display:none;" alt="Image Preview">
+                                    <img id="sideImagePreview" style="display:none;" alt="Image Preview" runat="server">
                                     <!-- Delete button -->
                                     <button type="button" class="delete-image-btn" id="deleteSideImage" style="display:none;">X</button>
                                 </div>
@@ -263,8 +202,10 @@
                             </div>
                         </div>
                         <div class="row">
-                            <asp:Button ID="ButtonAddProduct" runat="server" Text="Add" 
-                                OnClick="ButtonAdd_Click" CssClass="btn btn-primary" />
+                            <asp:Button ID="ButtonAddProduct" runat="server" Text="Add"
+                                CssClass="btn btn-primary" OnClick="ButtonAdd_Click" style="display:none" />
+                            <asp:Button ID="ButtonEditProduct" runat="server" Text="Edit"
+                                CssClass="btn btn-primary" OnClick="ButtonEdit_Click" style="display:none" />
                         </div>
                     </form>
                 </div>
@@ -485,13 +426,13 @@
                                                 <!-- Rows will be populated dynamically from C# -->
                                             </tbody>
                                         </table>
-                                        <div class="ButtonAddItem">
-                                            <button type="button"  runat="server" id="ButtonAddItem"
-                                                 class="btn btn-primary btn-rounded btn-icon"
-                                                 onclick="AddNewProduct()">
-                                                 +
-                                             </button>
-                                        </div>
+                                    </div>
+                                    <div class="ButtonAddItem">
+                                        <button type="button"  runat="server" id="ButtonAddItem"
+                                                class="btn btn-primary btn-rounded btn-icon"
+                                                onclick="AddNewProduct()">
+                                                +
+                                            </button>
                                     </div>
                                 </div>
                       
@@ -672,14 +613,76 @@
                 document.getElementById('sideImageInput').value = ''; // Clear the file input
                 document.getElementById("imageName2").value = "";
             });
+
+
+            function loadImageFromPath(imageId, deleteBtnId, imagePath) {
+                const imgElement = document.getElementById(imageId);
+                const deleteBtn = document.getElementById(deleteBtnId);
+
+                imgElement.src = imagePath;
+                imgElement.style.display = 'block';
+                deleteBtn.style.display = 'block';
+            }
+            function deleteImage(imageId, deleteBtnId) {
+                const imgElement = document.getElementById(imageId);
+                const deleteBtn = document.getElementById(deleteBtnId);
+
+                imgElement.src = ''; // Reset the image source
+                imgElement.style.display = 'none'; // Hide the image
+                deleteBtn.style.display = 'none'; // Hide the delete button
+            }
         </script>
 
         <script>
             function AddNewProduct() {
+                document.getElementById("ButtonAddProduct").style = "display:block";
+                document.getElementById("ButtonEditProduct").style = "display:none";
                 document.getElementById("AddItemContainer").style = "top: 0;";
+
+                document.getElementById("ProTitle").value = "";
+                document.getElementById("ProShortDesc").value = "";
+                document.getElementById("ProLongDesc").value = "";
+                document.getElementById("ProPrice").value = "";
+                document.getElementById("ProQuantity").value = "";
+                document.getElementById("OrderStatus").selectedIndex = 0;
+
+                const productImageInput = document.getElementById('productImageInput');
+                const sideImageInput = document.getElementById('sideImageInput');
+                productImageInput.setAttribute('required');
+                sideImageInput.setAttribute('required');
+
+                document.body.style = "max-height: 100vh;";
             }
             function HideAddWindowFunction() {
                 document.getElementById("AddItemContainer").style = "top: -100%;";
+                document.body.style = "max-height: auto;";
+
+                deleteImage("productImagePreview", "deleteProductImage");
+                deleteImage("sideImagePreview", "deleteSideImage");
+            }
+            function ShowAddWindowFunctionAsEdit(id, title, desc1, desc2, price,
+                           no, img1, img2, category) {
+                document.getElementById("ButtonAddProduct").style = "display:none";
+                document.getElementById("ButtonEditProduct").style = "display:block";
+
+                document.getElementById("ProId").value = id;
+                document.getElementById("ProTitle").value = title;
+                document.getElementById("ProShortDesc").value = desc1;
+                document.getElementById("ProLongDesc").value = desc2;
+                document.getElementById("ProPrice").value = price;
+                document.getElementById("ProQuantity").value = no;
+                document.getElementById("OrderStatus").selectedIndex = category;
+                loadImageFromPath("productImagePreview", "deleteProductImage", "/AllUploadedImages/" + img1);
+                loadImageFromPath("sideImagePreview", "deleteSideImage", "/AllUploadedImages/" + img2);
+
+                const productImageInput = document.getElementById('productImageInput');
+                const sideImageInput = document.getElementById('sideImageInput');
+                productImageInput.removeAttribute('required');
+                sideImageInput.removeAttribute('required');
+
+                document.getElementById("AddItemContainer").style = "top: 0;";
+
+                document.body.style = "max-height: 100vh;";
             }
         </script>
 
@@ -715,7 +718,38 @@
                 });
             }
 
-            function confirmDelete(orderId) {
+            function DeleteProduct(proId) {
+                return $.ajax({  // Return the AJAX promise
+                    type: "POST",
+                    url: "/AdminDashboard.aspx/DeleteProduct",  // Correct URL for the WebMethod
+                    data: JSON.stringify({ proId: proId }), // Send the orderId as data
+                    contentType: "application/json; charset=utf-8",  // Ensure content type is set to JSON
+                    dataType: "json", // Expect JSON response
+                    success: function (response) {
+                        if (response.d === "Success") {
+                            location.reload(); // Reload the page immediately
+                        } else {
+                            Swal.fire({
+                                title: 'Error!',
+                                text: "Failed to delete the order",
+                                icon: 'error',
+                                confirmButtonText: 'Close'
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle error in AJAX call
+                        Swal.fire({
+                            title: 'AJAX Error',
+                            text: "Error: " + error,
+                            icon: 'error',
+                            confirmButtonText: 'Close'
+                        });
+                    }
+                });
+            }
+
+            function confirmAction(orderId, actionFunction) {
                 Swal.fire({
                     title: "Are you sure?",
                     text: "You won't be able to undo this action!",
@@ -723,13 +757,29 @@
                     showCancelButton: true,
                     confirmButtonColor: "#d33",
                     cancelButtonColor: "#3085d6",
-                    confirmButtonText: "Yes, delete it!"
+                    confirmButtonText: "Yes, proceed!"
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        DeleteOrder(orderId);
+                        actionFunction(orderId);
                     }
                 });
             }
+
+            //function confirmDelete(orderId) {
+            //    Swal.fire({
+            //        title: "Are you sure?",
+            //        text: "You won't be able to undo this action!",
+            //        icon: "warning",
+            //        showCancelButton: true,
+            //        confirmButtonColor: "#d33",
+            //        cancelButtonColor: "#3085d6",
+            //        confirmButtonText: "Yes, delete it!"
+            //    }).then((result) => {
+            //        if (result.isConfirmed) {
+            //            DeleteOrder(orderId);
+            //        }
+            //    });
+            //}
 
 
             //function DeleteOrder(orderId) {

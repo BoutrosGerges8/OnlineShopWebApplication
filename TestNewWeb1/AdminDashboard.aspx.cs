@@ -118,37 +118,59 @@ namespace TestNewWeb1
 
 
                 tableRows += $@"
-                        <tr>
-                            <td>{id}</td>
-                            <td>{title}</td>
-                            <td>{desc1}</td>
-                            <td>{desc2}</td>
-                            <td>${price}</td>
-                            <td>{no}</td>
-                            <td class='py-1'>
-                                <img src='/AllUploadedImages/{img1}' alt='product image' />
-                            </td>
-                            <td class='py-1'>
-                                <img src='/AllUploadedImages/{img2}' alt='other side image' />
-                            </td>
-                            <td>{category}</td>
-                            <td>{rate}</td>
-                        </tr>";
+                    <tr>
+                        <td>{id}</td>
+                        <td>{title}</td>
+                        <td>{desc1}</td>
+                        <td>{desc2}</td>
+                        <td>${price}</td>
+                        <td>{no}</td>
+                        <td class=""py-1"">
+                            <img src=""/AllUploadedImages/{img1}"" alt=""product image"" />
+                        </td>
+                        <td class=""py-1"">
+                            <img src=""/AllUploadedImages/{img2}"" alt=""other side image"" />
+                        </td>
+                        <td>{category}</td>
+                        <td>{rate}</td>
+                        <td>
+                            <form runat=""server"">
+                                <button type=""button"" class=""btn btn-inverse-success btn-fw"" runat=""server""
+                                      onclick=""ShowAddWindowFunctionAsEdit(&quot;{id}&quot;, &quot;{title}&quot;,
+                                                    &quot;{desc1}&quot;, &quot;{desc2}&quot;, 
+                                                    &quot;{price}&quot;, &quot;{no}&quot;, &quot;{img1}&quot;, 
+                                                    &quot;{img2}&quot;, {IndexOf(category)})""
+                                >Edit</button>
+                            </form>
+                        </td>
+                        <td>
+                            <form runat=""server"">
+                                <button type=""button"" class=""btn btn-inverse-danger btn-fw"" runat=""server""
+                                      onclick=""confirmAction({id}, DeleteProduct)""
+                                >Delete</button>
+                            </form>
+                        </td>
+                    </tr>";
+
             }
 
             productsTableBody.InnerHtml = tableRows;
         }
 
+        private int IndexOf(string value)
+        {
+            int i = 0;
+            foreach(string item in Categories)
+            {
+                if (item.Equals(value, StringComparison.OrdinalIgnoreCase)) return i;
+                i++;
+            }
+            return -1;
+        }
+
         private void LoadOrdersData()
         {
             SqlConnectionClass sql = new SqlConnectionClass();
-            //DataTable dt = sql.SelectAll("ordered");
-            //DataTable dt = sql.JoinTablesColumns(new string[] {"ordered", "products" }, 
-            //    new Dictionary<string, string>
-            //    {
-            //        {"ordered.product_id" , "products.product_id" }
-            //    }, new string[] { "short_description", "image_url_thumbnail", "order_id", "quantity",
-            //                    "order_date", "total_price", "status" });
             DataTable dt = sql.JoinTables(new string[] {"ordered", "products", "users" }, 
                 new Dictionary<string, string>
                 {
@@ -184,7 +206,7 @@ namespace TestNewWeb1
                         <td>
                             <form runat=""server"">
                                 <button type=""button"" class=""btn btn-inverse-danger btn-fw"" runat=""server""
-                                      onclick=""confirmDelete({id})""
+                                      onclick=""confirmAction({id}, DeleteOrder)""
                                 >Delete</button>
                             </form>
                         </td>
@@ -209,6 +231,47 @@ namespace TestNewWeb1
             catch
             {
                 return "Error";
+            }
+        }
+        [WebMethod]
+        public static string DeleteProduct(int proId)
+        {
+            SqlConnectionClass sql = new SqlConnectionClass();
+            try
+            {
+                // Retrieve the image file paths from the database
+                DataTable dt = sql.SelectColumnsCondition("products", new string[] { "image_url_thumbnail", "image_url_full" },
+                    $"product_id = {proId}");
+
+                if (dt.Rows.Count > 0)
+                {
+                    // Get the image file names from the database
+                    string imageThumbnail = dt.Rows[0]["image_url_thumbnail"].ToString();
+                    string imageFull = dt.Rows[0]["image_url_full"].ToString();
+
+                    // Define the folder path where images are stored
+                    string folderPath = HttpContext.Current.Server.MapPath("~/AllUploadedImages/");
+
+                    // Check if the image files exist and delete them
+                    if (File.Exists(Path.Combine(folderPath, imageThumbnail)))
+                    {
+                        File.Delete(Path.Combine(folderPath, imageThumbnail));
+                    }
+
+                    if (File.Exists(Path.Combine(folderPath, imageFull)))
+                    {
+                        File.Delete(Path.Combine(folderPath, imageFull));
+                    }
+                }
+
+                // Now, delete the product record from the database
+                sql.Delete("products", $"product_id = {proId}");
+                return "Success";
+            }
+            catch (Exception ex)
+            {
+                // Log or handle exception if necessary
+                return "Error: " + ex.Message;
             }
         }
 
@@ -259,6 +322,101 @@ namespace TestNewWeb1
                 // Log the error if needed
                 return "Error"; // Return error message
             }
+        }
+
+
+        protected void ButtonEdit_Click(object sender, EventArgs e)
+        {
+            // Define the folder path to save the image
+            string folderPath = Server.MapPath("~/AllUploadedImages/");
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath); // Create the folder if it doesn't exist
+            }
+
+            string filePathImg1 = "", filePathImg2 = "";
+            string fileNameImg1 = "", fileNameImg2 = "";
+
+            // Assuming you have the current image paths in your database or elsewhere
+            string currentFileImg1 = productImagePreview.Src.ToString(); // Example function to fetch current image URL
+            string currentFileImg2 = sideImagePreview.Src.ToString();
+
+            Console.WriteLine(currentFileImg1);
+
+            // Check if the "productImageInput" file input has been uploaded
+            if (Request.Files["productImageInput"] != null && Request.Files["productImageInput"].ContentLength > 0)
+            {
+                var uploadedFile = Request.Files["productImageInput"];
+                string fileExtension = Path.GetExtension(uploadedFile.FileName).ToLower();
+                if (fileExtension == ".jpg" || fileExtension == ".jpeg" || fileExtension == ".png" || fileExtension == ".gif")
+                {
+                    try
+                    {
+                        fileNameImg1 = "product_" + Guid.NewGuid().ToString() + fileExtension;
+                        filePathImg1 = Path.Combine(folderPath, fileNameImg1);
+                        uploadedFile.SaveAs(filePathImg1);
+                    }
+                    catch (Exception ex)
+                    {
+                        Response.Write("Error uploading file: " + ex.Message);
+                    }
+                }
+                else
+                {
+                    Response.Write("Only image files (.jpg, .jpeg, .png, .gif) are allowed.");
+                }
+            }
+            else
+            {
+                // If no new image is uploaded, retain the current image path
+                fileNameImg1 = currentFileImg1;
+            }
+
+            // Check if the "sideImageInput" file input has been uploaded
+            if (Request.Files["sideImageInput"] != null && Request.Files["sideImageInput"].ContentLength > 0)
+            {
+                var uploadedFile = Request.Files["sideImageInput"];
+                string fileExtension = Path.GetExtension(uploadedFile.FileName).ToLower();
+                if (fileExtension == ".jpg" || fileExtension == ".jpeg" || fileExtension == ".png" || fileExtension == ".gif")
+                {
+                    try
+                    {
+                        fileNameImg2 = "side_" + Guid.NewGuid().ToString() + fileExtension;
+                        filePathImg2 = Path.Combine(folderPath, fileNameImg2);
+                        uploadedFile.SaveAs(filePathImg2);
+                    }
+                    catch (Exception ex)
+                    {
+                        Response.Write("Error uploading file: " + ex.Message);
+                    }
+                }
+                else
+                {
+                    Response.Write("Only image files (.jpg, .jpeg, .png, .gif) are allowed.");
+                }
+            }
+            else
+            {
+                // If no new image is uploaded, retain the current image path
+                fileNameImg2 = currentFileImg2;
+            }
+
+            // Update the database (do not overwrite existing images unless new ones are uploaded)
+            SqlConnectionClass sql = new SqlConnectionClass();
+            sql.UpdateData("products", new Dictionary<string, object>
+                {
+                    {"product_name", ProTitle.Value.Trim() },
+                    {"short_description", ProShortDesc.Value.Trim() },
+                    {"long_description", ProLongDesc.Value.Trim() },
+                    {"price", ProPrice.Value.Trim() },
+                    {"number_of_orders", ProQuantity.Value.Trim() },
+                    {"image_url_thumbnail", fileNameImg1 },
+                    {"image_url_full", fileNameImg2 },
+                    {"category", Categories[ProCategory.SelectedIndex]}
+                }, $"product_id = {ProId.Value}");
+
+            ClearAllFields();
+            Response.Redirect("/AdminDashboard.aspx");
         }
 
 

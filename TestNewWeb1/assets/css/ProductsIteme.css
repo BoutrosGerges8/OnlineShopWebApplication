@@ -1,0 +1,65 @@
+﻿/* Style for the delete button */
+.delete-image-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 14px;
+    padding: 5px;
+    cursor: pointer;
+    display: block;
+    width: 25px;
+    height: 25px;
+}
+
+.image-container {
+    position: relative;
+}
+
+/* To position the image container */
+.add-item-card {
+    position: relative;
+    display: flex;
+    background-color: #cfcdcdb5;
+}
+
+/* Ensure image is displayed within the container */
+.add-item-card img {
+    max-width: 20%;
+    max-height: 20%;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+}
+
+.add-item-card {
+    padding: 30px;
+    position: absolute;
+    width: 100vw;
+    min-height: 100vh;
+    z-index: 9999;
+    top: -100%;
+    transition-duration: 2s;
+    transition-property: top;
+}
+
+.table tbody td {
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.table td img {
+    border-radius: 10% !important;
+    max-width: 50px !important;
+    max-height: 50px !important;
+    width: auto !important;
+    height: auto !important;
+}
+
+.navbar .navbar-brand-wrapper .brand-logo-mini img {
+    width: auto !important;
+}

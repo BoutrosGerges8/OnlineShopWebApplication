@@ -16,9 +16,10 @@ namespace TestNewWeb1
         {
             if (!TokenManager.IsLoggedInAlready(Session))
             {
-                Session["ReturnUrl"] = Request.Url?.ToString();
-
                 Response.Redirect("/index.aspx");
+            }else if (TokenManager.IsUserAdmin(Session))
+            {
+                Response.Redirect("/DashBoard.aspx");
             }
 
 
@@ -32,13 +33,20 @@ namespace TestNewWeb1
         private void LoadOrdersData()
         {
             SqlConnectionClass sql = new SqlConnectionClass();
-            DataTable dt = sql.SelectAllCondition("ordered", $"user_id = {TokenManager.GetUserIdFromSession(Session)}");
+            //DataTable dt = sql.SelectAllCondition("ordered", $"user_id = {TokenManager.GetUserIdFromSession(Session)}");
+            DataTable dt = sql.JoinTables(new string[] { "ordered", "products" },
+                    new Dictionary<string, string>
+                    {
+                                    {"ordered.product_id" , "products.product_id" }
+                    });
 
             string tableRows = "";
             int i = 0;
             foreach (DataRow row in dt.Rows)
             {
                 string id = row["order_id"].ToString(),
+                       title = row["short_description"].ToString(),
+                       img1 = row["image_url_thumbnail"].ToString(),
                        quantity = row["quantity"].ToString(),
                        order_date = row["order_date"].ToString(),
                        total_price = row["total_price"].ToString(),
@@ -47,6 +55,10 @@ namespace TestNewWeb1
                 tableRows += $@"
                     <tr id='orderRow_{id}'>
                         <td>{++i}</td>
+                        <td>{title}</td>
+                        <td class='py-1'>
+                            <img src='/AllUploadedImages/{img1}' alt='product image' />
+                        </td>
                         <td>{quantity}</td>
                         <td>{total_price}</td>
                         <td>{order_date}</td>

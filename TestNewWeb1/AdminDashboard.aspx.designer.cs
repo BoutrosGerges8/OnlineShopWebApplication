@@ -24,6 +24,15 @@ namespace TestNewWeb1
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl AddItemContainer;
 
         /// <summary>
+        /// ProId control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputText ProId;
+
+        /// <summary>
         /// ProTitle control.
         /// </summary>
         /// <remarks>
@@ -78,6 +87,15 @@ namespace TestNewWeb1
         protected global::System.Web.UI.HtmlControls.HtmlInputText ProLongDesc;
 
         /// <summary>
+        /// productImagePreview control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlImage productImagePreview;
+
+        /// <summary>
         /// productImageInput control.
         /// </summary>
         /// <remarks>
@@ -94,6 +112,15 @@ namespace TestNewWeb1
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputText imageName1;
+
+        /// <summary>
+        /// sideImagePreview control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlImage sideImagePreview;
 
         /// <summary>
         /// sideImageInput control.
@@ -121,6 +148,15 @@ namespace TestNewWeb1
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button ButtonAddProduct;
+
+        /// <summary>
+        /// ButtonEditProduct control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ButtonEditProduct;
 
         /// <summary>
         /// productsTableBody control.

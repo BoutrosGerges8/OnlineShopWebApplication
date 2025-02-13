@@ -357,6 +357,7 @@
     <Content Include="assets\css\login_styles.css" />
     <Content Include="assets\css\MyCSSCodes.css" />
     <Content Include="assets\css\owl-carousel.css" />
+    <Content Include="assets\css\ProductsIteme.css" />
     <Content Include="assets\css\templatemo-hexashop.css" />
     <Content Include="assets\fonts\flexslider-icon.svg" />
     <Content Include="assets\fonts\fontawesome-webfont.svg" />
