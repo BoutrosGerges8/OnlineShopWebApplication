@@ -92,23 +92,24 @@
     <!-- Global Init -->
     <script src="assets/js/custom.js"></script>
 
-    <script src="assets/js/ErrorMessage.js"></script>
+    <!-- <script src="assets/js/ErrorMessage.js"></script>  -->
 
     <script>
 
-        $(function () {
-            var selectedClass = "";
-            $("p").click(function () {
-                selectedClass = $(this).attr("data-rel");
-                $("#portfolio").fadeTo(50, 0.1);
-                $("#portfolio div").not("." + selectedClass).fadeOut();
-                setTimeout(function () {
-                    $("." + selectedClass).fadeIn();
-                    $("#portfolio").fadeTo(50, 1);
-                }, 500);
+        //$(function () {
+        //    var selectedClass = "";
+        //    $("p").click(function () {
+        //        selectedClass = $(this).attr("data-rel");
+        //        $("#portfolio").fadeTo(50, 0.1);
+        //        $("#portfolio div").not("." + selectedClass).fadeOut();
+        //        setTimeout(function () {
+        //            $("." + selectedClass).fadeIn();
+        //            $("#portfolio").fadeTo(50, 1);
+        //        }, 500);
 
-            });
-        });
+        //    });
+        //});
+
 
     </script>
 
@@ -117,6 +118,18 @@
         function showErrorAlert() {
             document.getElementById("errorAlert").style.display = "block";
         }
+
+
+        window.onload = function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const errorMessage = urlParams.get("Error");
+
+            if (errorMessage) {
+                showErrorAlert(); // Call the function to display the error alert
+            }
+        };
+
+
     </script>
 
 </body>

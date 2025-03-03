@@ -11,7 +11,9 @@ namespace TestNewWeb1
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            // Clear user credentials and last page URL from the session
             TokenManager.DeleteCredentialsFromSession(Session);
+            TokenManager.ClearLastPageUrl(Session);
             Response.Redirect("/index.aspx");
         }
     }

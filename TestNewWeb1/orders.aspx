@@ -1,5 +1,6 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="orders.aspx.cs" Inherits="TestNewWeb1.orders" %>
 <%@ Register Src="~/Components/Header.ascx" TagPrefix="uc" TagName="Header" %>
+<%@ Register Src="~/Components/Footer.ascx" TagPrefix="uc" TagName="Footer" %>
 
 <!DOCTYPE html>
 
@@ -68,10 +69,90 @@
             display: flex;
             align-items: center;
         }
-        .container-fluid .main-panel {
-            width: 100%;
-        }
+            .container-fluid .main-panel {
+                width: 100%;
+            }
     </style>
+
+        <!--<style>
+        /* The modal overlay covers the entire page */
+        #modalOverlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+        }
+        /* The enlarged image is centered */
+        #modalOverlay img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 80%;
+            max-height: 80%;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+        .QrImg {
+            cursor: pointer;
+        }
+    </style> -->
+
+
+        <style>
+    /* The modal overlay covers the entire page */
+    #modalOverlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 1000;
+        text-align: center;
+    }
+    /* The enlarged image is centered */
+    #modalOverlay img {
+        position: absolute;
+        top: 40%; /* Adjusted to make space for the button */
+        left: 50%;
+        transform: translate(-50%, -50%);
+        max-width: 80%;
+        max-height: 80%;
+        box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+    /* Style for the Save button */
+    #saveButton {
+        position: absolute;
+        top: 75%; /* Positioned below the QR code */
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    #saveButton:hover {
+        background-color: #45a049;
+    }
+    .QrImg {
+        cursor: pointer;
+    }
+</style>
+
+<!-- Modal Overlay -->
+<div id="modalOverlay">
+    <img id="modalImage" src="" alt="Enlarged QR Code" />
+    <button id="saveButton">Save</button>
+</div>
+
 
         <link rel="stylesheet" href="/assets/css/ProductsIteme.css">
 
@@ -94,11 +175,20 @@
     <uc:Header ID="HeaderControl" runat="server" />
     <!-- ***** Header Area End ***** -->
 
+    <!-- <div id="modalOverlay">
+        <img id="modalImage" src="""" alt="Enlarged QR Code" />
+    </div> -->
+
+    <div id="modalOverlay">
+        <img id="modalImage" src="" alt="Enlarged QR Code" />
+        <button id="saveButton">Save</button>
+    </div>
+
 
     <!-- ***** Orders Start ***** -->
     <div class="container-fluid page-body-wrapper">
-        <div class="main-panel" style="margin-top: 100px">
-            <div class="content-wrapper">
+        <div class="main-panel">
+            <div class="content-wrapper" style="padding-top:100px">
                 <div class="row">
                     <div class="col-lg-12 grid-margin stretch-card">
                         <div class="card">
@@ -115,6 +205,7 @@
                                                 <th>Total Price</th>
                                                 <th>Ordered Date</th>
                                                 <th>Status</th>
+                                                <th>QRCode</th>
                                                 <th>Delete order</th>
                                             </tr>
                                         </thead>
@@ -188,63 +279,9 @@
     <!-- ***** Subscribe Area Ends ***** -->
 
     <!-- ***** Footer Start ***** -->
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="first-item">
-                        <div class="logo">
-                            <img src="assets/images/white-logo.png" alt="hexashop ecommerce templatemo">
-                        </div>
-                        <ul>
-                            <li><a href="#">16501 Collins Ave, Sunny Isles Beach, FL 33160, United States</a></li>
-                            <li><a href="#">hexashop@company.com</a></li>
-                            <li><a href="#">010-020-0340</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <h4>Shopping &amp; Categories</h4>
-                    <ul>
-                        <li><a href="#">Men’s Shopping</a></li>
-                        <li><a href="#">Women’s Shopping</a></li>
-                        <li><a href="#">Kid's Shopping</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-3">
-                    <h4>Useful Links</h4>
-                    <ul>
-                        <li><a href="#">Homepage</a></li>
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Help</a></li>
-                        <li><a href="#">Contact Us</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-3">
-                    <h4>Help &amp; Information</h4>
-                    <ul>
-                        <li><a href="#">Help</a></li>
-                        <li><a href="#">FAQ's</a></li>
-                        <li><a href="#">Shipping</a></li>
-                        <li><a href="#">Tracking ID</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-12">
-                    <div class="under-footer">
-                        <p>Copyright © 2022 HexaShop Co., Ltd. All Rights Reserved. 
-                        
-                        <br>Design: <a href="https://templatemo.com" target="_parent" title="free css templates">TemplateMo</a></p>
-                        <ul>
-                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                            <li><a href="#"><i class="fa fa-behance"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <uc:Footer ID="FooterControl" runat="server" />
+
+
     
 
     <!-- jQuery -->
@@ -314,7 +351,7 @@
         function DeleteOrder(orderId) {
             return $.ajax({  // Return the AJAX promise
                 type: "POST",
-                url: "/AdminDashboard.aspx/DeleteOrder",  // Correct URL for the WebMethod
+                url: "/orders.aspx/DeleteOrder",  // Correct URL for the WebMethod
                 data: JSON.stringify({ orderId: orderId }), // Send the orderId as data
                 contentType: "application/json; charset=utf-8",  // Ensure content type is set to JSON
                 dataType: "json", // Expect JSON response
@@ -358,6 +395,68 @@
             });
         }
     </script>
+
+
+
+
+<script>
+    //// Select all QR code images with the class "QrImg"
+    //var qrImages = document.querySelectorAll(".QrImg");
+
+    //// Attach a click event listener to each QR code image
+    //qrImages.forEach(function (img) {
+    //    img.addEventListener("click", function () {
+    //        // Get the current image source
+    //        var src = this.src;
+    //        // Set the modal image source to the same value
+    //        document.getElementById("modalImage").src = src;
+    //        // Display the modal overlay
+    //        document.getElementById("modalOverlay").style.display = "block";
+    //    });
+    //});
+
+    //// Hide the modal when clicking anywhere on the overlay
+    //document.getElementById("modalOverlay").addEventListener("click", function () {
+    //    this.style.display = "none";
+    //});
+
+</script>
+
+
+        <script>
+            // Select all QR code images with the class "QrImg"
+            var qrImages = document.querySelectorAll(".QrImg");
+
+            // Attach a click event listener to each QR code image
+            qrImages.forEach(function (img) {
+                img.addEventListener("click", function () {
+                    // Get the current image source
+                    var src = this.src;
+                    // Set the modal image source to the same value
+                    document.getElementById("modalImage").src = src;
+                    // Display the modal overlay
+                    document.getElementById("modalOverlay").style.display = "block";
+                });
+            });
+
+            // Hide the modal when clicking anywhere on the overlay
+            document.getElementById("modalOverlay").addEventListener("click", function (event) {
+                if (event.target === this) { // Only hide if clicking on the overlay itself
+                    this.style.display = "none";
+                }
+            });
+
+            // Add functionality to the Save button
+            document.getElementById("saveButton").addEventListener("click", function () {
+                var imageSrc = document.getElementById("modalImage").src;
+                var link = document.createElement("a");
+                link.href = imageSrc;
+                link.download = "QRCode.png"; // Default filename for the downloaded image
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
+</script>
 
 
 

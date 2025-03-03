@@ -29,6 +29,32 @@
     <link rel="stylesheet" href="assets/css/MyCSSCodes.css">
 
     <link rel="stylesheet" href="/assets/css/login_styles.css">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+
+
+    <style>
+        .input-box {
+            position: relative;
+        }
+
+        .input-group-append{
+            position: absolute;
+              top: 0;
+              right: 0;
+              height: 100%;
+              border: none;
+              background: transparent;
+              cursor: pointer;
+              z-index: 12;
+        }
+        .input-group-append span{
+            border: none;
+            background: transparent !important;
+        }
+
+    </style>
+
 </head>
 <body>
 
@@ -45,15 +71,26 @@
 
     <div class="wrapper">
         <h2 class="signup">Registration</h2>
+
+        
+        <div id="errorAlert" class="alert alert-danger" role="alert" style="display:none;">
+            Email already exists.
+        </div>
+
         <form runat="server" onsubmit="return validateForm()">
             <div class="input-box">
                 <input type="text" placeholder="Enter your name" id="name"  runat="server" required>
             </div>
             <div class="input-box">
-                <input type="text" placeholder="Enter your email" id="email" runat="server" required>
+                <input type="email" placeholder="Enter your email" id="email" runat="server" required>
             </div>
             <div class="input-box">
                 <input type="password" placeholder="Create password" id="password" runat="server" required>
+                <div class="input-group-append">
+                    <span class="input-group-text" onclick="togglePasswordVisibility('password')">
+                        <i class="fas fa-eye" id="eyeIconpassword"></i>
+                    </span>
+                </div>
             </div>
             <div class="input-box">
                 <input type="password" placeholder="Confirm password" id="confirm_password" required>
@@ -96,47 +133,85 @@
     <!-- Global Init -->
     <script src="assets/js/custom.js"></script>
 
-    <script>
 
-        $(function () {
-            var selectedClass = "";
-            $("p").click(function () {
-                selectedClass = $(this).attr("data-rel");
-                $("#portfolio").fadeTo(50, 0.1);
-                $("#portfolio div").not("." + selectedClass).fadeOut();
-                setTimeout(function () {
-                    $("." + selectedClass).fadeIn();
-                    $("#portfolio").fadeTo(50, 1);
-                }, 500);
 
-            });
-        });
+        <script>
+            function togglePasswordVisibility(inputId) {
+                const input = document.getElementById(inputId);
+                const eyeIconId = `eyeIcon${inputId}`; 
+                const eyeIcon = document.getElementById(eyeIconId);
 
-    </script>
+                if (!input || !eyeIcon) {
+                    console.error("Input or eye icon not found!");
+                    return;
+                }
 
-    <script>
-        function validateForm() {
-            // Get values of the password fields
-            var password = document.getElementById('password').value;
-            var confirmPassword = document.getElementById('confirm_password').value;
-
-            // Check if passwords match
-            if (password !== confirmPassword) {
-                alert("Passwords do not match!");
-                return false;  // Prevent form submission
+                if (input.type === "password") {
+                    input.type = "text"; // Show password
+                    eyeIcon.classList.remove("fa-eye");
+                    eyeIcon.classList.add("fa-eye-slash"); // Change icon to "eye-slash" (with a line over it)
+                } else {
+                    input.type = "password"; // Hide password
+                    eyeIcon.classList.remove("fa-eye-slash");
+                    eyeIcon.classList.add("fa-eye"); // Change icon to "eye"
+                }
             }
+        </script>
 
-            // Check if the terms checkbox is checked
-            var termsChecked = document.getElementById('terms').checked;
-            if (!termsChecked) {
-                alert("You must accept the terms and conditions.");
-                return false;  // Prevent form submission
-            }
 
-            // If both checks pass, return true to allow form submission
-            return true;
+
+<script>
+    window.onload = function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const errorMessage = urlParams.get("Error");
+
+        if (errorMessage) {
+            showErrorAlert(errorMessage);
         }
-    </script>
+    };
+
+    function showErrorAlert(message) {
+        var errorDiv = document.getElementById("errorAlert");
+        errorDiv.innerText = message; // Set error message inside the div
+        errorDiv.style.display = "block"; // Show the error div
+    }
+
+    function validateForm() {
+        // Get form values
+        var email = document.getElementById('email').value;
+        var password = document.getElementById('password').value;
+        var confirmPassword = document.getElementById('confirm_password').value;
+        var termsChecked = document.querySelector('input[type="checkbox"]').checked;
+
+        // Email validation (simple regex)
+        var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) {
+            showErrorAlert("Please enter a valid email address.");
+            return false;
+        }
+
+        // Password length validation
+        if (password.length < 6) {
+            showErrorAlert("Password must be at least 6 characters long.");
+            return false;
+        }
+
+        // Confirm password check
+        if (password !== confirmPassword) {
+            showErrorAlert("Passwords do not match!");
+            return false;
+        }
+
+        // Terms and conditions checkbox validation
+        if (!termsChecked) {
+            showErrorAlert("You must accept the terms and conditions.");
+            return false;
+        }
+
+        return true; // Form will submit if all checks pass
+    }
+</script>
+
 
 </body>
 </html>

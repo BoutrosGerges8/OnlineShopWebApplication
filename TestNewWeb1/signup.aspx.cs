@@ -23,6 +23,16 @@ namespace TestNewWeb1
 
 
             SqlConnectionClass sql = new SqlConnectionClass();
+
+
+            DataTable Exsits = sql.SelectAllCondition("users", $"email='{emailStr}'");
+
+            if (Exsits != null && Exsits.Rows.Count > 0)
+            {
+                Response.Redirect("/signup.aspx?Error=Email already exists");
+            }
+
+
             sql.InsertData("users", new Dictionary<string, object>
             {
                 {"name", nameStr },
@@ -53,7 +63,7 @@ namespace TestNewWeb1
             }
             else
             {
-                Response.Redirect("/index.aspx?Error=ErrorGettingTheDataFromSql");
+                Response.Redirect("/signup.aspx?Error=Didn't add the data correctly");
             }
 
 

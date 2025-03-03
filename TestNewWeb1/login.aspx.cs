@@ -62,7 +62,7 @@ namespace TestNewWeb1
                     DataRow firstRow = data.Rows[0];
 
                     TokenManager.AddCredentialsToSession(Session, EmailStr, PasswordStr,
-                        int.Parse(firstRow["id"].ToString()), 
+                        int.Parse(firstRow["id"].ToString()),
                         firstRow["isAdmin"].ToString().Equals("True", StringComparison.OrdinalIgnoreCase));
 
                     if (firstRow["isAdmin"].ToString() == "True")
@@ -71,7 +71,20 @@ namespace TestNewWeb1
                     }
                     else
                     {
-                        Response.Redirect($"/index.aspx");
+
+                        // Retrieve the last page URL from the session
+                        string lastPageUrl = TokenManager.GetLastPageUrl(Session);
+
+                        // If no last page URL is found, redirect to a default page (e.g., Home.aspx)
+                        if (string.IsNullOrEmpty(lastPageUrl))
+                        {
+                            lastPageUrl = firstRow["isAdmin"].ToString() == "True" ? "/AdminDashboard.aspx" : "/index.aspx";
+                        }
+
+
+
+                        Response.Redirect(lastPageUrl);
+                        //Response.Redirect($"/index.aspx");
                     }
                 }
                 else

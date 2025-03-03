@@ -70,7 +70,28 @@ DROP CONSTRAINT CK__products__catego__6E01572D;
 update products
 set number_of_orders = 21
 where product_id = 1
+
+delete from rated;
 */
+
+
+
+SELECT 
+    u.id AS user_id,
+    u.name AS user_name,
+    u.email AS user_email,
+    u.password AS user_password,
+    COALESCE(SUM(o.total_price), 0) AS total_amount_spent
+FROM 
+    users u
+LEFT JOIN 
+    ordered o ON u.id = o.user_id
+WHERE 
+    u.isAdmin = 0 -- Filter out admin users
+GROUP BY 
+    u.id, u.name, u.email, u.password
+ORDER BY 
+    total_amount_spent DESC;
 
 
 
@@ -83,3 +104,8 @@ select * from purchases;
 
 select * from users;
 
+select * from cart;
+
+select * from rated;
+
+select * from ContactMessages;

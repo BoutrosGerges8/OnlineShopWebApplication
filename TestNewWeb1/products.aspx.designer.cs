@@ -22,5 +22,23 @@ namespace TestNewWeb1
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::TestNewWeb1.Components.Header HeaderControl;
+
+        /// <summary>
+        /// ProductsContainer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl ProductsContainer;
+
+        /// <summary>
+        /// FooterControl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::TestNewWeb1.Components.Footer FooterControl;
     }
 }

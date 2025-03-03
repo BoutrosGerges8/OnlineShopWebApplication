@@ -14,71 +14,47 @@ namespace TestNewWeb1
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            bool res = TokenManager.CredentialsExistInSession(Session);
-
-            loginLink.Visible = !res;
-            signOut.Visible = res;
-            DashboardBtn.Visible = res && TokenManager.IsUserAdmin(Session);
-            ordersPage.Visible = res && !TokenManager.IsUserAdmin(Session);
-
-            if(res)
-            {
-                N_Orders.InnerHtml = $"{getNOrders()}";
-            }
-
-            // Check if the query string contains "logout=true"
-            if (Request.Url.ToString().Contains("logout"))
-            {
-                // Delete session credentials
-                TokenManager.DeleteCredentialsFromSession(Session);
-
-                // Clear the session and redirect to the current page
-                Session.Clear();
-                Session.Abandon();
-
-                // Redirect to remove query string and show the correct state
-                Response.Redirect(Request.Url.AbsoluteUri.Split('?')[0]);
-            }
-            else
-            {
-                //Response.Redirect($"/login.aspx?key={Request.QueryString["logout"]}");
-            }
-
-            //Response.Write("Logout query string: " + Request.QueryString["logout"]);
-
             LoadAllPriducts();
 
         }
 
-        
-
-        private int getNOrders()
-        {
-            SqlConnectionClass sql = new SqlConnectionClass();
-            DataTable dt = sql.SelectColumnsCondition("ordered",
-                new string[] { "order_id" }, $"user_id = {TokenManager.GetUserIdFromSession(Session)} AND status <> 'Delivered'");
-            return dt.Rows.Count;
-        }
 
         private void LoadAllPriducts()
         {
             SqlConnectionClass sql = new SqlConnectionClass();
             DataTable dataTable = sql.SelectAll("products");
+            
 
-            foreach(DataRow row in dataTable.Rows)
+            foreach (DataRow row in dataTable.Rows)
             {
                 if (row["category"].ToString().Equals("Men\'s", StringComparison.OrdinalIgnoreCase))
                 {
-                    AddProductCardHTML(row["product_name"].ToString(),
+                    MenContent.InnerHtml += AddProductCardHTML(row["product_name"].ToString(),
                         row["price"].ToString(),
                         row["image_url_full"].ToString(),
                         row["product_id"].ToString(),
-                        Convert.ToInt16(double.Parse(row["rate"].ToString())));
+                        Convert.ToInt16(sql.GetAvg("rated", "rating", $"product_id = {row["product_id"]}")));
+                }
+                else if (row["category"].ToString().Equals("Women\'s", StringComparison.OrdinalIgnoreCase))
+                {
+                    WomenContent.InnerHtml += AddProductCardHTML(row["product_name"].ToString(),
+                        row["price"].ToString(),
+                        row["image_url_full"].ToString(),
+                        row["product_id"].ToString(),
+                        Convert.ToInt16(sql.GetAvg("rated", "rating", $"product_id = {row["product_id"]}")));
+                }
+                else if (row["category"].ToString().Equals("Kid\'s", StringComparison.OrdinalIgnoreCase))
+                {
+                    KidsContent.InnerHtml += AddProductCardHTML(row["product_name"].ToString(),
+                        row["price"].ToString(),
+                        row["image_url_full"].ToString(),
+                        row["product_id"].ToString(),
+                        Convert.ToInt16(sql.GetAvg("rated", "rating", $"product_id = {row["product_id"]}")));
                 }
             }
         }
 
-        public void AddProductCardHTML(string title, string price, string img, string id, int stars)
+        public string AddProductCardHTML(string title, string price, string img, string id, int stars)
         {
             string item = $@"
                 <div class=""item"">
@@ -105,7 +81,7 @@ namespace TestNewWeb1
                 </div>
             ";
 
-            MenContent.InnerHtml += item;
+            return item;
         }
 
 

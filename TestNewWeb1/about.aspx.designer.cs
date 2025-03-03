@@ -24,12 +24,12 @@ namespace TestNewWeb1
         protected global::TestNewWeb1.Components.Header HeaderControl;
 
         /// <summary>
-        /// OrderesTable control.
+        /// SubscribeControl control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl OrderesTable;
+        protected global::TestNewWeb1.Components.Subscribe SubscribeControl;
     }
 }

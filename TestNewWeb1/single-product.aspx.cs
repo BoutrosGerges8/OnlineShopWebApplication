@@ -20,6 +20,9 @@ namespace TestNewWeb1
 {
     public partial class single_product : System.Web.UI.Page
     {
+
+        private static bool reRate = true;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             string id = Request.QueryString["id"];
@@ -29,6 +32,11 @@ namespace TestNewWeb1
                 {
                     SqlConnectionClass sql = new SqlConnectionClass();
                     var data = sql.SelectAllCondition("products", $"product_id = {id}");
+
+                    var hasRated = sql.SelectAllCondition("rated", $"product_id = {id} AND user_id = {TokenManager.GetUserIdFromSession(Session).ToString()}");
+
+                    double rating = sql.GetAvg("rated", "rating", $"product_id = {id}");
+
                     if (data != null && data.Rows.Count > 0)
                     {
                         var row = data.Rows[0];
@@ -42,8 +50,21 @@ namespace TestNewWeb1
                         ProShortDesc.InnerText = row["short_description"].ToString();
                         ProLongDesc.InnerText = row["long_description"].ToString();
                         AddQuantityOrdered.Attributes["max"] = row["number_of_orders"].ToString();
-                        ProStars.InnerHtml = GetStart(Convert.ToInt16(double.Parse(row["rate"].ToString())));
+                        ProStars.InnerHtml = GetStart(Convert.ToInt16(rating));
                         ProIdHidden.Value = id;
+                        UserIdHidden.Value = TokenManager.GetUserIdFromSession(Session).ToString();
+
+                        if (TokenManager.IsUserAdmin(Session))
+                        {
+                            AddToCartVid.Style["display"] = "none";
+                        }
+
+
+                        if (hasRated != null && hasRated.Rows.Count > 0)
+                        {
+                            RatingDiv.Style["display"] = "none";
+                            reRate = false;
+                        }
                     }
                     else
                     {
@@ -92,6 +113,89 @@ namespace TestNewWeb1
 
             return stars;
         }
+
+
+        //[WebMethod]
+        //public static string RatingProduct(string productId, string userId, string rating)
+        //{
+        //    if (!reRate)
+        //    {
+        //        return new JavaScriptSerializer().Serialize(new { success = false, message = "You have already rated this product" });
+        //    }
+        //   try
+        //    {
+        //        int parsedProductId = int.Parse(productId);
+        //        int parsedUserId = int.Parse(userId);
+        //        decimal parsedRating = decimal.Parse(rating);
+
+        //        SqlConnectionClass sql = new SqlConnectionClass();
+        //        sql.InsertData("rated", new Dictionary<string, object> {
+        //            {"user_id", parsedUserId },
+        //            {"product_id", parsedProductId },
+        //            {"rating", parsedRating }
+        //        });
+
+        //        return new JavaScriptSerializer().Serialize(new { success = true, message = "Rating success" });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Log the exception
+        //        Console.WriteLine($"Exception: {ex.Message}");
+        //        Console.WriteLine($"Stack Trace: {ex.StackTrace}");
+        //        return new JavaScriptSerializer().Serialize(new { success = false, message = $"Error: {ex.Message}" });
+        //    }
+        //}
+
+
+        [WebMethod]
+        public static string RatingProduct(string productId, string userId, string rating)
+        {
+            // Check if the user is logged in
+            if (!TokenManager.IsLoggedInAlready(HttpContext.Current.Session))
+            {
+
+                TokenManager.SetLastPageUrl(HttpContext.Current.Session, "/single-product.aspx");
+
+
+                // Return a redirect response
+                return new JavaScriptSerializer().Serialize(new
+                {
+                    success = false,
+                    message = "Please log in first.",
+                    redirectTo = "/login.aspx"
+                });
+            }
+
+            // Check if the user has already rated the product
+            if (!reRate)
+            {
+                return new JavaScriptSerializer().Serialize(new { success = false, message = "You have already rated this product" });
+            }
+
+            try
+            {
+                int parsedProductId = int.Parse(productId);
+                int parsedUserId = int.Parse(userId);
+                decimal parsedRating = decimal.Parse(rating);
+
+                SqlConnectionClass sql = new SqlConnectionClass();
+                sql.InsertData("rated", new Dictionary<string, object> {
+                    {"user_id", parsedUserId },
+                    {"product_id", parsedProductId },
+                    {"rating", parsedRating }
+                });
+
+                return new JavaScriptSerializer().Serialize(new { success = true, message = "Rating success" });
+            }
+            catch (Exception ex)
+            {
+                // Log the exception
+                Console.WriteLine($"Exception: {ex.Message}");
+                Console.WriteLine($"Stack Trace: {ex.StackTrace}");
+                return new JavaScriptSerializer().Serialize(new { success = false, message = $"Error: {ex.Message}" });
+            }
+        }
+
 
         //public void BuyProduct()
         //{
@@ -178,16 +282,56 @@ namespace TestNewWeb1
 
 
 
+        //[WebMethod]
+        //public static string BuyProduct(string productId, int quantity, double totalPrice)
+        //{
+        //    if (!TokenManager.IsLoggedInAlready(HttpContext.Current.Session))
+        //    {
+        //        // Return a redirect response if the user is not logged in
+        //        return new JavaScriptSerializer().Serialize(new
+        //        {
+        //            success = false,
+        //            message = "Please log in first.",
+        //            redirectTo = "/login.aspx"
+        //        });
+        //    }
+
+        //    try
+        //    {
+        //        SqlConnectionClass sql = new SqlConnectionClass();
+
+        //        sql.InsertData("cart", new Dictionary<string, object> {
+        //            {"user_id", TokenManager.GetUserIdFromSession(HttpContext.Current.Session) },
+        //            {"product_id", productId },
+        //            {"quantity", quantity },
+        //            {"date_added", DateTime.Now}
+        //        });
+
+        //        return new JavaScriptSerializer().Serialize(new { success = true, message = "Product added to cart" });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Return error message in case of exception
+        //        return new JavaScriptSerializer().Serialize(new { success = false, message = $"Error: {ex.Message}" });
+        //    }
+        //}
+
         [WebMethod]
         public static string BuyProduct(string productId, int quantity, double totalPrice)
         {
 
             if (!TokenManager.IsLoggedInAlready(HttpContext.Current.Session))
             {
+
+                TokenManager.SetLastPageUrl(HttpContext.Current.Session, "/single-product.aspx");
+                
                 // Return a redirect response
-                return new JavaScriptSerializer().Serialize(new { success = false, 
+                return new JavaScriptSerializer().Serialize(new
+                {
+                    success = false,
                     message = "Please log in first.",
-                    redirectTo = "/login.aspx" });
+                    redirectTo = "/login.aspx"
+                });
             }
 
             try
@@ -201,14 +345,14 @@ namespace TestNewWeb1
                 });
 
 
-                //var data = sql.SelectAllCondition("products", $"product_id = {productId}");
-                //DataRow row = data.Rows[0];
-                //int currentOrders = int.Parse(row["number_of_orders"].ToString());
-                //int updatedOrders = currentOrders - quantity;
-                //sql.UpdateData("products", new Dictionary<string, object>
-                //                {
-                //                    {"number_of_orders", updatedOrders }
-                //                }, $"product_id = {productId}");
+                var data = sql.SelectAllCondition("products", $"product_id = {productId}");
+                DataRow row = data.Rows[0];
+                int currentOrders = int.Parse(row["number_of_orders"].ToString());
+                int updatedOrders = currentOrders - quantity;
+                sql.UpdateData("products", new Dictionary<string, object>
+                                {
+                                    {"number_of_orders", updatedOrders }
+                                }, $"product_id = {productId}");
 
 
                 return new JavaScriptSerializer().Serialize(new { success = true, message = "Product added to cart" });

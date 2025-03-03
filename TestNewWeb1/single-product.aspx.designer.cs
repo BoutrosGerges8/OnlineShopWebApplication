@@ -42,6 +42,15 @@ namespace TestNewWeb1
         protected global::System.Web.UI.HtmlControls.HtmlInputHidden ProIdHidden;
 
         /// <summary>
+        /// UserIdHidden control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputHidden UserIdHidden;
+
+        /// <summary>
         /// ProImg1 control.
         /// </summary>
         /// <remarks>
@@ -114,6 +123,24 @@ namespace TestNewWeb1
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl ProShortDesc;
 
         /// <summary>
+        /// RatingDiv control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl RatingDiv;
+
+        /// <summary>
+        /// RateProduct control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputGenericControl RateProduct;
+
+        /// <summary>
         /// AddQuantityOrdered control.
         /// </summary>
         /// <remarks>
@@ -141,6 +168,15 @@ namespace TestNewWeb1
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl TotalPrice;
 
         /// <summary>
+        /// AddToCartVid control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl AddToCartVid;
+
+        /// <summary>
         /// AddToCart_1 control.
         /// </summary>
         /// <remarks>
@@ -157,5 +193,14 @@ namespace TestNewWeb1
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlAnchor AddToCart_2;
+
+        /// <summary>
+        /// FooterControl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::TestNewWeb1.Components.Footer FooterControl;
     }
 }

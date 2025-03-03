@@ -1,6 +1,6 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="single-product.aspx.cs" Inherits="TestNewWeb1.single_product" %>
 <%@ Register Src="~/Components/Header.ascx" TagPrefix="uc" TagName="Header" %>
-
+<%@ Register Src="~/Components/Footer.ascx" TagPrefix="uc" TagName="Footer" %>
 
 <!DOCTYPE html>
 
@@ -94,6 +94,7 @@
     <!-- ***** Product Area Starts ***** -->
         <form runat="server" id="FormBuyTheProduct">
             <input type="hidden" runat="server" id="ProIdHidden" />
+            <input type="hidden" runat="server" id="UserIdHidden" />
             <section class="section" id="product">
                 <div class="container">
                     <div class="row">
@@ -126,6 +127,27 @@
                                     <i class="fa fa-quote-left"></i><p runat="server" id="ProShortDesc">
                                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiuski smod.
                                     </p>
+                                </div>
+                                <div class="quantity-content" runat="server" id="RatingDiv">
+                                    <div class="left-content">
+                                        <h6>Rate Product</h6>
+                                    </div>
+                                    <div class="right-content">
+                                        <div class="quantity buttons_added total">
+                                            <input type="button" value="-" class="minus"> 
+                                            <input type="number" step="1" id="RateProduct"
+                                                min="0" max="5" name="quantity" value="0" title="Rate"
+                                                class="input-text qty text" size="4" pattern="" inputmode=""
+                                                onchange="updateQuantity()" oninput="validateInput(this)" runat="server" />
+                                            <input type="button" value="+" class="plus">
+                                            
+                                            <div class="main-border-button" style="margin-top:20px;">
+                                                <a href="javascript:void(0)" id="RateProductButton" onclick="rateProduct()">
+                                                    Rate Product
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="quantity-content">
                                     <div class="left-content">
@@ -164,7 +186,7 @@
                                 <div class="total">
                                     <h4 runat="server" id="TotalPrice">Total: $210.00</h4>
                                     <!-- <div class="main-border-button"><a href="#">Add To Cart</a></div> -->
-                                    <div class="main-border-button">
+                                    <div class="main-border-button" runat="server" id="AddToCartVid">
                                         <a href="javascript:void(0)" id="AddToCart_1" runat="server"  onclick="addToCart()">
                                             Add To Cart
                                         </a>
@@ -185,63 +207,7 @@
     <!-- ***** Product Area Ends ***** -->
     
     <!-- ***** Footer Start ***** -->
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="first-item">
-                        <div class="logo">
-                            <img src="assets/images/white-logo.png" alt="hexashop ecommerce templatemo">
-                        </div>
-                        <ul>
-                            <li><a href="#">16501 Collins Ave, Sunny Isles Beach, FL 33160, United States</a></li>
-                            <li><a href="#">hexashop@company.com</a></li>
-                            <li><a href="#">010-020-0340</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <h4>Shopping &amp; Categories</h4>
-                    <ul>
-                        <li><a href="#">Men’s Shopping</a></li>
-                        <li><a href="#">Women’s Shopping</a></li>
-                        <li><a href="#">Kid's Shopping</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-3">
-                    <h4>Useful Links</h4>
-                    <ul>
-                        <li><a href="#">Homepage</a></li>
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Help</a></li>
-                        <li><a href="#">Contact Us</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-3">
-                    <h4>Help &amp; Information</h4>
-                    <ul>
-                        <li><a href="#">Help</a></li>
-                        <li><a href="#">FAQ's</a></li>
-                        <li><a href="#">Shipping</a></li>
-                        <li><a href="#">Tracking ID</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-12">
-                    <div class="under-footer">
-                        <p>Copyright © 2022 HexaShop Co., Ltd. All Rights Reserved. 
-                        
-                        <br>Design: <a href="https://templatemo.com" target="_parent" title="free css templates">TemplateMo</a></p>
-                        <ul>
-                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                            <li><a href="#"><i class="fa fa-behance"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <uc:Footer ID="FooterControl" runat="server" />
     
 
     <!-- jQuery -->
@@ -332,28 +298,8 @@
             __doPostBack('RateThePro', ratingValue);
             console.log("yes");
         }
-
-
-        //function decreaseRating() {
-        //    const input = document.getElementById("RateThePro");
-        //    let currentValue = parseInt(input.value);
-        //    if (currentValue > 0) {
-        //        input.value = currentValue - 1;
-        //        updateRating();
-        //    }
-        //}
-
-        //function increaseRating() {
-        //    const input = document.getElementById("RateThePro");
-        //    let currentValue = parseInt(input.value);
-        //    if (currentValue < 5) {
-        //        input.value = currentValue + 1;
-        //        updateRating();
-        //    }
-        //}
-
-
     </script>
+
 
     <script type="text/javascript">
         if (typeof __doPostBack === "undefined") {
@@ -371,66 +317,165 @@
     </script>
 
 
+        <script>
+            //function rateProduct () {
+            //    // Get the rating value
+            //    var rating = document.getElementById("RateProduct").value;
+            //    var productId = document.getElementById("ProIdHidden").value;
+            //    var userId = document.getElementById("UserIdHidden").value;
+
+            //    // Validate rating to ensure it is between 0 and 5
+            //    if (rating >= 0 && rating <= 5) {
+            //        // Send the AJAX request
+            //        $.ajax({
+            //            url: "single-product.aspx/RatingProduct",
+            //            type: 'POST',
+            //            data: JSON.stringify({ productId: productId, userId: userId, rating: rating }),
+            //            contentType: "application/json; charset=utf-8",
+            //            dataType: "json",
+            //            success: function (response) {
+            //                console.log("Response:", response); // Debugging
+
+            //                // Parse the response.d property into a JavaScript object
+            //                var responseData = JSON.parse(response.d);
+
+            //                if (responseData.success) {
+            //                    Swal.fire({
+            //                        title: 'Success!',
+            //                        text: responseData.message,
+            //                        icon: 'success',
+            //                        confirmButtonText: 'OK'
+            //                    }).then((res) => {
+            //                        location.reload();
+            //                    });
+            //                } else {
+            //                    console.log(responseData.message);
+            //                    Swal.fire({
+            //                        title: 'Error!',
+            //                        text: responseData.message,
+            //                        icon: 'error',
+            //                        confirmButtonText: 'Close'
+            //                    });
+            //                }
+            //            },
+            //            error: function (xhr, status, error) {
+            //                console.error("AJAX Error:", xhr.responseText); // Debugging
+            //                alert('An error occurred: ' + error);
+            //            }
+            //        });
+            //    } else {
+            //        alert('Please select a rating between 0 and 5.');
+            //    }
+            //}
+
+
+            function rateProduct() {
+                // Get the rating value
+                var rating = document.getElementById("RateProduct").value;
+                var productId = document.getElementById("ProIdHidden").value;
+                var userId = document.getElementById("UserIdHidden").value;
+
+                // Validate rating to ensure it is between 0 and 5
+                if (rating >= 0 && rating <= 5) {
+                    // Send the AJAX request
+                    $.ajax({
+                        url: "single-product.aspx/RatingProduct",
+                        type: 'POST',
+                        data: JSON.stringify({ productId: productId, userId: userId, rating: rating }),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (response) {
+                            console.log("Response:", response); // Debugging
+
+                            // Parse the response.d property into a JavaScript object
+                            var responseData = JSON.parse(response.d);
+
+                            if (responseData.success) {
+                                Swal.fire({
+                                    title: 'Success!',
+                                    text: responseData.message,
+                                    icon: 'success',
+                                    confirmButtonText: 'OK'
+                                }).then((res) => {
+                                    location.reload();
+                                });
+                            } else {
+                                // Check if the redirectTo key exists in responseData
+                                if (responseData.redirectTo) {
+                                    console.log("Redirecting to login page");
+                                    window.location.href = responseData.redirectTo; // Redirect to login page
+                                } else {
+                                    console.log("No redirect, showing error");
+                                    Swal.fire({
+                                        title: 'Error!',
+                                        text: responseData.message, // Show the error message from the response
+                                        icon: 'error',
+                                        confirmButtonText: 'Close'
+                                    });
+                                }
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            console.error("AJAX Error:", xhr.responseText); // Debugging
+                            Swal.fire({
+                                title: 'Error!',
+                                text: 'An error occurred while processing your request.',
+                                icon: 'error',
+                                confirmButtonText: 'Close'
+                            });
+                        }
+                    });
+                } else {
+                    alert('Please select a rating between 0 and 5.');
+                }
+            }
+
+        </script>
+        <!--<script>
+            // Wait for the document to be ready
+            $(document).ready(function () {
+                // Listen for the 'change' event on the #RateProduct input field
+                $('#RateProduct').on('change', function () {
+                    // Get the rating value
+                    var rating = $(this).val();
+                    var productId = document.getElementById("ProIdHidden").value;
+                    var userId = document.getElementById("UserIdHidden").value;
+
+                    // Validate rating to ensure it is between 0 and 5
+                    if (rating >= 0 && rating <= 5) {
+                        // Send the AJAX request
+                        $.ajax({
+                            url: "single-product.aspx/RatingProduct",
+                            type: 'POST',
+                            data: JSON.stringify({ productId: productId, userId: userId, rating: rating }),
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (response) {
+                                console.log("Response:", response); // Debugging
+
+                                // Parse the response.d property into a JavaScript object
+                                var responseData = JSON.parse(response.d);
+
+                                // Check the success flag and display the message
+                                if (responseData.success) {
+                                    alert('Rating submitted successfully!');
+                                } else {
+                                    alert('Error: ' + responseData.message);
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.error("AJAX Error:", xhr.responseText); // Debugging
+                                alert('An error occurred: ' + error);
+                            }
+                        });
+                    } else {
+                        alert('Please select a rating between 0 and 5.');
+                    }
+                });
+            });
+        </script>-->
+
     <script type="text/javascript">
-
-        //function addToCart() {
-        //    var productId_ = parseInt(document.getElementById("ProIdHidden").value);
-        //    var quantity_ = parseInt(document.getElementById('AddQuantityOrdered').value);  // Make sure it's an integer
-
-        //    var xhr = new XMLHttpRequest();
-        //    xhr.open("POST", "/single-product.aspx/BuyProduct", true);
-        //    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-
-        //    var productData = JSON.stringify({
-        //        productId: productId_,
-        //        quantity: quantity_
-        //    });
-
-        //    xhr.send(productData);
-
-        //    xhr.onload = function () {
-        //        if (xhr.status === 200) {
-        //            var response = JSON.parse(xhr.responseText);
-
-        //            if (response.success) {
-        //                Swal.fire({
-        //                    title: 'Success!',
-        //                    text: response.message,  // Use the dynamic message
-        //                    icon: 'success',
-        //                    confirmButtonText: 'OK',
-        //                    confirmButtonColor: '#4CAF50'
-        //                });
-        //            } else {
-        //                Swal.fire({
-        //                    title: 'Oops!',
-        //                    text: response.message,  // Use the dynamic error message
-        //                    icon: 'error',
-        //                    confirmButtonText: 'Try Again',
-        //                    confirmButtonColor: '#f44336'
-        //                });
-        //            }
-        //        } else {
-        //            Swal.fire({
-        //                title: 'Error!',
-        //                text: 'An error occurred while processing your request.',
-        //                icon: 'error',
-        //                confirmButtonText: 'Close',
-        //                confirmButtonColor: '#f44336'
-        //            });
-        //        }
-        //    };
-
-        //    xhr.onerror = function () {
-        //        Swal.fire({
-        //            title: 'Error!',
-        //            text: 'Failed to send the request.',
-        //            icon: 'error',
-        //            confirmButtonText: 'Close',
-        //            confirmButtonColor: '#f44336'
-        //        });
-        //    };
-        //}
-
 
 
         function addToCart() {
@@ -488,167 +533,6 @@
         }
 
 
-//        function addToCart() {
-//            var productId = document.getElementById("ProIdHidden").value;
-//            var quantity = document.getElementById('AddQuantityOrdered').value;
-//            var ProPrice = document.getElementById('ProPriceValue').value;
-
-//            // Ensure price is cleaned of "$" symbol and parsed as a float
-//            var totalPrice = parseFloat(quantity) * parseFloat(ProPrice);
-
-//            // Send the request to the server
-//            $.ajax({
-//                type: "POST",
-//                url: "single-product.aspx/BuyProduct",
-//                data: JSON.stringify({ productId: productId, quantity: quantity, totalPrice: totalPrice }),
-//                contentType: "application/json; charset=utf-8",
-//                dataType: "json",
-//                success: function (response) {
-//                    var responseData = JSON.parse(response.d);
-
-//                    if (responseData.success) {
-//                        Swal.fire({
-//                            title: 'Success!',
-//                            text: responseData.message,
-//                            icon: 'success',
-//                            confirmButtonText: 'OK'
-//                        });
-//                    } else {
-//                        if (response.redirectTo) {
-//                            console.log("hello");
-//                            window.location.href = response.redirectTo;
-//                        } else {
-//                            console.log("no");
-//                            Swal.fire({
-//                                title: 'Error!',
-//                                text: response.message,
-//                                icon: 'error',
-//                                confirmButtonText: 'Close'
-//                            });
-//                        }
-//                    }
-//                }
-//,
-//                error: function (xhr, status, error) {
-//                    Swal.fire({
-//                        title: 'Error!',
-//                        text: 'An error occurred while processing your request.',
-//                        icon: 'error',
-//                        confirmButtonText: 'Close'
-//                    });
-//                }
-//            });
-//        }
-
-
-        //////////// best
-        //function addToCart() {
-        //    var productId = document.getElementById("ProIdHidden").value;
-        //    var quantity = document.getElementById('AddQuantityOrdered').value;
-
-        //    var xhr = new XMLHttpRequest();
-        //    xhr.open("POST", "single-product.aspx/BuyProduct", true);
-        //    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-
-        //    // Send the productId and quantity as a JSON string
-        //    var productData = JSON.stringify({
-        //        productId: productId,
-        //        quantity: parseInt(quantity)
-        //    });
-
-        //    xhr.onreadystatechange = function () {
-        //        if (xhr.readyState == 4 && xhr.status == 200) {
-        //            console.log('Response:', xhr.responseText);
-        //            var response = JSON.parse(xhr.responseText);
-        //            Swal.fire({
-        //                title: 'Success!',
-        //                text: response.message,
-        //                icon: 'success',
-        //                confirmButtonText: 'OK'
-        //            });
-        //        } else {
-        //            console.log('Error:', xhr.statusText);
-        //            Swal.fire({
-        //                title: 'Error!',
-        //                text: 'An error occurred while processing your request.',
-        //                icon: 'error',
-        //                confirmButtonText: 'Close'
-        //            });
-        //        }
-        //    };
-
-        //    xhr.send(productData);
-        //}
-
-
-
-        //function addToCart() {
-        //    var productId = document.getElementById("ProIdhHidden").value;
-        //    var quantity = document.getElementById('AddQuantityOrdered').value;
-        //    var ProPrice = document.getElementById('ProPrice').value;
-
-        //    // Ensure price is cleaned of "$" symbol and parsed as a float
-        //    var totalPrice = parseFloat(quantity) * parseFloat(ProPrice.replace("$", ""));
-
-        //    // Send the request to the server
-        //    $.ajax({
-        //        type: "POST",
-        //        url: "single-product.aspx/BuyProduct",
-        //        data: JSON.stringify({ productId: productId, quantity: quantity, totalPrice: String(totalPrice) }),
-        //        contentType: "application/json; charset=utf-8",
-        //        dataType: "json",
-        //        success: function (response) {
-        //            console.log(response);
-        //            if (response.success) {
-        //                Swal.fire({
-        //                    title: 'Success!',
-        //                    text: response.message,
-        //                    icon: 'success',
-        //                    confirmButtonText: 'OK'
-        //                });
-        //            } else {
-        //                Swal.fire({
-        //                    title: 'Error!',
-        //                    text: response.message,
-        //                    icon: 'error',
-        //                    confirmButtonText: 'Close'
-        //                });
-        //            }
-        //        },
-        //        error: function (xhr, status, error) {
-        //            Swal.fire({
-        //                title: 'Error!',
-        //                text: 'An error occurred while processing your request.',
-        //                icon: 'error',
-        //                confirmButtonText: 'Close'
-        //            });
-        //        }
-        //    });
-        //}
-
-
-
-        //function addToCart() {
-        //    var productId = parseInt(document.getElementById("ProIdhHidden").value);
-        //    var quantity = document.getElementById('AddQuantityOrdered').value;  // Get the quantity from an input field
-
-        //    var xhr = new XMLHttpRequest();
-        //    xhr.open("POST", "/single-product.aspx/BuyProduct", true);
-        //    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-
-        //    // Send the productId and quantity as a JSON string
-        //    var productData = JSON.stringify({ productId: productId, quantity: quantity });
-
-        //    xhr.onreadystatechange = function () {
-        //        if (xhr.readyState == 4 && xhr.status == 200) {
-        //            alert(xhr.responseText);  // Show the server response
-        //        } else if (xhr.readyState == 4) {
-        //            alert('Error: ' + xhr.statusText);  // Handle other errors
-        //        }
-        //    };
-
-        //    xhr.send(productData);
-        //}
 
     </script>
 

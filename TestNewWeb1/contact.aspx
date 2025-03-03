@@ -1,5 +1,7 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="contact.aspx.cs" Inherits="TestNewWeb1.contact" %>
 <%@ Register Src="~/Components/Header.ascx" TagPrefix="uc" TagName="Header" %>
+<%@ Register Src="~/Components/Footer.ascx" TagPrefix="uc" TagName="Footer" %>
+<%@ Register Src="~/Components/Subscribe.ascx" TagPrefix="uc" TagName="Subscribe" %>
 
 <!DOCTYPE html>
 
@@ -26,13 +28,14 @@
     <link rel="stylesheet" href="assets/css/owl-carousel.css">
 
     <link rel="stylesheet" href="assets/css/lightbox.css">
-<!--
 
-TemplateMo 571 Hexashop
+                <!-- SweetAlert2 CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.0/dist/sweetalert2.min.css">
 
-https://templatemo.com/tm-571-hexashop
+        <!-- SweetAlert2 JS -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.0/dist/sweetalert2.all.min.js"></script>
 
--->
+
     </head>
     
     <body>
@@ -59,7 +62,7 @@ https://templatemo.com/tm-571-hexashop
                 <div class="col-lg-12">
                     <div class="inner-content">
                         <h2>Contact Us</h2>
-                        <span>Awesome, clean &amp; creative HTML5 Template</span>
+                        <span>Have questions or need assistance? Our team is here to help. Get in touch with us today!</span>
                     </div>
                 </div>
             </div>
@@ -83,29 +86,37 @@ https://templatemo.com/tm-571-hexashop
                         <h2>Say Hello. Don't Be Shy!</h2>
                         <span>Details to details is what makes Hexashop different from the other themes.</span>
                     </div>
-                    <form id="contact" action="" method="post">
+                    <form id="contact" action="" method="post" runat="server">
+                        <input hidden runat="server" id="country" />
+                        <input hidden runat="server" id="city" />
+                        <input hidden runat="server" id="region" />
+                        <input hidden runat="server" id="timezone" />
+
                         <div class="row">
-                          <div class="col-lg-6">
-                            <fieldset>
-                              <input name="name" type="text" id="name" placeholder="Your name" required="">
-                            </fieldset>
-                          </div>
-                          <div class="col-lg-6">
-                            <fieldset>
-                              <input name="email" type="text" id="email" placeholder="Your email" required="">
-                            </fieldset>
-                          </div>
-                          <div class="col-lg-12">
-                            <fieldset>
-                              <textarea name="message" rows="6" id="message" placeholder="Your message" required=""></textarea>
-                            </fieldset>
-                          </div>
-                          <div class="col-lg-12">
-                            <fieldset>
-                              <button type="submit" id="form-submit" class="main-dark-button"><i class="fa fa-paper-plane"></i></button>
-                          </div>
+                            <div class="col-lg-6">
+                                <fieldset>
+                                    <input name="name" type="text" placeholder="Your name" required="" id="name" runat="server">
+                                </fieldset>
+                            </div>
+                            <div class="col-lg-6">
+                                <fieldset>
+                                    <input name="email" type="text" placeholder="Your email" required="" id="email" runat="server">
+                                </fieldset>
+                            </div>
+                            <div class="col-lg-12">
+                                <fieldset>
+                                    <textarea name="message" rows="6" placeholder="Your message" required="" id="message" runat="server" maxlength="2000"></textarea>
+                                </fieldset>
+                            </div>
+                            <div class="col-lg-12">
+                                <fieldset>
+                                    <button type="submit" id="FormSubmit" class="main-dark-button" runat="server">
+                                        <i class="fa fa-paper-plane"></i>
+                                    </button>
+                                </fieldset>
+                            </div>
                         </div>
-                      </form>
+                    </form>
                 </div>
             </div>
         </div>
@@ -113,115 +124,11 @@ https://templatemo.com/tm-571-hexashop
     <!-- ***** Contact Area Ends ***** -->
 
     <!-- ***** Subscribe Area Starts ***** -->
-    <div class="subscribe">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8">
-                    <div class="section-heading">
-                        <h2>By Subscribing To Our Newsletter You Can Get 30% Off</h2>
-                        <span>Details to details is what makes Hexashop different from the other themes.</span>
-                    </div>
-                    <form id="subscribe" action="" method="get">
-                        <div class="row">
-                          <div class="col-lg-5">
-                            <fieldset>
-                              <input name="name" type="text" id="name" placeholder="Your Name" required="">
-                            </fieldset>
-                          </div>
-                          <div class="col-lg-5">
-                            <fieldset>
-                              <input name="email" type="text" id="email" pattern="[^ @]*@[^ @]*" placeholder="Your Email Address" required="">
-                            </fieldset>
-                          </div>
-                          <div class="col-lg-2">
-                            <fieldset>
-                              <button type="submit" id="form-submit" class="main-dark-button"><i class="fa fa-paper-plane"></i></button>
-                            </fieldset>
-                          </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="col-lg-4">
-                    <div class="row">
-                        <div class="col-6">
-                            <ul>
-                                <li>Store Location:<br><span>Sunny Isles Beach, FL 33160, United States</span></li>
-                                <li>Phone:<br><span>010-020-0340</span></li>
-                                <li>Office Location:<br><span>North Miami Beach</span></li>
-                            </ul>
-                        </div>
-                        <div class="col-6">
-                            <ul>
-                                <li>Work Hours:<br><span>07:30 AM - 9:30 PM Daily</span></li>
-                                <li>Email:<br><span>info@company.com</span></li>
-                                <li>Social Media:<br><span><a href="#">Facebook</a>, <a href="#">Instagram</a>, <a href="#">Behance</a>, <a href="#">Linkedin</a></span></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <uc:Subscribe ID="SubscribeControl" runat="server" />
     <!-- ***** Subscribe Area Ends ***** -->
 
     <!-- ***** Footer Start ***** -->
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="first-item">
-                        <div class="logo">
-                            <img src="assets/images/white-logo.png" alt="hexashop ecommerce templatemo">
-                        </div>
-                        <ul>
-                            <li><a href="#">16501 Collins Ave, Sunny Isles Beach, FL 33160, United States</a></li>
-                            <li><a href="#">hexashop@company.com</a></li>
-                            <li><a href="#">010-020-0340</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <h4>Shopping &amp; Categories</h4>
-                    <ul>
-                        <li><a href="#">Men’s Shopping</a></li>
-                        <li><a href="#">Women’s Shopping</a></li>
-                        <li><a href="#">Kid's Shopping</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-3">
-                    <h4>Useful Links</h4>
-                    <ul>
-                        <li><a href="#">Homepage</a></li>
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Help</a></li>
-                        <li><a href="#">Contact Us</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-3">
-                    <h4>Help &amp; Information</h4>
-                    <ul>
-                        <li><a href="#">Help</a></li>
-                        <li><a href="#">FAQ's</a></li>
-                        <li><a href="#">Shipping</a></li>
-                        <li><a href="#">Tracking ID</a></li>
-                    </ul>
-                </div>
-                <div class="col-lg-12">
-                    <div class="under-footer">
-                        <p>Copyright © 2022 HexaShop Co., Ltd. All Rights Reserved. 
-                        
-                        <br>Design: <a href="https://templatemo.com" target="_parent" title="free css templates">TemplateMo</a></p>
-                        <ul>
-                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                            <li><a href="#"><i class="fa fa-behance"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <uc:Footer ID="FooterControl" runat="server" />
     
 
     <!-- jQuery -->
@@ -246,6 +153,101 @@ https://templatemo.com/tm-571-hexashop
     <!-- Global Init -->
     <script src="assets/js/custom.js"></script>
 
+
+    <script>
+        // Function to fetch and set location data
+        function fetchAndSetLocation() {
+            fetch('https://ipinfo.io/json')
+                .then(response => response.json())
+                .then(data => {
+                    // Set values in the hidden input fields
+                    document.getElementById("country").value = data.country || "Unknown";
+                    document.getElementById("city").value = data.city || "Unknown";
+                    document.getElementById("region").value = data.region || "Unknown";
+                    document.getElementById("timezone").value = data.timezone || "Unknown";
+
+                    // Log the data for debugging
+                    console.log("Location data fetched:", data);
+                })
+                .catch(error => {
+                    console.error("Error fetching location:", error);
+
+                    // Set default values in case of an error
+                    document.getElementById("country").value = "Unknown";
+                    document.getElementById("city").value = "Unknown";
+                    document.getElementById("region").value = "Unknown";
+                    document.getElementById("timezone").value = "Unknown";
+                });
+        }
+
+        // Run the function when the DOM is fully loaded
+        document.addEventListener("DOMContentLoaded", fetchAndSetLocation);
+    </script>
+
+
+        <script>
+            function SubmitContactForm() {
+                event.preventDefault();
+
+                // Get form data
+                var name = document.getElementById("name").value;
+                var email = document.getElementById("email").value;
+                var message = document.getElementById("message").value;
+                var country = document.getElementById("country").value;
+                var city = document.getElementById("city").value;
+                var region = document.getElementById("region").value;
+                var timezone = document.getElementById("timezone").value;
+
+
+                // Send AJAX request
+                $.ajax({
+                    type: "POST",
+                    url: "contact.aspx/SubmitContactForm",
+                    data: JSON.stringify({
+                        name: name,
+                        email: email,
+                        message: message,
+                        country: country,
+                        city: city,
+                        region: region,
+                        timezone: timezone
+                    }),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        // Parse the JSON response
+                        var result = response.d; // ASP.NET Web Methods wrap the response in a "d" object
+                        if (result.status === "success") {
+                            Swal.fire({
+                                title: 'Success!',
+                                text: result.message,
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+                            }).then((res) => {
+                                location.reload();
+                            });
+
+                            document.getElementById("contact").reset(); // Reset the form
+                        } else {
+                            Swal.fire({
+                                title: 'Error!',
+                                text: result.message, // Show the error message from the response
+                                icon: 'error',
+                                confirmButtonText: 'Close'
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert("An error occurred while sending the message. Please try again.");
+                        console.error(xhr.responseText);
+                    }
+                });
+            }
+
+            // Attach the function to the form's submit event
+            document.getElementById("contact").addEventListener("submit", SubmitContactForm);
+</script>
+
     <script>
 
         $(function() {
@@ -263,6 +265,8 @@ https://templatemo.com/tm-571-hexashop
         });
 
     </script>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
   </body>
 

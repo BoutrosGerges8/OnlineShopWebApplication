@@ -64,6 +64,11 @@
                         <li class="scroll-to-section-2" id="signOut" runat="server">
                             <a href="./Logout.aspx">Sign out</a>
                         </li>
+                        <li class="nav-item nav-profile" title="Profile Info" id="profileLogo" runat="server">
+                            <a href="/Profile.aspx" style="padding:0;">
+                                <img src="/assets/images/faces/face29.jpg" alt="profile">
+                            </a>
+                        </li>
 
                     </ul>        
                     <a class='menu-trigger'>

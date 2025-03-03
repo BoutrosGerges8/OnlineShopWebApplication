@@ -14,6 +14,7 @@ namespace TestNewWeb1.Components
             signOut.Visible = res;
             DashboardBtn.Visible = res && TokenManager.IsUserAdmin(Session);
             ordersPage.Visible = res && !TokenManager.IsUserAdmin(Session);
+            profileLogo.Visible = res && !TokenManager.IsUserAdmin(Session);
 
             if (Request.Url.ToString().Contains("logout"))
             {
@@ -27,7 +28,15 @@ namespace TestNewWeb1.Components
 
             if (res)
             {
-                N_Orders.InnerHtml = $"{getNOrders()}";
+                int n = getNOrders();
+                if(n != 0)
+                {
+                    N_Orders.InnerHtml = $"{getNOrders()}";
+                }
+                else{
+                    N_Orders.Style["display"] = "none";
+                    N_Orders.Disabled = true;
+                }
             }
         }
 

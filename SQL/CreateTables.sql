@@ -50,6 +50,45 @@ CREATE TABLE ordered (
     FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE
 );
 
+CREATE TABLE cart (
+    cart_id INT IDENTITY(1,1) PRIMARY KEY,
+    user_id INT NOT NULL,
+    product_id INT NOT NULL,
+    quantity INT NOT NULL CHECK (quantity > 0),
+    total_price DECIMAL(10, 2) NOT NULL CHECK (total_price >= 0),
+    date_added DATETIME2 DEFAULT GETDATE(),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE
+);
+
+
+
+CREATE TABLE rated (
+    rating_id INT IDENTITY(1,1) PRIMARY KEY,
+    user_id INT NOT NULL,
+    product_id INT NOT NULL,
+    rating DECIMAL(3, 2) NOT NULL CHECK (rating >= 0 AND rating <= 5),
+    rating_date DATETIME2 DEFAULT GETDATE(),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE
+);
+
+
+
+CREATE TABLE ContactMessages (
+    id INT PRIMARY KEY IDENTITY(1,1),
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    message TEXT NOT NULL,
+    country VARCHAR(100),
+    city VARCHAR(100),
+    region VARCHAR(100),
+    timezone VARCHAR(100),
+    submitted_at DATETIME DEFAULT GETDATE()
+);
+
 
 /* drop table purchases */
 /*drop table products*/
+/* drop table cart */
+/* drop table ContactMessages */

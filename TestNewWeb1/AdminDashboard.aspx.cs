@@ -9,6 +9,9 @@ using System.Web.UI.WebControls;
 using System.IO;
 using Microsoft.Ajax.Utilities;
 using System.Web.Services;
+using System.Configuration;
+using System.Security.Cryptography;
+using System.Diagnostics;
 
 namespace TestNewWeb1
 {
@@ -39,6 +42,8 @@ namespace TestNewWeb1
                 LoadOrdersData();
                 //LoadOrdersData(OrderesTable);
 
+                //BindData();
+
             }
 
 
@@ -50,112 +55,232 @@ namespace TestNewWeb1
         private void LoadUserData()
         {
             SqlConnectionClass sql = new SqlConnectionClass();
-            DataTable dt = sql.SelectAllCondition("users", $"id <> {TokenManager.GetUserIdFromSession(Session)}");
+            //DataTable dt = sql.SelectAllCondition("users", $"id <> {TokenManager.GetUserIdFromSession(Session)}");
+            DataTable dt = sql.UsersWithTheirAmount();
 
             // Dynamically populate the table rows
             string tableRows = "";
+            int i = 1;
             foreach (DataRow row in dt.Rows)
             {
-                string id = row["id"].ToString();
-                string name = row["name"].ToString();
-                string email = row["email"].ToString();
-                string progress = GetProgressBar();
+                string id = row["user_id"].ToString();
+                string name = row["user_name"].ToString();
+                string email = row["user_email"].ToString();
+                string password = row["user_password"].ToString();
+                string amount = row["total_amount_spent"].ToString();
+                //string progress = GetProgressBar();
 
-                //tableRows += $@"
-                //        <tr>
-                //            <td class='py-1'>
-                //                <img src='' alt='image' />
-                //            </td>
-                //            <td>{name}</td>
-                //            <td>{email}</td>
-                //            <td>{progress}</td>
-                //            <td>$100.00</td>
-                //            <td>May 15, 2025</td>
-                //        </tr>";
                 tableRows += $@"
                         <tr>
-                            <td>{id}</td>
+                            <td>{i++}</td>
                             <td>{name}</td>
                             <td>{email}</td>
-                            <td>{progress}</td>
-                            <td>$100.00</td>
-                            <td>May 15, 2025</td>
+                            <td>${amount}</td>
+                            <td>
+                                <form runat=""server"">
+                                    <button type=""button"" class=""btn btn-inverse-success btn-fw"" runat=""server""
+                                          onclick=""switchToEditMode(
+                                                &quot;{id}&quot;, &quot;{name}&quot;, &quot;{email}&quot;, &quot;{password}&quot;
+                                              )""
+                                    >Edit</button>
+                                </form>
+                            </td>
+                            <td>
+                                <form runat=""server"">
+                                    <button type=""button"" class=""btn btn-inverse-danger btn-fw"" runat=""server""
+                                          onclick=""confirmAction({id}, DeleteUser)""
+                                    >Delete</button>
+                                </form>
+                            </td>
                         </tr>";
             }
 
             // Inject rows into the table body
             userTableBody.InnerHtml = tableRows;
         }
-        private string GetProgressBar()
+        private string GetProgressBar(String value="50")
         {
-            return @"
+            if (value.Equals("33"))
+            {
+                return $@"
+                    <div class='progress'>
+                        <div class='progress-bar bg-danger' role='progressbar'
+                             style='width: {value}%' aria-valuenow='25'
+                             aria-valuemin='0' aria-valuemax='100'>
+                        </div>
+                    </div>";
+            }else if (value.Equals("66"))
+            {
+                return $@"
+                    <div class='progress'>
+                        <div class='progress-bar bg-warning' role='progressbar'
+                             style='width: {value}%' aria-valuenow='25'
+                             aria-valuemin='0' aria-valuemax='100'>
+                        </div>
+                    </div>";
+            }
+            return $@"
                 <div class='progress'>
                     <div class='progress-bar bg-success' role='progressbar'
-                         style='width: 25%' aria-valuenow='25'
+                         style='width: {value}%' aria-valuenow='25'
                          aria-valuemin='0' aria-valuemax='100'>
                     </div>
                 </div>";
         }
-
         private void LoadProductsData()
         {
             SqlConnectionClass sql = new SqlConnectionClass();
             DataTable dt = sql.SelectAll("products");
 
+            DataTable dt_rates = sql.JoinTables(new string[] { "rated", "products" },
+                new Dictionary<string, string>
+                {
+                    {"rated.product_id", "products.product_id" }
+                });
+
             string tableRows = "";
+            int i = 1;
             foreach (DataRow row in dt.Rows)
             {
                 string id = row["product_id"].ToString(),
-                    title = row["product_name"].ToString(),
-                    desc1 = row["short_description"].ToString(),
-                    desc2 = row["long_description"].ToString(),
-                    price = row["price"].ToString(),
-                    rate= row["rate"].ToString(),
-                    img1 = row["image_url_thumbnail"].ToString(),
-                    img2 = row["image_url_full"].ToString(),
-                    category = row["category"].ToString(),
-                    no = row["number_of_orders"].ToString();
+                       title = row["product_name"].ToString(),
+                       desc1 = row["short_description"].ToString(),
+                       desc2 = row["long_description"].ToString(),
+                       price = row["price"].ToString(),
+                       rate = row["rate"].ToString(),
+                       img1 = row["image_url_thumbnail"].ToString(),
+                       img2 = row["image_url_full"].ToString(),
+                       category = row["category"].ToString(),
+                       no = row["number_of_orders"].ToString(),
+                       created_at = row["created_at"].ToString(),
+                       updated_at = row["updated_at"].ToString();
 
+                double totalRating = 0.0;
+                int ratingCount = 0;
+
+                // Calculate the average rating for the product
+                foreach (DataRow col in dt_rates.Rows)
+                {
+                    if (col["product_id"].ToString().Equals(id))
+                    {
+                        totalRating += Double.Parse(col["rating"].ToString());
+                        ratingCount++;
+                    }
+                }
+
+                double averageRating = ratingCount > 0 ? totalRating / ratingCount : 0.0;
 
                 tableRows += $@"
-                    <tr>
-                        <td>{id}</td>
-                        <td>{title}</td>
-                        <td>{desc1}</td>
-                        <td>{desc2}</td>
-                        <td>${price}</td>
-                        <td>{no}</td>
-                        <td class=""py-1"">
-                            <img src=""/AllUploadedImages/{img1}"" alt=""product image"" />
-                        </td>
-                        <td class=""py-1"">
-                            <img src=""/AllUploadedImages/{img2}"" alt=""other side image"" />
-                        </td>
-                        <td>{category}</td>
-                        <td>{rate}</td>
-                        <td>
-                            <form runat=""server"">
-                                <button type=""button"" class=""btn btn-inverse-success btn-fw"" runat=""server""
-                                      onclick=""ShowAddWindowFunctionAsEdit(&quot;{id}&quot;, &quot;{title}&quot;,
-                                                    &quot;{desc1}&quot;, &quot;{desc2}&quot;, 
-                                                    &quot;{price}&quot;, &quot;{no}&quot;, &quot;{img1}&quot;, 
-                                                    &quot;{img2}&quot;, {IndexOf(category)})""
-                                >Edit</button>
-                            </form>
-                        </td>
-                        <td>
-                            <form runat=""server"">
-                                <button type=""button"" class=""btn btn-inverse-danger btn-fw"" runat=""server""
-                                      onclick=""confirmAction({id}, DeleteProduct)""
-                                >Delete</button>
-                            </form>
-                        </td>
-                    </tr>";
-
+            <tr>
+                <td>{i++}</td>
+                <td>{title}</td>
+                <td>{desc1}</td>
+                <td>{desc2}</td>
+                <td>${price}</td>
+                <td>{no}</td>
+                <td class=""py-1"">
+                    <img src=""/AllUploadedImages/{img1}"" alt=""product image"" />
+                </td>
+                <td class=""py-1"">
+                    <img src=""/AllUploadedImages/{img2}"" alt=""other side image"" />
+                </td>
+                <td>{category}</td>
+                <td>{averageRating.ToString("F2")}</td>
+                <td class=""wholeText"">{created_at}</td>
+                <td class=""wholeText"">{updated_at}</td>
+                <td>
+                    <form runat=""server"">
+                        <button type=""button"" class=""btn btn-inverse-success btn-fw"" runat=""server""
+                              onclick=""ShowAddWindowFunctionAsEdit(&quot;{id}&quot;, &quot;{title}&quot;,
+                                            &quot;{desc1}&quot;, &quot;{desc2}&quot;, 
+                                            &quot;{price}&quot;, &quot;{no}&quot;, &quot;{img1}&quot;, 
+                                            &quot;{img2}&quot;, {IndexOf(category)})""
+                        >Edit</button>
+                    </form>
+                </td>
+                <td>
+                    <form runat=""server"">
+                        <button type=""button"" class=""btn btn-inverse-danger btn-fw"" runat=""server""
+                              onclick=""confirmAction({id}, DeleteProduct)""
+                        >Delete</button>
+                    </form>
+                </td>
+            </tr>";
             }
 
             productsTableBody.InnerHtml = tableRows;
         }
+
+        [WebMethod]
+        public static string CheckEmailExists(string email)
+        {
+            SqlConnectionClass sql = new SqlConnectionClass();
+            try
+            {
+                DataTable data = sql.SelectColumnsCondition("users", new string[]
+                {
+                    "id"
+                }, $"email='{email}'");
+
+                if (data != null && data.Rows.Count > 0)
+                {
+                    return "exists"; // Email already exists
+                }
+                else
+                {
+                    return "not_exists"; // Email does not exist
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log or handle exception if necessary
+                return "error: " + ex.Message;
+            }
+        }
+
+        [WebMethod]
+        public static string AddUser(string username, string email, string password)
+        {
+            SqlConnectionClass sql = new SqlConnectionClass();
+            try
+            {
+                sql.InsertData("users", new Dictionary<string, object>
+                {
+                    {"name", username},
+                    {"email", email},
+                    {"password", password}
+                });
+
+                return "success"; // User added successfully
+            }
+            catch (Exception ex)
+            {
+                // Log or handle exception if necessary
+                return "error: " + ex.Message;
+            }
+        }
+        [WebMethod]
+        public static string EditUser(int userId, string username, string email, string password)
+        {
+            SqlConnectionClass sql = new SqlConnectionClass();
+            try
+            {
+                sql.UpdateData("users", new Dictionary<string, object>
+                {
+                    {"name", username},
+                    {"email", email},
+                    {"password", password}
+                }, $"id = {userId}");
+
+                return "success"; // User updated successfully
+            }
+            catch (Exception ex)
+            {
+                // Log or handle exception if necessary
+                return "error: " + ex.Message;
+            }
+        }
+
 
         private int IndexOf(string value)
         {
@@ -176,10 +301,11 @@ namespace TestNewWeb1
                 {
                     {"ordered.product_id" , "products.product_id" },
                     {"ordered.user_id", "users.id" }
-                });
+                }, orderBy: "order_id", sortDirection: "DESC");
 
 
             string tableRows = "";
+            int i = 1;
             foreach (DataRow row in dt.Rows)
             {
                 string id = row["order_id"].ToString(),
@@ -193,7 +319,7 @@ namespace TestNewWeb1
 
                 tableRows += $@"
                     <tr id='orderRow_{id}'>
-                        <td>{id}</td>
+                        <td>{i++}</td>
                         <td>{name}</td>
                         <td>{title}</td>
                         <td class='py-1'>
@@ -201,8 +327,9 @@ namespace TestNewWeb1
                         </td>
                         <td>{quantity}</td>
                         <td>{total_price}</td>
-                        <td>{order_date}</td>
+                        <td class=""wholeText"">{order_date}</td>
                         <td>{SelectedStatus(status, int.Parse(id))}</td>
+                        <td>{GetProgressBar(GetProgressValue(status))}</td>
                         <td>
                             <form runat=""server"">
                                 <button type=""button"" class=""btn btn-inverse-danger btn-fw"" runat=""server""
@@ -218,20 +345,51 @@ namespace TestNewWeb1
         }
 
 
+        
+
 
         [WebMethod]
         public static string DeleteOrder(int orderId)
         {
+
             SqlConnectionClass sql = new SqlConnectionClass();
             try
             {
+                DataTable dt = sql.SelectAllCondition("ordered", $"order_id = {orderId}");
+                DataRow dataRow = dt.Rows[0];
+
+                if (!dataRow["status"].ToString().Equals("Delivered"))
+                {
+                    dt = sql.SelectAllCondition("products", $"product_id = {dataRow["product_id"]}");
+                    string oldQuantity = dt.Rows[0]["number_of_orders"].ToString();
+
+
+                    sql.UpdateData("products", new Dictionary<string, object>
+                    {
+                        {"number_of_orders", Convert.ToInt32(oldQuantity) + Convert.ToInt32(dataRow["quantity"].ToString())}
+                    }, $"product_id = {dataRow["product_id"]}");
+                }
+
                 sql.Delete("ordered", $"order_id = {orderId}");
+
                 return "Success";
             }
             catch
             {
                 return "Error";
             }
+
+
+            //SqlConnectionClass sql = new SqlConnectionClass();
+            //try
+            //{
+            //    sql.Delete("ordered", $"order_id = {orderId}");
+            //    return "Success";
+            //}
+            //catch
+            //{
+            //    return "Error";
+            //}
         }
         [WebMethod]
         public static string DeleteProduct(int proId)
@@ -266,6 +424,13 @@ namespace TestNewWeb1
 
                 // Now, delete the product record from the database
                 sql.Delete("products", $"product_id = {proId}");
+
+                // Delete related records in "rated" table
+                sql.Delete("rated", $"product_id = {proId}");
+
+                // Delete related records in "ordered" table
+                sql.Delete("ordered", $"product_id = {proId}");
+
                 return "Success";
             }
             catch (Exception ex)
@@ -275,6 +440,50 @@ namespace TestNewWeb1
             }
         }
 
+        [WebMethod]
+        public static string DeleteUser(int userId)
+        {
+            SqlConnectionClass sql = new SqlConnectionClass();
+            try
+            {
+
+
+                DataTable dt = sql.SelectAllCondition("ordered", $"user_id = {userId}");
+                
+                foreach(DataRow row in dt.Rows)
+                {
+                    if (!row["status"].ToString().Equals("Delivered"))
+                    {
+                        dt = sql.SelectAllCondition("products", $"product_id = {row["product_id"]}");
+                        string oldQuantity = dt.Rows[0]["number_of_orders"].ToString();
+
+
+                        sql.UpdateData("products", new Dictionary<string, object>
+                    {
+                        {"number_of_orders", Convert.ToInt32(oldQuantity) + Convert.ToInt32(row["quantity"].ToString())}
+                    }, $"product_id = {row["product_id"]}");
+                    }
+                }
+
+
+                // Delete related records in "rated" table
+                sql.Delete("rated", $"user_id = {userId}");
+
+                // Delete related records in "ordered" table
+                sql.Delete("ordered", $"user_id = {userId}");
+
+                // Delete the user from the "users" table
+                sql.Delete("users", $"id = {userId}");
+
+                return "Success";
+            }
+            catch (Exception ex)
+            {
+                // Log or handle exception if necessary
+                Console.WriteLine("Error deleting user: " + ex.Message); // Debugging
+                return "Error: " + ex.Message;
+            }
+        }
 
         //private static string SelectedStatus(string item)
         //{
@@ -302,6 +511,14 @@ namespace TestNewWeb1
             ";
         }
 
+        private static string GetProgressValue(string item)
+        {
+            if (item == "Pending") return "33";
+            else if (item == "Shipped") return "66";
+            else if (item == "Delivered") return "100";
+            return "";
+        }
+
 
 
         [WebMethod]
@@ -315,7 +532,7 @@ namespace TestNewWeb1
                     {"status", status}
                 }, $"order_id = {orderId}");
 
-                return "Success"; // Return success message
+                return "Success";
             }
             catch (Exception ex)
             {
@@ -331,17 +548,21 @@ namespace TestNewWeb1
             string folderPath = Server.MapPath("~/AllUploadedImages/");
             if (!Directory.Exists(folderPath))
             {
-                Directory.CreateDirectory(folderPath); // Create the folder if it doesn't exist
+                Directory.CreateDirectory(folderPath);
             }
 
+            SqlConnectionClass sql = new SqlConnectionClass();
+            DataTable imgs = sql.SelectColumnsCondition("products", new string[] {
+                "image_url_thumbnail",
+                "image_url_full"}, $"product_id = {ProId.Value}");
+            DataRow dataRow = imgs.Rows[0];
+
+
             string filePathImg1 = "", filePathImg2 = "";
-            string fileNameImg1 = "", fileNameImg2 = "";
+            string fileNameImg1 = dataRow["image_url_thumbnail"].ToString(),
+                fileNameImg2 =  dataRow["image_url_full"].ToString();
 
-            // Assuming you have the current image paths in your database or elsewhere
-            string currentFileImg1 = productImagePreview.Src.ToString(); // Example function to fetch current image URL
-            string currentFileImg2 = sideImagePreview.Src.ToString();
 
-            Console.WriteLine(currentFileImg1);
 
             // Check if the "productImageInput" file input has been uploaded
             if (Request.Files["productImageInput"] != null && Request.Files["productImageInput"].ContentLength > 0)
@@ -352,9 +573,16 @@ namespace TestNewWeb1
                 {
                     try
                     {
+
+                        if (File.Exists(Path.Combine(folderPath, filePathImg1)))
+                        {
+                            File.Delete(Path.Combine(folderPath, filePathImg1));
+                        }
+
                         fileNameImg1 = "product_" + Guid.NewGuid().ToString() + fileExtension;
                         filePathImg1 = Path.Combine(folderPath, fileNameImg1);
                         uploadedFile.SaveAs(filePathImg1);
+
                     }
                     catch (Exception ex)
                     {
@@ -366,12 +594,7 @@ namespace TestNewWeb1
                     Response.Write("Only image files (.jpg, .jpeg, .png, .gif) are allowed.");
                 }
             }
-            else
-            {
-                // If no new image is uploaded, retain the current image path
-                fileNameImg1 = currentFileImg1;
-            }
-
+            
             // Check if the "sideImageInput" file input has been uploaded
             if (Request.Files["sideImageInput"] != null && Request.Files["sideImageInput"].ContentLength > 0)
             {
@@ -381,9 +604,16 @@ namespace TestNewWeb1
                 {
                     try
                     {
+
+                        if (File.Exists(Path.Combine(folderPath, filePathImg2)))
+                        {
+                            File.Delete(Path.Combine(folderPath, filePathImg2));
+                        }
+
                         fileNameImg2 = "side_" + Guid.NewGuid().ToString() + fileExtension;
                         filePathImg2 = Path.Combine(folderPath, fileNameImg2);
                         uploadedFile.SaveAs(filePathImg2);
+
                     }
                     catch (Exception ex)
                     {
@@ -395,14 +625,10 @@ namespace TestNewWeb1
                     Response.Write("Only image files (.jpg, .jpeg, .png, .gif) are allowed.");
                 }
             }
-            else
-            {
-                // If no new image is uploaded, retain the current image path
-                fileNameImg2 = currentFileImg2;
-            }
 
-            // Update the database (do not overwrite existing images unless new ones are uploaded)
-            SqlConnectionClass sql = new SqlConnectionClass();
+            
+
+
             sql.UpdateData("products", new Dictionary<string, object>
                 {
                     {"product_name", ProTitle.Value.Trim() },
@@ -412,7 +638,8 @@ namespace TestNewWeb1
                     {"number_of_orders", ProQuantity.Value.Trim() },
                     {"image_url_thumbnail", fileNameImg1 },
                     {"image_url_full", fileNameImg2 },
-                    {"category", Categories[ProCategory.SelectedIndex]}
+                    {"category", Categories[ProCategory.SelectedIndex]},
+                    {"updated_at", DateTime.Now.ToString()}
                 }, $"product_id = {ProId.Value}");
 
             ClearAllFields();

@@ -13,6 +13,8 @@ namespace TestNewWeb1
         private static string SessionKey = "UserCredentials";
         // Encryption key (must be exactly 32 characters for AES-256).
         private static string EncryptionKey = "YourEncryptionKeyMustBe32Chars!!";
+        ///
+        private static string LastPageSessionKey = "LastPageUrl";
 
         #region Encryption/Decryption Methods
 
@@ -183,11 +185,38 @@ namespace TestNewWeb1
         }
 
         #endregion
+
+
+
+        #region Last Page URL Management
+        /// <summary>
+        /// Store the last page URL in the session before redirecting to the login page.
+        /// </summary>
+        public static void SetLastPageUrl(HttpSessionState session, string url)
+        {
+            session[LastPageSessionKey] = url;
+        }
+
+        /// <summary>
+        /// Get the last page URL from the session.
+        /// </summary>
+        public static string GetLastPageUrl(HttpSessionState session)
+        {
+            return session[LastPageSessionKey] as string;
+        }
+
+        /// <summary>
+        /// Clear the last page URL from the session.
+        /// </summary>
+        public static void ClearLastPageUrl(HttpSessionState session)
+        {
+            session.Remove(LastPageSessionKey);
+        }
+
+        #endregion
+
     }
 }
-
-
-
 
 
 

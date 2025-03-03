@@ -1,5 +1,6 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="AdminDashboard.aspx.cs" Inherits="TestNewWeb1.AdminDashboard"%>
-
+<%@ Register Src="/Components/Sidebar.ascx" TagPrefix="uc" TagName="Sidebar" %>
+<%@ Register Src="/Components/AdminHeader.ascx" TagPrefix="uc" TagName="AdminHeader" %>
 
 <!DOCTYPE html>
 
@@ -10,8 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="/assets/icon/favicon.ico" />
 
     <title>Administrator Dashboard</title>
@@ -29,6 +29,28 @@
     <link rel="stylesheet" href="/assets/css/lightbox.css">
 
     <link rel="stylesheet" href="/assets/css/MyCSSCodes.css">
+
+
+        <link rel="stylesheet" href="/assets/css/ProductsIteme.css">
+
+
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="/DashBoardStyles/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="/DashBoardStyles/vendors/base/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="/DashBoardStyles/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+
+            <!-- SweetAlert2 CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.0/dist/sweetalert2.min.css">
+
+        <!-- SweetAlert2 JS -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.0/dist/sweetalert2.all.min.js"></script>
+
 
     <style>
         .ButtonAddItem {
@@ -50,24 +72,77 @@
     </style>
 
 
-    <link rel="stylesheet" href="/assets/css/ProductsIteme.css">
+    <style>
+        .search-container {
+            position: relative;
+            width: 300px;
+        }
+
+        #navbar-search-input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .search-options {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-top: none;
+            border-radius: 0 0 4px 4px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .option {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .option:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
 
 
-    <!-- plugins:css -->
-    <link rel="stylesheet" href="/DashBoardStyles/vendors/ti-icons/css/themify-icons.css">
-    <link rel="stylesheet" href="/DashBoardStyles/vendors/base/vendor.bundle.base.css">
-    <!-- endinject -->
-    <!-- plugin css for this page -->
-    <!-- End plugin css for this page -->
-    <!-- inject:css -->
-    <link rel="stylesheet" href="/DashBoardStyles/css/style.css">
+    <style>
+        .table-responsive{
+            max-height: 100vh;
+        }
+        .wholeText {
+            max-width: 400px !important;
+        }
+    </style>
+
+    <style>
+        .input-group-text {
+            cursor: pointer; /* Change cursor to pointer on hover */
+            background-color: #fff; /* Match the input background */
+            border-left: none; /* Remove left border for seamless integration */
+            padding: 0 15px !important;
+        }
 
 
-            <!-- SweetAlert2 CSS -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.0/dist/sweetalert2.min.css">
+        .input-group-text:hover {
+            background-color: #f8f9fa; /* Light hover effect */
+        }
 
-        <!-- SweetAlert2 JS -->
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.0/dist/sweetalert2.all.min.js"></script>
+        .fa-eye-slash {
+            color: #6c757d; /* Gray color for the eye-slash icon */
+        }
+
+        .fa-eye {
+            color: #6c757d; /* Gray color for the eye icon */
+           }
+    </style>
+
+
 
 
 </head>
@@ -93,7 +168,7 @@
                         style="display: block;" onclick="HideAddWindowFunction()">X</button>
                     <h1 class="card-title">Add New Item</h1>
                     <form class="form-sample" runat="server">
-                        <input runat="server" id="ProId"/>
+                        <input runat="server" id="ProId" hidden />
                         <p class="card-description">
                             Personal info
                         </p>
@@ -215,194 +290,114 @@
     <!-- main-panel ends -->
 
 
+    <!-- add user -->
+<div class="container-scroller add-item-card" id="AddUserDiv" runat="server">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <button type="button" class="delete-image-btn" id="HideAddUserWindow" 
+                    style="display: block;" onclick="HideAddUserWindowFunction()">X</button>
+                <h1 class="card-title">Add New User</h1>
 
-    <div class="container-scroller">
+                <div id="errorAlert" class="alert alert-danger" role="alert" style="display:none;">
+                    Email already exists.
+                </div>
 
-        <!-- ***** Header Area Start ***** -->
-        <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-            <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-                <a class="navbar-brand brand-logo me-5" href="/index.aspx">
-                    <img src="/assets/images/logo.png" class="me-2" alt="logo">
-                </a>
-                <a class="navbar-brand brand-logo-mini" href="/index.aspx">
-                    <img src="/assets/images/logo-2.png" alt="logo">
-                </a>
-            </div>
-            <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
-                <button class="navbar-toggler navbar-toggler align-self-center" type="button"
-                    data-toggle="minimize">
-                    <span class="ti-view-list"></span>
-                </button>
-                <ul class="navbar-nav mr-lg-2">
-                    <li class="nav-item nav-search d-none d-lg-block">
+                <div id="successAlert" class="alert alert-success" role="alert" style="display:none;">
+                    User added successfully!
+                </div>
+
+                <form class="forms-sample" onsubmit="return validateForm()">
+                    <div class="form-group">
+                        <label for="inputUsername">Username</label>
+                        <input type="text" class="form-control" id="inputUsername" 
+                            placeholder="Username" runat="server" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail">Email address</label>
+                        <input type="email" class="form-control" id="inputEmail" 
+                            placeholder="Email" runat="server" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword">Password</label>
                         <div class="input-group">
-                            <div class="input-group-prepend hover-cursor" id="navbar-search-icon">
-                                <span class="input-group-text" id="search">
-                                    <i class="ti-search"></i>
+                            <input type="password" class="form-control" id="inputPassword" 
+                                placeholder="Password" runat="server" required>
+                            <div class="input-group-append">
+                                <span class="input-group-text" onclick="togglePasswordVisibility('inputPassword')">
+                                    <i class="fas fa-eye" id="eyeIconinputPassword"></i>
                                 </span>
                             </div>
-                            <input type="text" class="form-control" id="navbar-search-input"
-                                placeholder="Search now" aria-label="search" aria-describedby="search">
                         </div>
-                    </li>
-                </ul>
-                <ul class="navbar-nav navbar-nav-right">
-                    <li class="nav-item dropdown me-1">
-                        <a class="nav-link count-indicator dropdown-toggle d-flex justify-content-center align-items-center"
-                            id="messageDropdown" href="#" data-bs-toggle="dropdown">
-                            <i class="ti-email mx-0"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown"
-                            aria-labelledby="messageDropdown">
-                            <p class="mb-0 font-weight-normal float-left dropdown-header">Messages</p>
-                            <a class="dropdown-item">
-                                <div class="item-thumbnail">
-                                    <img src="images/faces/face4.jpg" alt="image" class="profile-pic">
-                                </div>
-                                <div class="item-content flex-grow">
-                                    <h6 class="ellipsis font-weight-normal">David Grey
-                                    </h6>
-                                    <p class="font-weight-light small-text text-muted mb-0">
-                                        The meeting is cancelled
-                                    </p>
-                                </div>
-                            </a>
-                            <a class="dropdown-item">
-                                <div class="item-thumbnail">
-                                    <img src="images/faces/face2.jpg" alt="image" class="profile-pic">
-                                </div>
-                                <div class="item-content flex-grow">
-                                    <h6 class="ellipsis font-weight-normal">Tim Cook
-                                    </h6>
-                                    <p class="font-weight-light small-text text-muted mb-0">
-                                        New product launch
-                                    </p>
-                                </div>
-                            </a>
-                            <a class="dropdown-item">
-                                <div class="item-thumbnail">
-                                    <img src="images/faces/face3.jpg" alt="image" class="profile-pic">
-                                </div>
-                                <div class="item-content flex-grow">
-                                    <h6 class="ellipsis font-weight-normal"> Johnson
-                                    </h6>
-                                    <p class="font-weight-light small-text text-muted mb-0">
-                                        Upcoming board meeting
-                                    </p>
-                                </div>
-                            </a>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputConfirmPassword">Confirm Password</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="inputConfirmPassword" 
+                                placeholder="Confirm Password" runat="server" required>
+                            <div class="input-group-append">
+                                <span class="input-group-text" onclick="togglePasswordVisibility('inputConfirmPassword')">
+                                    <i class="fas fa-eye" id="eyeIconinputConfirmPassword"></i>
+                                </span>
+                            </div>
                         </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#"
-                            data-bs-toggle="dropdown">
-                            <i class="ti-bell mx-0"></i>
-                            <span class="count"></span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown"
-                            aria-labelledby="notificationDropdown">
-                            <p class="mb-0 font-weight-normal float-left dropdown-header">Notifications</p>
-                            <a class="dropdown-item">
-                                <div class="item-thumbnail">
-                                    <div class="item-icon bg-success">
-                                        <i class="ti-info-alt mx-0"></i>
-                                    </div>
-                                </div>
-                                <div class="item-content">
-                                    <h6 class="font-weight-normal">Application Error</h6>
-                                    <p class="font-weight-light small-text mb-0 text-muted">
-                                        Just now
-                                    </p>
-                                </div>
-                            </a>
-                            <a class="dropdown-item">
-                                <div class="item-thumbnail">
-                                    <div class="item-icon bg-warning">
-                                        <i class="ti-settings mx-0"></i>
-                                    </div>
-                                </div>
-                                <div class="item-content">
-                                    <h6 class="font-weight-normal">Settings</h6>
-                                    <p class="font-weight-light small-text mb-0 text-muted">
-                                        Private message
-                                    </p>
-                                </div>
-                            </a>
-                            <a class="dropdown-item">
-                                <div class="item-thumbnail">
-                                    <div class="item-icon bg-info">
-                                        <i class="ti-user mx-0"></i>
-                                    </div>
-                                </div>
-                                <div class="item-content">
-                                    <h6 class="font-weight-normal">New user registration</h6>
-                                    <p class="font-weight-light small-text mb-0 text-muted">
-                                        2 days ago
-                                    </p>
-                                </div>
-                            </a>
-                        </div>
-                    </li>
-                    <li class="nav-item nav-profile dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" id="profileDropdown">
-                            <img src="/DashBoardStyles/images/faces/face12.jpg" alt="profile" />
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown"
-                            aria-labelledby="profileDropdown">
-                            <a class="dropdown-item">
-                                <i class="ti-settings text-primary"></i>
-                                Settings
-                            </a>
-                            <a class="dropdown-item" href="/Logout.aspx">
-                                <i class="ti-power-off text-primary"></i>
-                                Logout
-                            </a>
-                        </div>
-                    </li>
-                </ul>
-                <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
-                    data-toggle="offcanvas">
-                    <span class="ti-view-list"></span>
-                </button>
+                    </div>
+                    <div class="row">
+                        <button type="submit" class="btn btn-primary" runat="server"
+                            id="AddUserButton">Add</button>
+                        <button type="submit" class="btn btn-primary" runat="server"
+                            id="EditUserButton" style="display:none;">Edit</button>
+                    </div>
+                </form>
             </div>
-        </nav>
+        </div>
+    </div>
+</div>
+    <!-- add user -->
+
+
+    <uc:AdminHeader runat="server" ID="AdminHeaderControl" />
         <!-- ***** Header Area End ***** -->
 
         <div class="container-fluid page-body-wrapper">
+
+
             <!-- partial:../../partials/_sidebar.html -->
-            <nav class="sidebar sidebar-offcanvas" id="sidebar">
-                <ul class="nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/AdminDashboard.aspx">
-                            <i class="ti-shield menu-icon"></i>
-                            <span class="menu-title">Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false"
-                            aria-controls="auth">
-                            <i class="ti-user menu-icon"></i>
-                            <span class="menu-title">User Pages</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="auth">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="/login.aspx">
-                                        Login </a></li>
-                                <li class="nav-item"> <a class="nav-link" href="/signup.aspx">
-                                        Sign Up </a></li>
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
-            </nav>
+            <uc:Sidebar runat="server" ID="SidebarControl" />
 
 
             <!-- partial -->
             <div class="main-panel">
                 <div class="content-wrapper">
+
+
+               <!-- <div class="row">
+                    <div class="col-md-7 grid-margin stretch-card">
+                      <div class="card">
+                        <div class="card-body">
+                          <p class="card-title mb-0">Top Products</p>
+                          <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>User</th>
+                                            <th>Product</th>
+                                            <th>Sale</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody runat="server" id="tableBody"></tbody>
+                                </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                   -->
+
+
                     <div class="row">
-                        <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="col-lg-12 grid-margin stretch-card" id="productsTable">
                             <div class="card">
                                 <div class="card-body">
                                     <h4 class="card-title">Products Table</h4>
@@ -420,6 +415,8 @@
                                                     <th>Another image</th>
                                                     <th>Category</th>
                                                     <th>Rate</th>
+                                                    <th>Created</th>
+                                                    <th>Last Modify</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="productsTableBody" runat="server">
@@ -440,7 +437,7 @@
                         </div>
 
 
-                        <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="col-lg-12 grid-margin stretch-card" id="ordersTable">
                             <div class="card">
                                 <div class="card-body">
                                     <h4 class="card-title">Orders Table</h4>
@@ -456,6 +453,7 @@
                                                     <th>Total Price</th>
                                                     <th>Ordered Date</th>
                                                     <th>Status</th>
+                                                    <th>Progess</th>
                                                     <th>Delete order</th>
                                                 </tr>
                                             </thead>
@@ -469,7 +467,7 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="col-lg-12 grid-margin stretch-card" id="usersTable">
                             <div class="card">
                                 <div class="card-body">
                                     <h4 class="card-title">Users table</h4>
@@ -487,13 +485,13 @@
                                                         Email address
                                                     </th>
                                                     <th>
-                                                        Progress
+                                                        Total Amount Spent
                                                     </th>
                                                     <th>
-                                                        Amount
+                                                        Edit
                                                     </th>
                                                     <th>
-                                                        Deadline
+                                                        Delete
                                                     </th>
                                                 </tr>
                                             </thead>
@@ -501,6 +499,11 @@
                                                 
                                             </tbody>
                                         </table>
+                                    </div>
+                                    <div class="ButtonAddItem">
+                                        <button id="ButtonAddUser" type="button" class="btn btn-primary btn-rounded btn-icon" onclick="switchToAddMode()">
+                                                +
+                                            </button>
                                     </div>
                                 </div>
                             </div>
@@ -539,6 +542,436 @@
 
         <!-- Global Init -->
         <script src="assets/js/custom.js"></script>
+
+
+
+    <script>
+
+        let isEditMode = false; // Track whether we're in edit mode
+        let currentUserId = null; // Track the ID of the user being edited
+
+        function validateForm() {
+            // Get form values
+            var username = document.getElementById('inputUsername').value;
+            var email = document.getElementById('inputEmail').value;
+            var password = document.getElementById('inputPassword').value;
+            var confirmPassword = document.getElementById('inputConfirmPassword').value;
+
+            // Email validation (simple regex)
+            var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                showErrorAlert("Please enter a valid email address.");
+                return false;
+            }
+
+            // Password length validation
+            if (password.length < 6) {
+                showErrorAlert("Password must be at least 6 characters long.");
+                return false;
+            }
+
+            // Confirm password check
+            if (password !== confirmPassword) {
+                showErrorAlert("Passwords do not match!");
+                return false;
+            }
+
+            if (isEditMode) {
+                // If in edit mode, call the EditUser WebMethod
+                editUser(currentUserId, username, email, password);
+            } else {
+                // If in add mode, check if the email exists
+                checkEmailExists(email, function (exists) {
+                    if (exists) {
+                        showErrorAlert("Email already exists.");
+                    } else {
+                        // If email does not exist, add the user
+                        addUser(username, email, password);
+                    }
+                });
+            }
+
+            return false; // Prevent form submission
+        }
+
+        function checkEmailExists(email, callback) {
+            // Create an AJAX request
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "AdminDashboard.aspx/CheckEmailExists", true);
+            xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    if (response.d === "exists") {
+                        callback(true); // Email exists
+                    } else {
+                        callback(false); // Email does not exist
+                    }
+                }
+            };
+
+            // Send the email as JSON
+            xhr.send(JSON.stringify({ email: email }));
+        }
+
+        function addUser(username, email, password) {
+            // Create an AJAX request
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "AdminDashboard.aspx/AddUser", true);
+            xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    if (response.d === "success") {
+                        showSuccessAlert("User added successfully!");
+                        // Optionally, redirect or clear the form
+                        setTimeout(function () {
+                            window.location.href = "AdminDashboard.aspx"; // Redirect to the same page or another page
+                        }, 2000);
+                    } else {
+                        showErrorAlert("Error adding user: " + response.d);
+                    }
+                }
+            };
+
+            // Send the user data as JSON
+            xhr.send(JSON.stringify({ username: username, email: email, password: password }));
+        }
+
+        function editUser(userId, username, email, password) {
+            // Create an AJAX request
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "AdminDashboard.aspx/EditUser", true);
+            xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    if (response.d === "success") {
+                        showSuccessAlert("User updated successfully!");
+                        // Optionally, redirect or clear the form
+                        setTimeout(function () {
+                            window.location.href = "AdminDashboard.aspx"; // Redirect to the same page or another page
+                        }, 2000);
+                    } else {
+                        showErrorAlert("Error updating user: " + response.d);
+                    }
+                }
+            };
+
+            // Send the user data as JSON
+            xhr.send(JSON.stringify({ userId: userId, username: username, email: email, password: password }));
+        }
+
+        function showErrorAlert(message) {
+            var errorDiv = document.getElementById("errorAlert");
+            errorDiv.innerText = message; // Set error message inside the div
+            errorDiv.style.display = "block"; // Show the error div
+        }
+
+        function showSuccessAlert(message) {
+            var successDiv = document.getElementById("successAlert");
+            successDiv.innerText = message; // Set success message inside the div
+            successDiv.style.display = "block"; // Show the success div
+        }
+
+        // Function to switch to edit mode
+        function switchToEditMode(userId, username, email, password) {
+            isEditMode = true;
+            currentUserId = userId;
+
+            // Populate the form fields
+            document.getElementById('inputUsername').value = username;
+            document.getElementById('inputEmail').value = email;
+            document.getElementById('inputPassword').value = password;
+            document.getElementById('inputConfirmPassword').value = password;
+
+            // Show the Edit button and hide the Add button
+            document.getElementById('AddUserButton').style.display = 'none';
+            document.getElementById('EditUserButton').style.display = 'block';
+
+            document.body.style = "max-height: 100vh;";
+            document.getElementById("AddUserDiv").style = "top: 0;";
+
+        }
+
+        // Function to switch to add mode
+        function switchToAddMode() {
+            isEditMode = false;
+            currentUserId = null;
+
+            // Clear the form fields
+            document.getElementById('inputUsername').value = '';
+            document.getElementById('inputEmail').value = '';
+            document.getElementById('inputPassword').value = '';
+            document.getElementById('inputConfirmPassword').value = '';
+
+            // Show the Add button and hide the Edit button
+            document.getElementById('AddUserButton').style.display = 'block';
+            document.getElementById('EditUserButton').style.display = 'none';
+
+            document.body.style = "max-height: 100vh;";
+            document.getElementById("AddUserDiv").style = "top: 0;";
+        }
+
+
+    </script>
+
+
+    <script>
+        function togglePasswordVisibility(inputId) {
+            console.log("Input ID:", inputId); // Debugging
+            const input = document.getElementById(inputId);
+            const eyeIconId = `eyeIcon${inputId}`; // Generate the correct ID
+            console.log("Eye Icon ID:", eyeIconId); // Debugging
+            const eyeIcon = document.getElementById(eyeIconId);
+
+            if (!input || !eyeIcon) {
+                console.error("Input or eye icon not found!");
+                return;
+            }
+
+            if (input.type === "password") {
+                input.type = "text"; // Show password
+                eyeIcon.classList.remove("fa-eye");
+                eyeIcon.classList.add("fa-eye-slash"); // Change icon to "eye-slash" (with a line over it)
+            } else {
+                input.type = "password"; // Hide password
+                eyeIcon.classList.remove("fa-eye-slash");
+                eyeIcon.classList.add("fa-eye"); // Change icon to "eye"
+            }
+        }
+    </script>
+
+
+
+    <script>
+
+        //document.addEventListener("DOMContentLoaded", function () {
+        //    const input = document.getElementById("navbar-search-input");
+        //    const options = document.getElementById("search-options");
+        //    const optionElements = document.querySelectorAll(".option");
+
+        //    let selectedOption = ""; // Track the selected option
+
+        //    // Show options when input is focused
+        //    input.addEventListener("focus", function () {
+        //        options.style.display = "block";
+        //    });
+
+        //    // Hide options when input loses focus
+        //    input.addEventListener("blur", function () {
+        //        setTimeout(() => {
+        //            options.style.display = "none";
+        //        }, 200);
+        //    });
+
+        //    // Handle option selection
+        //    optionElements.forEach(option => {
+        //        option.addEventListener("click", function () {
+        //            selectedOption = this.getAttribute("data-value"); // Update selected option
+        //            input.value = selectedOption + ": "; // Add selected option to input
+        //            input.focus(); // Keep focus on the input
+        //        });
+        //    });
+
+        //    // Handle Backspace key to clear the selected option
+        //    input.addEventListener("keydown", function (event) {
+        //        if (event.key === "Backspace") {
+        //            const prefix = input.value.split(": ")[0]; // Get the current prefix
+        //            if (prefix === selectedOption && input.selectionStart <= prefix.length+2) {
+        //                // If Backspace is pressed at the start of the input and the prefix is selected
+        //                event.preventDefault(); // Prevent deleting individual characters
+        //                input.value = ""; // Clear the input
+        //                selectedOption = ""; // Reset the selected option
+        //                options.style.display = "block"; // Show the options dropdown again
+        //            }
+        //        }
+        //    });
+        //});
+
+
+
+
+
+
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const input = document.getElementById("navbar-search-input");
+            const options = document.getElementById("search-options");
+            const optionElements = document.querySelectorAll(".option");
+
+            let selectedOption = ""; // Track the selected option
+
+            // Show options when input is focused
+            input.addEventListener("focus", function () {
+                options.style.display = "block";
+            });
+
+            // Hide options when input loses focus
+            input.addEventListener("blur", function () {
+                setTimeout(() => {
+                    options.style.display = "none";
+                }, 200);
+            });
+
+            // Handle option selection
+            optionElements.forEach(option => {
+                option.addEventListener("click", function () {
+                    selectedOption = this.getAttribute("data-value"); // Update selected option
+                    input.value = selectedOption + ": "; // Add selected option to input
+                    input.focus(); // Keep focus on the input
+
+                    // Scroll to the selected table
+                    scrollToTable(selectedOption);
+                });
+            });
+
+            // Handle Backspace key to clear the selected option
+            input.addEventListener("keydown", function (event) {
+                if (event.key === "Backspace") {
+                    const prefixWithColon = selectedOption + ": "; // Full prefix including ": "
+                    const inputValue = input.value;
+
+                    // Check if the cursor is at the start of the input and the prefix is present
+                    if (inputValue.startsWith(prefixWithColon)) {
+                        if (input.selectionStart <= prefixWithColon.length) {
+                            event.preventDefault(); // Prevent deleting individual characters
+                            input.value = ""; // Clear the input
+                            selectedOption = ""; // Reset the selected option
+                            options.style.display = "block"; // Show the options dropdown again
+                        }
+                    }
+                }
+            });
+
+            // Handle search input to filter the selected table
+            input.addEventListener("input", function () {
+                const searchQuery = input.value.replace(selectedOption + ": ", "").toLowerCase(); // Remove prefix and convert to lowercase
+                filterTable(selectedOption, searchQuery); // Filter the selected table
+            });
+
+            //// Function to filter the selected table
+            //function filterTable(tableType, searchQuery) {
+            //    let tableBody;
+            //    switch (tableType) {
+            //        case "products":
+            //            tableBody = document.getElementById("productsTableBody");
+            //            break;
+            //        case "orders":
+            //            tableBody = document.getElementById("OrderesTable");
+            //            break;
+            //        case "users":
+            //            tableBody = document.getElementById("userTableBody");
+            //            break;
+            //        default:
+            //            return; // Exit if no table is selected
+            //    }
+
+            //    if (!tableBody) return; // Exit if the table body is not found
+
+            //    const rows = tableBody.getElementsByTagName("tr");
+
+            //    for (let row of rows) {
+            //        const cells = row.getElementsByTagName("td");
+            //        let rowMatches = false;
+
+            //        for (let cell of cells) {
+            //            if (cell.textContent.toLowerCase().includes(searchQuery)) {
+            //                rowMatches = true;
+            //                break;
+            //            }
+            //        }
+
+            //        // Show or hide the row based on the search query
+            //        row.style.display = rowMatches ? "" : "none";
+            //    }
+
+            //}
+
+
+            // Function to filter the selected table
+            function filterTable(tableType, searchQuery) {
+                let tableBody;
+                switch (tableType) {
+                    case "products":
+                        tableBody = document.getElementById("productsTableBody");
+                        break;
+                    case "orders":
+                        tableBody = document.getElementById("OrderesTable");
+                        break;
+                    case "users":
+                        tableBody = document.getElementById("userTableBody");
+                        break;
+                    default:
+                        return; // Exit if no table is selected
+                }
+
+                if (!tableBody) return; // Exit if the table body is not found
+
+                const rows = tableBody.getElementsByTagName("tr");
+                let firstVisibleRow = null; // Track the first visible row
+
+                for (let row of rows) {
+                    const cells = row.getElementsByTagName("td");
+                    let rowMatches = false;
+
+                    for (let cell of cells) {
+                        if (cell.textContent.toLowerCase().includes(searchQuery)) {
+                            rowMatches = true;
+                            break;
+                        }
+                    }
+
+                    // Show or hide the row based on the search query
+                    row.style.display = rowMatches ? "" : "none";
+
+                    // Track the first visible row
+                    if (rowMatches && !firstVisibleRow) {
+                        firstVisibleRow = row;
+                    }
+                }
+
+                // Scroll to the first visible row
+                if (firstVisibleRow) {
+                    firstVisibleRow.scrollIntoView({ behavior: "smooth", block: "start" });
+                }
+            }
+
+
+            // Function to scroll to the selected table
+            function scrollToTable(tableType) {
+                let tableElement;
+                switch (tableType) {
+                    case "products":
+                        tableElement = document.getElementById("productsTable");
+                        //console.log("Products Table Element:", tableElement); // Debugging
+                        break;
+                    case "orders":
+                        tableElement = document.getElementById("ordersTable");
+                        //console.log("Orders Table Element:", tableElement); // Debugging
+                        break;
+                    case "users":
+                        tableElement = document.getElementById("usersTable");
+                        //console.log("Users Table Element:", tableElement); // Debugging
+                        break;
+                    default:
+                        return; // Exit if no table is selected
+                }
+
+                if (tableElement) {
+                    tableElement.scrollIntoView({ behavior: "smooth", block: "start" }); // Smooth scroll to the table
+                } else {
+                    console.error("Table element not found for:", tableType); // Debugging
+                }
+            }
+        });
+
+    </script>
+
 
         <script>
 
@@ -635,6 +1068,8 @@
 
         <script>
             function AddNewProduct() {
+                document.body.style = "max-height: 100vh;";
+
                 document.getElementById("ButtonAddProduct").style = "display:block";
                 document.getElementById("ButtonEditProduct").style = "display:none";
                 document.getElementById("AddItemContainer").style = "top: 0;";
@@ -651,7 +1086,6 @@
                 productImageInput.setAttribute('required');
                 sideImageInput.setAttribute('required');
 
-                document.body.style = "max-height: 100vh;";
             }
             function HideAddWindowFunction() {
                 document.getElementById("AddItemContainer").style = "top: -100%;";
@@ -660,10 +1094,46 @@
                 deleteImage("productImagePreview", "deleteProductImage");
                 deleteImage("sideImagePreview", "deleteSideImage");
             }
+
+            function AddUserFunction() {
+                document.body.style = "max-height: 100vh;";
+
+                document.getElementById("AddUserButton").style = "display:block";
+                document.getElementById("EditUserButton").style = "display:none";
+                document.getElementById("AddUserDiv").style = "top: 0;";
+
+                document.getElementById('inputUsername').value = "";
+                document.getElementById('inputEmail').value = "";
+                document.getElementById('inputPassword').value = "";
+                document.getElementById('inputConfirmPassword').value = "";
+
+                switchToAddMode();
+            }
+              
+            function ShowAddUserFunctionAsEdit(id, name, email, password) {
+                document.body.style = "max-height: 100vh;";
+
+                document.getElementById("AddUserButton").style = "display:none";
+                document.getElementById("EditUserButton").style = "display:block";
+                document.getElementById("AddUserDiv").style = "top: 0;";
+
+                document.getElementById('inputUsername').value = name;
+                document.getElementById('inputEmail').value = email;
+                document.getElementById('inputPassword').value = password;
+                document.getElementById('inputConfirmPassword').value = password;
+                }
+
+            function HideAddUserWindowFunction() {
+                //document.getElementById("ButtonEditProduct").style = "display:none";
+                document.getElementById("AddUserDiv").style = "top: -100%;";
+                document.body.style = "max-height: auto;";
+            }
+
             function ShowAddWindowFunctionAsEdit(id, title, desc1, desc2, price,
                            no, img1, img2, category) {
                 document.getElementById("ButtonAddProduct").style = "display:none";
                 document.getElementById("ButtonEditProduct").style = "display:block";
+                document.getElementById("AddItemContainer").style = "top: 0;";
 
                 document.getElementById("ProId").value = id;
                 document.getElementById("ProTitle").value = title;
@@ -671,7 +1141,7 @@
                 document.getElementById("ProLongDesc").value = desc2;
                 document.getElementById("ProPrice").value = price;
                 document.getElementById("ProQuantity").value = no;
-                document.getElementById("OrderStatus").selectedIndex = category;
+                document.getElementById("ProCategory").selectedIndex = category;
                 loadImageFromPath("productImagePreview", "deleteProductImage", "/AllUploadedImages/" + img1);
                 loadImageFromPath("sideImagePreview", "deleteSideImage", "/AllUploadedImages/" + img2);
 
@@ -680,7 +1150,6 @@
                 productImageInput.removeAttribute('required');
                 sideImageInput.removeAttribute('required');
 
-                document.getElementById("AddItemContainer").style = "top: 0;";
 
                 document.body.style = "max-height: 100vh;";
             }
@@ -739,6 +1208,40 @@
                     },
                     error: function (xhr, status, error) {
                         // Handle error in AJAX call
+                        Swal.fire({
+                            title: 'AJAX Error',
+                            text: "Error: " + error,
+                            icon: 'error',
+                            confirmButtonText: 'Close'
+                        });
+                    }
+                });
+            }
+            
+            function DeleteUser(userId) {
+                console.log("Deleting user with ID:", userId); // Debugging
+
+                return $.ajax({
+                    type: "POST",
+                    url: "/AdminDashboard.aspx/DeleteUser", // Correct URL for the WebMethod
+                    data: JSON.stringify({ userId: userId }), // Send the userId as data
+                    contentType: "application/json; charset=utf-8", // Ensure content type is set to JSON
+                    dataType: "json", // Expect JSON response
+                    success: function (response) {
+                        console.log("Response from server:", response); // Debugging
+                        if (response.d === "Success") {
+                            location.reload(); // Reload the page immediately
+                        } else {
+                            Swal.fire({
+                                title: 'Error!',
+                                text: "Failed to delete the user: " + response.d,
+                                icon: 'error',
+                                confirmButtonText: 'Close'
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("AJAX Error:", error); // Debugging
                         Swal.fire({
                             title: 'AJAX Error',
                             text: "Error: " + error,
